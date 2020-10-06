@@ -1,0 +1,25 @@
+{
+  "name": "imagenes",
+  "version": "1.0.0",
+  "description": "Procesamiento de imagenes con js",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
+    "build-external": "webpack --config ./external/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorrgeCruz/image-processing.git"
+  },
+  "author": "@Jorge Cruz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorrgeCruz/image-processing/issues"
+  },
+  "homepage": "https://github.com/jorrgeCruz/image-processing#readme",
+  "devDependencies": {
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12"
+  }
+}
