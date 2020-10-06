@@ -1,0 +1,5 @@
+*.jpg
+./node_modules
+./src/resp
+respaldo.html
+test.html
