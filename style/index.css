@@ -1,18 +1,81 @@
-body{
+* {
     background-color: lightgray;
+    padding: 0;
+    margin: 0;
+}
+.container{
+  display: grid;
+  grid-template: 40px 360px 350px/ 1fr 1fr 1fr;
+  margin:0 auto;
+  grid-template-areas: "header header header"
+                       "img-container1 img-container2 img-container3"
+                       "img-container4 img-container5 img-container6";
 }
 
- /* .img-item{
-    
-    width: 300px;
-    height: 300px;
-  } */
- /* 
-#img{
-    width: inherit;
-    height: inherit;
-    border: 1px solid red;
-    /* object-fit: cover;
-    object-position: center center; *
-    
-  } */
+.header{
+  widows: 500px;
+  font-family: Arial, Helvetica, sans-serif;
+  grid-area: header;
+}
+
+ul{
+  list-style: none;
+}
+.nav li span{
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+}
+.nav li span:hover{
+  background-color: darkolivegreen;
+}
+.nav > li{
+  float: left;
+}
+.nav ul li label{
+  background-color: black;
+  color: white;
+  padding: 10px 15px;
+}
+.nav li ul{
+  display: none;
+  position: absolute;
+  min-width: 150px;
+}
+.nav li:hover > ul{
+  display: block;
+}
+.nav li ul li{
+  position: relative;
+}
+.nav li ul li ul{
+  right: -150px;
+  top: 0;
+}
+.im-container1{
+  grid-area: img-container1;
+}
+.im-container2{
+  grid-area: img-container2;
+}
+.im-container3{
+  grid-area: img-container3;
+}
+.im-container4{
+  grid-area: img-container4;
+}
+.im-container5{
+  grid-area: img-container5;
+}
+.im-container6{
+  grid-area: img-container6;
+}
+output li{
+  font-size: 10px;
+}
+#color{
+  padding: 2px 20px;
+  background-color: black;
+}
