@@ -44,10 +44,11 @@ imgLocal.getImage().onload = function () {
   /** Una vez leida la imagen se puede instancias un objeto de este tipo ya que depende del tamaño y daots de la imagen leida */
   //testImage = new ImageType(imgLocal.getImage(), pantalla1);
 } 
+
 function realizaOP(evt:any): void{
   testImage = new ImageType(imgLocal.getImage(), pantalla1);
   testImage.dataToImageArray2D();
-  testImage.ImageArray2DtoData(pantalla2);
+  testImage.imageArray2DtoData(pantalla2);
 }
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);

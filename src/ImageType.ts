@@ -15,12 +15,12 @@ export class ImageType {
     this.screenCanvas = sc;
     this.imageData = sc.getImageData(0, 0, this._width, this._height);
     this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
-    this.ImageArray2DtoData = this.ImageArray2DtoData.bind(this);
+    this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
     this.initArray();
   }
 
   /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
-  getColorIndicesForCoord(x:number, y:number):number[] {
+  public getColorIndicesForCoord(x:number, y:number):number[] {
     var red = y * (this._width * 4) + x * 4;
     return [red, red + 1, red + 2];
   }
@@ -28,7 +28,7 @@ export class ImageType {
   /** Convierte la data de la imagen a un arreglo tridimensional de manera que que queda asi:
    * img[canalDeColor][anchoImg][altoImg]
    */
-  dataToImageArray2D() {
+  public dataToImageArray2D(): number[][][] {
     let position: number[];
     for (let i = 0; i < this._height; i++){
       for (let j = 0; j < this._width; j++) {
@@ -44,7 +44,7 @@ export class ImageType {
   /** Covierte un arreglo 3d de la imagen a un objeto data, si el argumento existe se dibuja
    * @sc elemento Canas donde se desa dibujar la data
    */
-  ImageArray2DtoData(sc?:CanvasRenderingContext2D) {
+  public imageArray2DtoData(sc?:CanvasRenderingContext2D):void {
     let position: number[];
     let prom: number;
     for (let i = 0; i < this._height; i++){
@@ -62,7 +62,7 @@ export class ImageType {
     sc.putImageData(this.imageData, 0,0);
   }
 
-  initArray(){
+  public initArray():void{
     this.arrImage = new Array(3);
     this.arrImage[0] = new Array(this._height);
     this.arrImage[1] = new Array(this._height);
@@ -72,9 +72,7 @@ export class ImageType {
       this.arrImage[1][i] = new Array(this._width);
       this.arrImage[2][i] = new Array(this._width);
     }
-    // this.getImageArray2D();
   }
-
 }
 
 // new ImageType(new ImageData(2,2)).testint();
