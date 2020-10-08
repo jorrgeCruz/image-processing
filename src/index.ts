@@ -2,6 +2,7 @@
 import { DefaultSettings } from "./DefaultSettings";
 import { ImageLocal } from "./ImageLocal";
 import { ImageType } from "./ImageType";
+import { MathImg } from "./MathImg";
 
 // let img = new Image();
 let lienzo1,lienzo2: HTMLCanvasElement;
@@ -46,9 +47,10 @@ imgLocal.getImage().onload = function () {
 } 
 
 function realizaOP(evt:any): void{
-  testImage = new ImageType(imgLocal.getImage(), pantalla1);
-  testImage.dataToImageArray2D();
-  testImage.imageArray2DtoData(pantalla2);
+  testImage = new ImageType(pantalla1, imgLocal.getImage());
+  //testImage.dataToImageArray2D();
+  //testImage.imageArray2DtoData(pantalla2);
+  testImage.imageArray2DtoData(pantalla2, MathImg.toGray(testImage));
 }
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);

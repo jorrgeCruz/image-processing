@@ -9,14 +9,24 @@ export class ImageType {
    * @img es un objeto tipo HTMLImageElement del cual se extrae el tamaño de la imagen
    * @sc es el elemento Canvas de donde se ha dibujado la img
   */
-  constructor(img:HTMLImageElement, sc:CanvasRenderingContext2D) {
-    this._width = img.width;
-    this._height = img.height;
+  constructor(sc: CanvasRenderingContext2D, img?: HTMLImageElement,  w?:number, h?:number) {
+    if (img) {
+      this._width = img.width;
+      this._height = img.height;
+    } else {
+      this._width = w;
+      this._height = h;
+    }
     this.screenCanvas = sc;
     this.imageData = sc.getImageData(0, 0, this._width, this._height);
+    this.dataToImageArray2D();
     this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
     this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
     this.initArray();
+  }
+
+  private _initConstructor1() {
+    
   }
 
   /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
@@ -28,7 +38,7 @@ export class ImageType {
   /** Convierte la data de la imagen a un arreglo tridimensional de manera que que queda asi:
    * img[canalDeColor][anchoImg][altoImg]
    */
-  public dataToImageArray2D(): number[][][] {
+  public dataToImageArray2D():void { // number[][][]
     let position: number[];
     for (let i = 0; i < this._height; i++){
       for (let j = 0; j < this._width; j++) {
@@ -38,22 +48,21 @@ export class ImageType {
         this.arrImage[2][i][j] = this.imageData.data[position[2]];
       }
     }
-    return this.arrImage;
+    //return this.arrImage;
   }
 
   /** Covierte un arreglo 3d de la imagen a un objeto data, si el argumento existe se dibuja
    * @sc elemento Canas donde se desa dibujar la data
    */
-  public imageArray2DtoData(sc?:CanvasRenderingContext2D):void {
+  public imageArray2DtoData(sc:CanvasRenderingContext2D, arrImage: number[][][]):void {
     let position: number[];
-    let prom: number;
+    
     for (let i = 0; i < this._height; i++){
       for (let j = 0; j < this._width; j++) {
         position = this.getColorIndicesForCoord(j, i);
-        prom = (this.arrImage[0][i][j] + this.arrImage[1][i][j] + this.arrImage[2][i][j]) /3;
-        this.imageData.data[position[0]] = prom;
-        this.imageData.data[position[1]] = prom;
-        this.imageData.data[position[2]] = prom;
+        this.imageData.data[position[0]] = arrImage[0][i][j];
+        this.imageData.data[position[1]] = arrImage[1][i][j];
+        this.imageData.data[position[2]] = arrImage[2][i][j];
         /* this.imageData.data[position[0]] = this.arrImage[0][i][j];
         this.imageData.data[position[1]] = this.arrImage[1][i][j];
         this.imageData.data[position[2]] = this.arrImage[2][i][j]; */
@@ -72,6 +81,16 @@ export class ImageType {
       this.arrImage[1][i] = new Array(this._width);
       this.arrImage[2][i] = new Array(this._width);
     }
+  }
+
+  public getArrayImg():number[][][]  {
+    return this.arrImage;
+  }
+  public getWidth():number {
+    return this._width;
+  }
+  public getHeight():number {
+    return this._height;
   }
 }
 
