@@ -23,6 +23,7 @@ var ImageLocal = /** @class */ (function () {
         var output = [];
         //console.log(evt)
         var f = files[0];
+        console.log(f.name)
         output.push('<li><strong>', f.name, '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes, last modified: ', f.lastModifiedDate.toLocaleDateString(), '</li>');
         this.img.src = f.name;
         this.readyToDraw = true;

@@ -43,7 +43,7 @@ function realizaOP(evt) {
     testImage = new ImageType(pantalla1, imgLocal.getImage());
     //testImage.dataToImageArray2D();
     //testImage.imageArray2DtoData(pantalla2);
-    testImage.imageArray2DtoData(pantalla2, MathImg.toGray(testImage));
+    testImage.imageArray2DtoData(pantalla2, MathImg.toNegative(testImage));
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);

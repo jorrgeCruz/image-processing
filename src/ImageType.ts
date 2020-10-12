@@ -19,10 +19,10 @@ export class ImageType {
     }
     this.screenCanvas = sc;
     this.imageData = sc.getImageData(0, 0, this._width, this._height);
+    this.initArray();
     this.dataToImageArray2D();
     this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
     this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
-    this.initArray();
   }
 
   private _initConstructor1() {
