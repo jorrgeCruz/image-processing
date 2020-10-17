@@ -41,12 +41,18 @@ imgLocal.getImage().onload = function () {
 };
 function realizaOP(evt) {
     testImage = new ImageType(pantalla1, imgLocal.getImage());
-    //testImage.dataToImageArray2D();
-    //testImage.imageArray2DtoData(pantalla2);
-    testImage.imageArray2DtoData(pantalla2, MathImg.toNegative(testImage));
+    var args = prompt('Ingresa los factores gamma sepradaos por coma sin espacios, (Rgamma,Ggamma, Bgamma');
+    var nameArr = args.split(',').map(function (elem) { return parseFloat(elem); });
+    console.log(nameArr);
+    testImage.imageArray2DtoData(pantalla2, MathImg.gammaCorrection(nameArr, testImage));
+}
+function convertirAGris(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("con-gris").addEventListener('click', realizaOP, false);
+document.getElementById("op-gris").addEventListener('click', convertirAGris, false);

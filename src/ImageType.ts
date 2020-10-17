@@ -63,9 +63,6 @@ export class ImageType {
         this.imageData.data[position[0]] = arrImage[0][i][j];
         this.imageData.data[position[1]] = arrImage[1][i][j];
         this.imageData.data[position[2]] = arrImage[2][i][j];
-        /* this.imageData.data[position[0]] = this.arrImage[0][i][j];
-        this.imageData.data[position[1]] = this.arrImage[1][i][j];
-        this.imageData.data[position[2]] = this.arrImage[2][i][j]; */
       }
     }
     sc.putImageData(this.imageData, 0,0);
