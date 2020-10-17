@@ -88,15 +88,4 @@ export class ImageLocal implements ImageOp {
   public setScaled(v:boolean):void{
         this.isScaled = v;
   }
-  /*public setImageHeight(h:number):void{
-        this.img.height = h;
-  } */
-    
 }
-/* ImageOp.prototype.handleEvent = function (event) {
-    console.log("correct");
-    if(event.type==="mousemove")
-        console.log("correct");
-} */
-
-// export default ImageLocal;

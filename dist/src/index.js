@@ -1,6 +1,7 @@
 import { DefaultSettings } from "./DefaultSettings.js";
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
+import { MathImg } from "./MathImg.js";
 // let img = new Image();
 var lienzo1, lienzo2;
 var pantalla1;
@@ -37,17 +38,21 @@ imgLocal.getImage().onload = function () {
     }
     /** Una vez leida la imagen se puede instancias un objeto de este tipo ya que depende del tamaño y daots de la imagen leida */
     //testImage = new ImageType(imgLocal.getImage(), pantalla1);
-    
 };
 function realizaOP(evt) {
-    
-    testImage = new ImageType(imgLocal.getImage(), pantalla1);
-    
-    testImage.dataToImageArray2D();
-    testImage.ImageArray2DtoData(pantalla2);
+    testImage = new ImageType(pantalla1, imgLocal.getImage());
+    var args = prompt('Ingresa los factores gamma sepradaos por coma sin espacios, (Rgamma,Ggamma, Bgamma');
+    var nameArr = args.split(',').map(function (elem) { return parseFloat(elem); });
+    console.log(nameArr);
+    testImage.imageArray2DtoData(pantalla2, MathImg.gammaCorrection(nameArr, testImage));
+}
+function convertirAGris(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("con-gris").addEventListener('click', realizaOP, false);
+document.getElementById("op-gris").addEventListener('click', convertirAGris, false);

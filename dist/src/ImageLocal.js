@@ -66,9 +66,3 @@ var ImageLocal = /** @class */ (function () {
     return ImageLocal;
 }());
 export { ImageLocal };
-/* ImageOp.prototype.handleEvent = function (event) {
-    console.log("correct");
-    if(event.type==="mousemove")
-        console.log("correct");
-} */
-// export default ImageLocal;
