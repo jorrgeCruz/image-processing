@@ -50,6 +50,10 @@ function convertirAGris(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
+function convertirARojo(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toRed(imagenSal));
+}
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -61,4 +65,5 @@ document.getElementById('files').addEventListener('change', imgLocal.handleFileS
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
+document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
