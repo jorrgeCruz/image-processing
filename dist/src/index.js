@@ -19,6 +19,7 @@ lienzo1 = document.getElementById('img1');
 pantalla1 = lienzo1.getContext("2d");
 lienzo2 = document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
+
 var dropZone = lienzo1; //document.getElementById('img1');
 var imgLocal = new ImageLocal(pantalla1);
 var testImage; // = new ImageType(imgOperator.getImage(), pantalla);

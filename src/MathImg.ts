@@ -31,14 +31,11 @@ export class MathImg{
       for (let j = 0; j < img.getWidth(); j++) { 
         prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
         sal[0][i][j] = prom;
-        sal[1][i][j] = prom;
-        sal[2][i][j] = prom;
       }
     } 
     return sal;
   }
   
-
   public static correctionGamma(img: ImageType, factores:number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();

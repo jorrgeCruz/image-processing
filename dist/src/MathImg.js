@@ -17,6 +17,7 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+   
     MathImg.toRed = function(img) {
         var arrImage = img.getArrayImg();
         var sal = this.initArray(img.getWidth(), img.getHeight());
@@ -25,11 +26,10 @@ var MathImg = /** @class */ (function () {
             for (var j = 0; j < img.getWidth(); j++){
                 prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
                 sal[0][i][j] = prom;
-                sal[1][i][j] = prom;
-                sal[2][i][j] = prom;
             }
-        }
+        }return sal;
     }
+
     MathImg.correctionGamma = function (img, factores) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -62,6 +62,7 @@ var MathImg = /** @class */ (function () {
     return MathImg;
 }());
 export { MathImg };
+
 /**prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) /3;
         sal[0][i][j] = prom;
         sal[1][i][j] = prom;
