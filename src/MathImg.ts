@@ -29,8 +29,9 @@ export class MathImg{
     var prom;
     for (let i = 0; i < img.getHeight(); i++){
       for (let j = 0; j < img.getWidth(); j++) { 
-        prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-        sal[0][i][j] = prom;
+        sal[0][i][j] =arrImage[0][i][j];
+        sal[0][i][j] =arrImage[0][i][j];
+        sal[0][i][j] =arrImage[0][i][j];
       }
     } 
     return sal;
