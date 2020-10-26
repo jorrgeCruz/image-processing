@@ -5,9 +5,10 @@ import { ImageType } from "./ImageType";
 import { MathImg } from "./MathImg";
 
 // let img = new Image();
-let lienzo1,lienzo2: HTMLCanvasElement;
+let lienzo1,lienzo2,lienzo3: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
+let pantalla3: CanvasRenderingContext2D;
 
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
@@ -23,6 +24,8 @@ lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
 pantalla1 = lienzo1.getContext("2d");
 lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
+lienzo3 = <HTMLCanvasElement>document.getElementById('img3');
+pantalla3 = lienzo3.getContext("2d");
 
 var dropZone = lienzo1;//document.getElementById('img1');
 var imgLocal: ImageLocal = new ImageLocal(pantalla1);
@@ -57,9 +60,15 @@ function correccionGamma(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.correctionGamma(imagenSal, factores));
 }
 
+function filtroVerde(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla3, MathImg.verde(imagenSal));
+}
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
+document.getElementById("op-verde").addEventListener('click',filtroVerde,false);
