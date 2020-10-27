@@ -23,9 +23,9 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++){
             for (var j = 0; j < img.getWidth(); j++){
-                sal[0][i][j] =arrImage[0][i][j];
-                sal[0][i][j] =arrImage[0][i][j];
-                sal[0][i][j] =arrImage[0][i][j];
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = 0;//arrImage[1][i][j];
+                sal[2][i][j] = 0; //arrImage[2][i][j];
             }
         }return sal;
         
