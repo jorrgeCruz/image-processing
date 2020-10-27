@@ -64,7 +64,7 @@ function umbralizado(evt: any): void{
   var args = prompt('Ingresa el valor del umbral');
   var umbral = parseFloat(args);
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.correctionGamma(imagenSal, factores));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral(imagenSal, umbral));
 }
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
