@@ -70,9 +70,9 @@ function correccionGamma(evt: any): void{
 }
 function umbralizado(evt: any): void{
   var args = prompt('Ingresa el valor del umbral');
-  var factores = parseFloat(args);
+  var umbral = parseFloat(args);
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.umbral(imagenSal,factores));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.umbral(imagenSal,umbral));
 }
 function filtroVerde(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -96,4 +96,4 @@ document.getElementById("op-gamma").addEventListener('click', correccionGamma, f
 document.getElementById("op-verde").addEventListener('click',filtroVerde,false);
 document.getElementById("op-rojo").addEventListener('click',filtroRojo,false);
 document.getElementById("op-azul").addEventListener('click',filtroAzul,false);
-document.getElementById("op-umbral1").addEventListener('click',umbralizado,false);
+document.getElementById("op-umbral").addEventListener('click',umbralizado,false);

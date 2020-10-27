@@ -76,11 +76,16 @@ public static rojo(img: ImageType): number[][][]  {
     var arrImage :number[][][] = img.getArrayImg();
     //variable donde guardamos la salida
     var sal:number[][][]= this.initArray(img.getWidth(), img.getHeight());
+    var prom;
     for (let i = 0; i < img.getHeight(); i++){
       for (let j = 0; j < img.getWidth(); j++) { 
-        sal[0][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;  
-        sal[1][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;;
-        sal[2][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;;
+        sal[0][i][j] = arrImage[0][i][j] > umbral ? 255 : 0;
+        sal[1][i][j] = arrImage[1][i][j] > umbral ? 255 : 0;
+        sal[2][i][j] = arrImage[2][i][j] > umbral ? 255 : 0;
+        prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+        sal[0][i][j] = prom > umbral ? 255 : 0;
+        sal[1][i][j] = prom > umbral ? 255 : 0;
+        sal[2][i][j] = prom > umbral ? 255 : 0;
       }
     } 
     return sal;
