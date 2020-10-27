@@ -13,19 +13,22 @@
 }
 
 .header{
-  widows: 500px;
+  margin: auto;
+  widows: 800px;
   font-family: Arial, Helvetica, sans-serif;
   grid-area: header;
 }
-
 ul{
   list-style: none;
+}
+.nav li a{
+  text-decoration: none;
 }
 .nav li span{
   background-color: black;
   color: white;
   text-decoration: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
   display: block;
 }
 .nav li span:hover{
@@ -72,6 +75,7 @@ ul{
 .im-container6{
   grid-area: img-container6;
 }
+
 output li{
   font-size: 10px;
 }

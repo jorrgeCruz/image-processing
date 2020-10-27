@@ -12,7 +12,7 @@
     <section class="container">
         <header class="header">
             <ul class="nav">
-                <li><span>Inicio</span>
+                <li><span href="">Inicio</span>
                     <ul>           
                         <li><label for="files" > Abrir archivo</label></li>
                         
@@ -20,30 +20,25 @@
                 </li>
                 <li><span>Op. Basicas</span>
                     <ul>           
-                        <li><span id="op-gris">Conversion a grises</span></li>
-                        <li><span id="op-rojo">Convertir a rojo</span></li>
-
-                        <li><span id="op-gamma">Correccion Gamma</span></li>
-                        <li><span id="op-verde">Correccion FIltro Verde</span></li>
                         
+                        <li><span id="op-verde">Filtro Verde</span></li>
+                        <li><span id="op-rojo">Filtro Rojo</span></li>
+                        <li><span id="op-azul">Filtro Azul</span></li>
+                        <li><span id="op-gris">Conversion a grises</span></li>
+                        <li><span id="op-gamma">Correccion Gamma</span></li>
+                        
+                                        
                     </ul>
                 </li>
                 <li><span>O. Color</span>
-                    <ul>
-                        <li><span><a href="filtroVerdes.html">Filtro de Verdes</a></span></li>
+                    <ul>                        
+                        <li><span>submenuitem1</span></li>
                         <li><span>Submenuitem2</span></li>
-                        <li><span>Submenuitem3</span></li>
-                        <li><span>Submenuitem4</span>
-                            <ul>
-                                <li><span>Submenuitem1</span></li>
-                                <li><span>Submenuitem2</span></li>
-                                <li><span>Submenuitem3</span></li>
+                        <li><span>submenuitem3</span></li>
+                        <li><span>Submenuitem4</span></li>
                         
-                            </ul>
-                        </li>
                     </ul>
-                </li>
-                <li><span><a href="filtroVerdes.html">Filtro de Verdes</a></span></li>
+                    </li>
                 <li><span>menu Item</span>
                     <ul>
                         <li><span id="con-gris">gamma tmp</span></li>
@@ -77,9 +72,21 @@
             </div> -->
         </section>
         <section class="img-container3">Imagen 3</section>
+            <div class="item img-item">
+                <canvas id="img3" width="300" height="300"> </canvas>
+            </div>
         <section class="img-container4">Imagen 4</section>
+            <div class="item img-item">
+                <canvas id="img4" width="300" height="300"> </canvas>
+            </div>
         <section class="img-container5">Imagen 5</section>
+            <div class="item img-item">
+                <canvas id="img5" width="300" height="300"> </canvas>
+            </div>
         <section class="img-container6">Imagen 6</section>
+            <div class="item img-item">
+                <canvas id="img6" width="300" height="300"> </canvas>
+            </div>
     </section>
     <script src="dist/src/index.js"  type="module">
     

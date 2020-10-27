@@ -8,7 +8,6 @@ export class MathImg{
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida
     var sal = this.initArray(img.getWidth(), img.getHeight());
-
     var prom;
     for (let i = 0; i < img.getHeight(); i++){
       for (let j = 0; j < img.getWidth(); j++) { 
@@ -21,30 +20,42 @@ export class MathImg{
     return sal;
   }
 
-
-
-  public static verde(img: ImageType): number[][][]  {
-    //variable que guarda el arreglo 3d de la imagen de color
-    var arrImage = img.getArrayImg();
-    //variable donde guardamos la salida
-    var sal = this.initArray(img.getWidth(), img.getHeight());
-    var prom;
-    for (let i = 0; i < img.getHeight(); i++){
-      for (let j = 0; j < img.getWidth(); j++) { 
-        prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-        sal[0][i][j] = prom;
-        sal[1][i][j] = prom;
-        sal[2][i][j] = prom;
-      }
-    } 
-    return sal;
+  public static verde(img: ImageType): number [][][]{
+    let arrImage = img.getArrayImg();
+    let numPixel = this.initArray(img.getWidth(), img.getHeight());
+        for (let j = 0; j < img.getHeight(); j++){             
+              for ( let i = 0; i <img.getWidth(); i++ ) {
+                  numPixel[0][i][j] =arrImage[0][i][j]-255;
+                  numPixel[1][i][j] = arrImage[1][i][j] -30;
+                  numPixel[2][i][j]= arrImage[2][i][j]-255;
+            }
+      }return numPixel;
+  }
+/*
+public static rojo(img: ImageType): number[][][]  {
+  let arrImage = img.getArrayImg();
+    let numPixel = this.initArray(img.getWidth(), img.getHeight());
+        for (let j = 0; j < img.getHeight(); j++){             
+              for ( let i = 0; i <img.getWidth(); i++ ) {
+                  numPixel[0][i][j]= arrImage[1][i][j]-19;
+                  numPixel[1][i][j]= arrImage[1][i][j]-255;
+                  numPixel[2][i][j]= arrImage[1][i][j]-255;
+            }
+      }return numPixel;
   }
 
-
-
-
-
-
+  public static azul(img: ImageType): number[][][]  {
+    let arrImage = img.getArrayImg();
+      let numPixel = this.initArray(img.getWidth(), img.getHeight());
+          for (let j = 0; j < img.getHeight(); j++){             
+                for ( let i = 0; i <img.getWidth(); i++ ) {
+                    numPixel[0][i][j] =arrImage[0][i][j]-255;
+                    numPixel[1][i][j] = arrImage[1][i][j] -255;
+                    numPixel[2][i][j]= arrImage[2][i][j]-4;
+              }
+        }return numPixel;
+    }
+*/
   public static correctionGamma(img: ImageType, factores:number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
@@ -55,6 +66,21 @@ export class MathImg{
         sal[0][i][j] = this.funcionGamma(arrImage[0][i][j], factores[0]) ;
         sal[1][i][j] = this.funcionGamma(arrImage[1][i][j], factores[1]) ;
         sal[2][i][j] = this.funcionGamma(arrImage[2][i][j], factores[2]) ;
+      }
+    } 
+    return sal;
+  }
+
+  public static umbral(img: ImageType, umbral:number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage :number[][][] = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal:number[][][]= this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;  
+        sal[1][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;;
+        sal[2][i][j] = arrImage[0][i][j]> umbral ? 255 : 0;;
       }
     } 
     return sal;

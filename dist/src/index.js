@@ -2,11 +2,15 @@ import { DefaultSettings } from "./DefaultSettings.js";
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
-// let img = new Image();
-var lienzo1, lienzo2,lienzo3;
+// let img = new Image();s
+var lienzo1, lienzo2,lienzo3,lienzo4,lienzo5,lienzo6;
 var pantalla1;
 var pantalla2;
 var pantalla3;
+var pantalla4;
+var pantalla5;
+var pantalla6;
+
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt) {
     evt.stopPropagation();
@@ -22,6 +26,14 @@ lienzo2 = document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
 lienzo3 = document.getElementById('img3');
 pantalla3 = lienzo3.getContext("2d");
+lienzo4 = document.getElementById('img4');
+pantalla4 = lienzo4.getContext("2d");
+lienzo5 = document.getElementById('img5');
+pantalla5 = lienzo5.getContext("2d");
+lienzo6 = document.getElementById('img6');
+pantalla6 = lienzo6.getContext("2d");
+//lienzo3 = document.getElementById('img3');
+//pantalla3 = lienzo3.getContext("2d");
 var dropZone = lienzo1; //document.getElementById('img1');
 var imgLocal = new ImageLocal(pantalla1);
 var testImage; // = new ImageType(imgOperator.getImage(), pantalla);
@@ -53,21 +65,41 @@ function convertirAGris(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
+function filtroVerde(evt) {
+    var imagenSal=new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla3, MathImg.verde(imagenSal));
+}
+function filtroRojo(evt) {
+    var imagenSal=new ImageType(pantalla1, imgLocal.getImage());
+    //imagenSal.imageArray2DtoData(pantalla2, MathImg.rojo(imagenSal));
+}
+function filtroAzul(evt) {
+    var imagenSal=new ImageType(pantalla1, imgLocal.getImage());
+    //imagenSal.imageArray2DtoData(pantalla4, MathImg.azul(imagenSal));
+}
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.correctionGamma(imagenSal, factores));
+    imagenSal.imageArray2DtoData(pantalla3, MathImg.correctionGamma(imagenSal, factores));
 
 }
-function filtroVerde(evt){
-    var imagenSal=new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla3, MathImg.verde(imagenSal));
-  }
+function umbralizado(evt) {
+    var args = prompt('Ingresa el valor de umbral');
+    var factores = parsefloat(args);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla3, MathImg.correctionGamma(imagenSal, factores));
+
+}
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
-document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-verde").addEventListener('click', filtroVerde, false);
+document.getElementById("op-rojo").addEventListener('click', filtroRojo, false);
+document.getElementById("op-azul").addEventListener('click', filtroAzul, false);
+document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
+document.getElementById("op-umbral1").addEventListener('click',umbralizado,false);
+
