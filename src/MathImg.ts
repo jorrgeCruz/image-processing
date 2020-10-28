@@ -124,6 +124,41 @@ export class MathImg{
   }
 
 
-  
+  public static toDesfaceY(img: ImageType, desy: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage: number[][][] = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+
+    
+    var  fila =arrImage[0].length, cols= arrImage[0] [0].length;
+    
+       
+
+    for(let i=0; i<fila; i++)
+    {
+       for(let j=0; j<cols; j++)
+       {
+         sal[1][i][j] = arrImage[1][i][j];
+          if((i - desy)>= 0)
+          {
+           sal[0][i][j] = arrImage[0][i - desy][j];
+          }
+         else
+          {
+           sal[0][i][j] = arrImage[0][i][j];
+          }
+         if((i + desy) < fila)
+         {
+          sal[2][i][j] = arrImage[2][i + desy][j];
+         }
+         else
+         {
+         sal[2][i][j] = arrImage[2][i][j];
+         }
+      }
+     }
+    return sal;
+  }
 
 }
