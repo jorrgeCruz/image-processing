@@ -72,19 +72,11 @@ function umbralizado(evt: any): void{
   var args = prompt('Ingresa el valor del umbral');
   var umbral = parseFloat(args);
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.umbral(imagenSal,umbral));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral(imagenSal,umbral));
 }
 function filtroVerde(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla3, MathImg.verde(imagenSal));
-}
-function filtroRojo(evt: any): void{
-  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  //imagenSal.imageArray2DtoData(pantalla2, MathImg.rojo(imagenSal));
-}
-function filtroAzul(evt: any): void{
-  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
- //imagenSal.imageArray2DtoData(pantalla4, MathImg.azul(imagenSal));
+  imagenSal.imageArray2DtoData(pantalla3, MathImg.toGreen(imagenSal));
 }
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -94,6 +86,4 @@ dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-verde").addEventListener('click',filtroVerde,false);
-document.getElementById("op-rojo").addEventListener('click',filtroRojo,false);
-document.getElementById("op-azul").addEventListener('click',filtroAzul,false);
 document.getElementById("op-umbral").addEventListener('click',umbralizado,false);
