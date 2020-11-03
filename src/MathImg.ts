@@ -96,18 +96,18 @@ export class MathImg{
         sal[1][i][j] = arrImage[1][i][j];
         if((j - des)>= 0){
           sal[0][i][j] = arrImage[0][i][j - des];
-          }
-          else{
-            sal[0][i][j] = arrImage[0][i][j];
-            }
-            if((j + des) < cols){
-              sal[2][i][j] = arrImage[2][i][j + des];
-             }
-            else{
-              sal[2][i][j] = arrImage[2][i][j];
-             }
-       }
-     }
+        }
+        else{
+          sal[0][i][j] = arrImage[0][i][j];
+        }
+        if((j + des) < cols){
+          sal[2][i][j] = arrImage[2][i][j + des];
+        }
+        else{
+          sal[2][i][j] = arrImage[2][i][j];
+        }
+      }
+    }
      return sal;
   }
 
@@ -122,16 +122,16 @@ export class MathImg{
         sal[1][i][j] = arrImage[1][i][j];
         if((i - desy)>= 0){
           sal[0][i][j] = arrImage[0][i - desy][j];
-          }
-          else{
-            sal[0][i][j] = arrImage[0][i][j];
-          }
-            if((i + desy) < fila){
-              sal[2][i][j] = arrImage[2][i + desy][j];
-              }
-              else{
-                sal[2][i][j] = arrImage[2][i][j];
-              }
+        }
+        else{
+          sal[0][i][j] = arrImage[0][i][j];
+        }
+        if((i + desy) < fila){
+          sal[2][i][j] = arrImage[2][i + desy][j];
+        }
+        else{
+          sal[2][i][j] = arrImage[2][i][j];
+        }
       }
     }
     return sal;
