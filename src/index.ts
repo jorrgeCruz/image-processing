@@ -74,7 +74,18 @@ function umbralizado(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral(imagenSal, umbral));
 }
-
+function desfaseX(evt: any): void{
+  var args = prompt('Ingresa el valor del desfase en X');
+  var des = parseFloat(args);
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, des));
+}
+function desfaseY(evt: any): void{
+  var args = prompt('Ingresa el valor del desfase en Y');
+  var desy = parseFloat(args);
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -85,3 +96,5 @@ document.getElementById("op-rojo").addEventListener('click', convertirARojo, fal
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
+document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
+document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
