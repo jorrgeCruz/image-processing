@@ -169,6 +169,39 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.colorGradientY = function (img, factores) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        let arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        let sal = this.initArray(img.getWidth(), img.getHeight());
+        var prom;
+        let r1, r2, b1,b2,g1,g2 ;
+        let dr,dg,db, ;
+        r1 = factores[0];
+        g1 = factores[1];
+        b1 = factores[2];
+        r2 = factores[3];
+        g2 = factores[4];
+        b2 = factores[5];
+    
+        dr = (r2-r1) / img.getHeight();
+        dg = (g2-g1) / img.getHeight();
+        db = (b2-b1) / img.getHeight();
+    
+        for (let i = 0; i < img.getHeight(); i++){
+          for (let j = 0; j < img.getWidth(); j++) { 
+            prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+            sal[0][i][j] = Math.floor(prom * r1/255);
+            sal[1][i][j] = Math.floor(prom * g1/255);
+            sal[2][i][j] = Math.floor(prom * b1/255);
+          }
+          r1+=dr;
+          g1+=dg;
+          b1+=db;
+        } 
+        return sal;
+      }
+
     return MathImg;
 }());
 export { MathImg };

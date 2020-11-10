@@ -90,6 +90,12 @@ function desfaseY(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
+function colorGradienteY(evt: any): void{
+  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
+  var factores = args.split(',').map(elem => parseFloat(elem));
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
+  }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -103,3 +109,4 @@ document.getElementById("op-gamma").addEventListener('click', correccionGamma, f
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
