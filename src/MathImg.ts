@@ -211,6 +211,12 @@ export class MathImg{
     } 
     return sal;
   }
+
+/**
+ * Metodo para Generar el contraste de una Imagen
+ * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
+ * @return number[][][] es la imagen de salida con contraste 
+ */
   public static changeContraste(img: ImageType, valor: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage: number[][][] = img.getArrayImg();
