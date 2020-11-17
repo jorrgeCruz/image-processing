@@ -124,7 +124,6 @@ var MathImg = /** @class */ (function () {
         //variable donde guardamos la salida
         var sal = this.initArray(img.getWidth(), img.getHeight());
         var fila = arrImage[0].length, cols = arrImage[0][0].length;
-        /*-------------------------------- */
         for (var i = 0; i < fila; i++) {
             for (var j = 0; j < cols; j++) {
                 sal[1][i][j] = arrImage[1][i][j];
@@ -159,7 +158,7 @@ var MathImg = /** @class */ (function () {
                 else {
                     sal[0][i][j] = arrImage[0][i][j];
                 }
-                if ((i + desy) < cols) {
+                if ((i + desy) < fila) {
                     sal[2][i][j] = arrImage[2][i + desy][j];
                 }
                 else {
@@ -171,37 +170,77 @@ var MathImg = /** @class */ (function () {
     };
     MathImg.colorGradientY = function (img, factores) {
         //variable que guarda el arreglo 3d de la imagen de color
-        let arrImage = img.getArrayImg();
+        var arrImage = img.getArrayImg();
         //variable donde guardamos la salida
-        let sal = this.initArray(img.getWidth(), img.getHeight());
+        var sal = this.initArray(img.getWidth(), img.getHeight());
         var prom;
-        let r1, r2, b1,b2,g1,g2 ;
-        let dr,dg,db, ;
+        var r1, r2, b1, b2, g1, g2;
+        var dr, dg, db, dir;
         r1 = factores[0];
         g1 = factores[1];
         b1 = factores[2];
         r2 = factores[3];
         g2 = factores[4];
         b2 = factores[5];
-    
-        dr = (r2-r1) / img.getHeight();
-        dg = (g2-g1) / img.getHeight();
-        db = (b2-b1) / img.getHeight();
-    
-        for (let i = 0; i < img.getHeight(); i++){
-          for (let j = 0; j < img.getWidth(); j++) { 
-            prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-            sal[0][i][j] = Math.floor(prom * r1/255);
-            sal[1][i][j] = Math.floor(prom * g1/255);
-            sal[2][i][j] = Math.floor(prom * b1/255);
-          }
-          r1+=dr;
-          g1+=dg;
-          b1+=db;
-        } 
+        dr = (r2 - r1) / img.getHeight();
+        dg = (g2 - g1) / img.getHeight();
+        db = (b2 - b1) / img.getHeight();
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                sal[0][i][j] = Math.floor(prom * r1 / 255);
+                sal[1][i][j] = Math.floor(prom * g1 / 255);
+                sal[2][i][j] = Math.floor(prom * b1 / 255);
+            }
+            r1 += dr;
+            g1 += dg;
+            b1 += db;
+        }
         return sal;
-      }
-
+    };
+    MathImg.toUmbral2limites = function (img, rangos) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var fila = arrImage[0].length, cols = arrImage[0][0].length;
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var rangoMin = rangos[0];
+        var rangoMax = rangos[1];
+        var prome;
+        for (var i = 0; i < fila; i++) {
+            for (var j = 0; j < cols; j++) {
+                prome = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                if (prome <= rangoMin && prome >= rangoMax) {
+                    sal[0][i][j] = 250;
+                }
+                else
+                    sal[0][i][j] = 0;
+                if (prome <= rangoMin && prome >= rangoMax) {
+                    sal[1][i][j] = 250;
+                }
+                else
+                    sal[1][i][j] = 0;
+                if (prome <= rangoMin && prome >= rangoMax) {
+                    sal[2][i][j] = 250;
+                }
+                else
+                    sal[2][i][j] = 0;
+            }
+        }
+        return sal;
+    };
+    MathImg.changeBrightness = function (img, factor) {
+        var arrImage = img.getArrayImg();
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
+                sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor;
+                sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor;
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

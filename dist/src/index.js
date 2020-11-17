@@ -78,17 +78,28 @@ function desfaseX(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, des));
 }
 function desfaseY(evt) {
-    var args = prompt('Ingresa el valor del desfase en X');
+    var args = prompt('Ingresa el valor del desfase en Y');
     var desy = parseFloat(args);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
 function colorGradienteY(evt) {
     var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
-    var factores =parseFloat(args);
-    var imagenSal =new ImageType(pantalla1, imgLocal.getImage());
+    var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
-    }
+}
+function umbral2limites(evt) {
+    var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
+    var rangos = args.split(',').map(function (elem) { return parseFloat(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral2limites(imagenSal, rangos));
+}
+function changeBrightness(evt) {
+    var factor = prompt("Ingresa un valor en el rango de 0-2, como un porcentaje");
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.changeBrightness(imagenSal, parseFloat(factor)));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -103,3 +114,5 @@ document.getElementById("op-umbral1").addEventListener('click', umbralizado, fal
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
+document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
+document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);

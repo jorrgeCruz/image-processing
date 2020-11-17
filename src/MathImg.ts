@@ -211,4 +211,47 @@ export class MathImg{
     } 
     return sal;
   }
+  public static toUmbral2limites(img: ImageType, rangos:number[]): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+     var arrImage: number[][][] = img.getArrayImg();
+     //variable donde guardamos la salida
+     var  fila =arrImage[0].length, cols= arrImage[0] [0].length;
+     var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+    let rangoMin = rangos[0];
+    let rangoMax = rangos[1];
+     var prome;
+     for (let i = 0; i < fila; i++){
+        for (let j = 0; j < cols; j++) { 
+          prome = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+          if(prome<=rangoMin && prome>=rangoMax){
+            sal[0][i][j] = 250;
+          }
+          else 
+          sal[0][i][j] = 0;
+          if(prome<=rangoMin && prome>=rangoMax){
+            sal[1][i][j] = 250;
+          }
+          else 
+          sal[1][i][j] = 0;
+          if(prome<=rangoMin && prome>=rangoMax){
+            sal[2][i][j] = 250;
+          }
+          else 
+          sal[2][i][j] = 0;
+        }        
+      } 
+      return sal;
+    }
+    public static changeBrightness(img: ImageType, factor: number): number[][][] {
+      var arrImage: number[][][] = img.getArrayImg();
+      var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+      for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++){
+      sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor ;
+      sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor ;
+      sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor ;
+      }
+    }
+    return sal;
+  }
 }
