@@ -30,6 +30,7 @@ ul{
 }
 .nav li span:hover{
   background-color: darkolivegreen;
+  cursor: pointer;
 }
 .nav > li{
   float: left;

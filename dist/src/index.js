@@ -95,6 +95,12 @@ function colorGradienteY(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
 }
+function opchangeContraste(evt) {
+    var argss = prompt('Ingresa un valor entre el rango de -100 a 100');
+    var valor = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -110,3 +116,4 @@ document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
+document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
