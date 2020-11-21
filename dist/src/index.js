@@ -78,17 +78,17 @@ function desfaseX(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, des));
 }
 function desfaseY(evt) {
-    var args = prompt('Ingresa el valor del desfase en X');
+    var args = prompt('Ingresa el valor del desfase en Y');
     var desy = parseFloat(args);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
 function colorGradienteY(evt) {
     var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
-    var factores =parseFloat(args);
-    var imagenSal =new ImageType(pantalla1, imgLocal.getImage());
+    var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
-    }
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
