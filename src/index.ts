@@ -89,12 +89,6 @@ function desfaseY(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
-function colorGradienteY(evt: any): void{
-  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
-  var factores = args.split(',').map(elem => parseFloat(elem));
-  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
-}
 function umbral2limites(evt: any): void{
     var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
     var rangos = args.split(',').map(elem => parseFloat(elem));
