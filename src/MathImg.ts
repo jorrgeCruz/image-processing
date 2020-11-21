@@ -186,7 +186,7 @@ export class MathImg{
     let sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
     var prom: number;
     let r1, r2, b1,b2,g1,g2: number;
-    let dr,dg,db, dir: number;
+    let dr,dg,db: number;
     r1 = factores[0];
     g1 = factores[1];
     b1 = factores[2];

@@ -175,7 +175,7 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         var prom;
         var r1, r2, b1, b2, g1, g2;
-        var dr, dg, db, dir;
+        var dr, dg, db;
         r1 = factores[0];
         g1 = factores[1];
         b1 = factores[2];
