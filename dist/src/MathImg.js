@@ -1,3 +1,4 @@
+
 var MathImg = /** @class */ (function () {
     function MathImg() {
     }
@@ -237,6 +238,99 @@ var MathImg = /** @class */ (function () {
                 sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
                 sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor;
                 sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor;
+            }
+        }
+        return sal;
+    };
+    MathImg.colorGradienteX = function (img, factores) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var prom;
+        var r1, r2, b1, b2, g1, g2;
+        var dr, dg, db, dir;
+        r1 = factores[0];
+        g1 = factores[1];
+        b1 = factores[2];
+        r2 = factores[3];
+        g2 = factores[4];
+        b2 = factores[5];
+        dr = (r2 - r1) / img.getWidth();
+        dg = (g2 - g1) / img.getWidth();
+        db = (b2 - b1) / img.getWidth();
+        for (var j = 0; j < img.getWidth(); j++) {
+            for (var i = 0; i < img.getHeight(); i++) {
+                prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                sal[0][i][j] = Math.floor(prom * r1 / 255);
+                sal[1][i][j] = Math.floor(prom * g1 / 255);
+                sal[2][i][j] = Math.floor(prom * b1 / 255);
+            }
+            r1 += dr;
+            g1 += dg;
+            b1 += db;
+        }
+        return sal;
+    };
+    MathImg.colorGradientY = function (img, factores) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var prom;
+        var r1, r2, b1, b2, g1, g2;
+        var dr, dg, db;
+        r1 = factores[0];
+        g1 = factores[1];
+        b1 = factores[2];
+        r2 = factores[3];
+        g2 = factores[4];
+        b2 = factores[5];
+        dr = (r2 - r1) / img.getHeight();
+        dg = (g2 - g1) / img.getHeight();
+        db = (b2 - b1) / img.getHeight();
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                sal[0][i][j] = Math.floor(prom * r1 / 255);
+                sal[1][i][j] = Math.floor(prom * g1 / 255);
+                sal[2][i][j] = Math.floor(prom * b1 / 255);
+            }
+            r1 += dr;
+            g1 += dg;
+            b1 += db;
+        }
+        return sal;
+    };
+    MathImg.changeContraste = function (img, valor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        //
+        var cR, cG, cB;
+        var contraste;
+        contraste = (valor + 100) / 100;
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                cR = ((((arrImage[0][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cR > 255)
+                    cR = 255;
+                if (cR < 0)
+                    cR = 0;
+                sal[0][i][j] = cR;
+                cG = ((((arrImage[1][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cG > 255)
+                    cG = 255;
+                if (cG < 0)
+                    cG = 0;
+                sal[1][i][j] = cG;
+                cB = ((((arrImage[2][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cB > 255)
+                    cB = 255;
+                if (cB < 0)
+                    cB = 0;
+                sal[2][i][j] = cB;
             }
         }
         return sal;
