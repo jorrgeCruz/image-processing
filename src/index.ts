@@ -90,6 +90,12 @@ function desfaseY(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
+function colorGradienteX(evt: any): void{
+  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
+  var factores = args.split(',').map(elem => parseFloat(elem));
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradienteX(imagenSal, factores));
+  }
 function colorGradienteY(evt: any): void{
   var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
   var factores = args.split(',').map(elem => parseFloat(elem));
@@ -115,5 +121,6 @@ document.getElementById("op-gamma").addEventListener('click', correccionGamma, f
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
