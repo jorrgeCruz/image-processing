@@ -1,4 +1,3 @@
-
 import { DefaultSettings } from "./DefaultSettings";
 import { ImageLocal } from "./ImageLocal";
 import { ImageType } from "./ImageType";
@@ -90,24 +89,42 @@ function desfaseY(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
 }
-function colorGradienteX(evt: any): void{
-  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
-  var factores = args.split(',').map(elem => parseFloat(elem));
-  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradienteX(imagenSal, factores));
-  }
 function colorGradienteY(evt: any): void{
   var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
   var factores = args.split(',').map(elem => parseFloat(elem));
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
-  }
+}
+function umbral2limites(evt: any): void{
+    var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
+    var rangos = args.split(',').map(elem => parseFloat(elem));
+    var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral2limites(imagenSal, rangos));
+}
+function changeBrightness(evt: any): void {
+    var factor = prompt ("Ingresa un valor en el rango de 0-2, como un porcentaje");
+    var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.changeBrightness(imagenSal,  parseFloat(factor)));
+}
+function colorGradienteX(evt: any): void{
+  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
+  var factores = args.split(',').map(elem => parseFloat(elem));
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradienteX(imagenSal, factores));
+}
+function colorGradienteY(evt: any): void{
+  var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
+  var factores = args.split(',').map(elem => parseFloat(elem));
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
+}
 function opchangeContraste(evt: any): void{
     var argss = prompt('Ingresa un valor entre el rango de -100 a 100');
     var valor = parseFloat(argss);
     var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
-    }
+}
+  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -121,6 +138,10 @@ document.getElementById("op-gamma").addEventListener('click', correccionGamma, f
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
+document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
+document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
+
