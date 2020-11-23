@@ -2,7 +2,7 @@ import { DefaultSettings } from "./DefaultSettings";
 import { ImageType } from "./ImageType";
 
 export class MathImg{
-
+  
   public static toGray(img: ImageType): number[][][]  {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
@@ -319,5 +319,6 @@ export class MathImg{
     } 
     return sal; 
   }
+
 }
 
