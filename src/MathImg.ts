@@ -320,5 +320,19 @@ export class MathImg{
     return sal; 
   }
 
+  public static pow(img: ImageType, power: number): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = Math.pow(arrImage[0][i][j], power);
+        sal[1][i][j] = Math.pow(arrImage[1][i][j], power);
+        sal[2][i][j] = Math.pow(arrImage[2][i][j], power);
+      }
+    } 
+    return sal;
+  }
 }
 
