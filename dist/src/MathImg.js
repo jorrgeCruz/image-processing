@@ -1,4 +1,3 @@
-
 var MathImg = /** @class */ (function () {
     function MathImg() {
     }
@@ -169,36 +168,6 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
-    MathImg.colorGradientY = function (img, factores) {
-        //variable que guarda el arreglo 3d de la imagen de color
-        var arrImage = img.getArrayImg();
-        //variable donde guardamos la salida
-        var sal = this.initArray(img.getWidth(), img.getHeight());
-        var prom;
-        var r1, r2, b1, b2, g1, g2;
-        var dr, dg, db, dir;
-        r1 = factores[0];
-        g1 = factores[1];
-        b1 = factores[2];
-        r2 = factores[3];
-        g2 = factores[4];
-        b2 = factores[5];
-        dr = (r2 - r1) / img.getHeight();
-        dg = (g2 - g1) / img.getHeight();
-        db = (b2 - b1) / img.getHeight();
-        for (var i = 0; i < img.getHeight(); i++) {
-            for (var j = 0; j < img.getWidth(); j++) {
-                prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-                sal[0][i][j] = Math.floor(prom * r1 / 255);
-                sal[1][i][j] = Math.floor(prom * g1 / 255);
-                sal[2][i][j] = Math.floor(prom * b1 / 255);
-            }
-            r1 += dr;
-            g1 += dg;
-            b1 += db;
-        }
-        return sal;
-    };
     MathImg.toUmbral2limites = function (img, rangos) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -302,6 +271,11 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    /**
+     * Metodo para Generar el contraste de una Imagen
+     * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
+     * @return number[][][] es la imagen de salida con contraste
+     */
     MathImg.changeContraste = function (img, valor) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -331,6 +305,20 @@ var MathImg = /** @class */ (function () {
                 if (cB < 0)
                     cB = 0;
                 sal[2][i][j] = cB;
+            }
+        }
+        return sal;
+    };
+    MathImg.pow = function (img, power) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = Math.pow(arrImage[0][i][j], power);
+                sal[1][i][j] = Math.pow(arrImage[1][i][j], power);
+                sal[2][i][j] = Math.pow(arrImage[2][i][j], power);
             }
         }
         return sal;

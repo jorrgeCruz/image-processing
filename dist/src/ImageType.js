@@ -56,6 +56,39 @@ var ImageType = /** @class */ (function () {
         }
         sc.putImageData(this.imageData, 0, 0);
     };
+    /**
+     * Funcion que reescala los valores dew la imagen a el rango de una imagen de 0 - 255,
+     * la imagen puede estar en cualrquier rango de nunmeros reales.
+     * @param arrImage arrar of data
+     * @param alto image heigh
+     * @param ancho image width
+     */
+    ImageType.prototype.imageArray2DtoDataWithResizing = function (sc, arrImage) {
+        //variable donde guardamos la salida
+        //var sal: number[][][] = this.initArray(ancho, alto);
+        var max, min, factor;
+        max = arrImage[0][0][0];
+        min = arrImage[0][0][0];
+        var position;
+        for (var i = 0; i < this._height; i++) {
+            for (var j = 0; j < this._width; j++) {
+                max = Math.max(max, arrImage[0][i][j]);
+                min = Math.min(min, arrImage[0][i][j]);
+            }
+        }
+        for (var i = 0; i < this._height; i++) {
+            for (var j = 0; j < this._width; j++) {
+                position = this.getColorIndicesForCoord(j, i);
+                
+                this.imageData.data[position[0]] = factor * (arrImage[0][i][j] - min);
+                debugger
+                console.log(factor * (arrImage[0][i][j] - min))
+                this.imageData.data[position[1]] = factor * (arrImage[1][i][j] - min);
+                this.imageData.data[position[2]] = factor * (arrImage[2][i][j] - min);
+            }
+        }
+        sc.putImageData(this.imageData, 0, 0);
+    };
     ImageType.prototype.initArray = function () {
         this.arrImage = new Array(3);
         this.arrImage[0] = new Array(this._height);

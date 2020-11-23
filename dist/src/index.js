@@ -112,7 +112,12 @@ function opchangeContraste(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
 }
-
+function opgetPow(evt) {
+    var argss = prompt('Ingresa el valor de la potencia');
+    var valor = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -132,3 +137,4 @@ document.getElementById("op-brillo").addEventListener('click', changeBrightness,
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
+document.getElementById("op-pow").addEventListener('click', opgetPow, false);
