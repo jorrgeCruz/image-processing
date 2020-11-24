@@ -13,7 +13,7 @@
 }
 
 .header{
-  widows: 500px;
+  width: 700px;
   font-family: Arial, Helvetica, sans-serif;
   grid-area: header;
 }
@@ -35,6 +35,7 @@ ul{
 .nav > li{
   float: left;
 }
+
 .nav ul li label{
   background-color: black;
   color: white;
@@ -43,7 +44,7 @@ ul{
 .nav li ul{
   display: none;
   position: absolute;
-  min-width: 150px;
+  min-width: 167px;
 }
 .nav li:hover > ul{
   display: block;

@@ -76,13 +76,11 @@ var ImageType = /** @class */ (function () {
                 min = Math.min(min, arrImage[0][i][j]);
             }
         }
+        factor = 255.0 / (max - min);
         for (var i = 0; i < this._height; i++) {
             for (var j = 0; j < this._width; j++) {
                 position = this.getColorIndicesForCoord(j, i);
-                
                 this.imageData.data[position[0]] = factor * (arrImage[0][i][j] - min);
-                debugger
-                console.log(factor * (arrImage[0][i][j] - min))
                 this.imageData.data[position[1]] = factor * (arrImage[1][i][j] - min);
                 this.imageData.data[position[2]] = factor * (arrImage[2][i][j] - min);
             }

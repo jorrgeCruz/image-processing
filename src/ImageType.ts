@@ -79,7 +79,6 @@ export class ImageType {
     //variable donde guardamos la salida
       //var sal: number[][][] = this.initArray(ancho, alto);
       var max: number, min: number, factor: number;
-      var alto: number, ancho: number;
       max = arrImage[0][0][0];
       min = arrImage[0][0][0];
       let position: number[];
@@ -89,6 +88,7 @@ export class ImageType {
           min = Math.min(min, arrImage[0][i][j]);
         }
       }
+      factor = 255.0 / (max - min);
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           position = this.getColorIndicesForCoord(j, i);
