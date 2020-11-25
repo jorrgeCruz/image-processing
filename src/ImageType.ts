@@ -68,6 +68,39 @@ export class ImageType {
     sc.putImageData(this.imageData, 0,0);
   }
 
+  /**
+   * Funcion que reescala los valores dew la imagen a el rango de una imagen de 0 - 255,
+   * la imagen puede estar en cualrquier rango de nunmeros reales.
+   * @param arrImage arrar of data
+   * @param alto image heigh 
+   * @param ancho image width
+   */
+  public imageArray2DtoDataWithResizing(sc:CanvasRenderingContext2D, arrImage: number[][][]):void {
+    //variable donde guardamos la salida
+      //var sal: number[][][] = this.initArray(ancho, alto);
+      var max: number, min: number, factor: number;
+      max = arrImage[0][0][0];
+      min = arrImage[0][0][0];
+      let position: number[];
+      for (let i = 0; i < this._height; i++) {
+        for (let j = 0; j < this._width; j++) {
+          max = Math.max(max, arrImage[0][i][j]);
+          min = Math.min(min, arrImage[0][i][j]);
+        }
+      }
+      factor = 255.0 / (max - min);
+      for (let i = 0; i < this._height; i++) {
+        for (let j = 0; j < this._width; j++) {
+          position = this.getColorIndicesForCoord(j, i);
+          this.imageData.data[position[0]] = factor * (arrImage[0][i][j] - min);
+          this.imageData.data[position[1]] = factor * (arrImage[1][i][j] - min);
+          this.imageData.data[position[2]] = factor * (arrImage[2][i][j] - min);
+        }
+      }
+   
+    sc.putImageData(this.imageData, 0,0);
+  }
+
   public initArray():void{
     this.arrImage = new Array(3);
     this.arrImage[0] = new Array(this._height);
