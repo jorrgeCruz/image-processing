@@ -119,14 +119,14 @@ function opgetPow(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
 function subtract(evt) {
-    var argss = prompt('Ingresa el valor de la potencia');
+    var argss = prompt('Ingresa el valor a restar');
     var resta = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSubtract(imagenSal, resta));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, resta));
 }
 function funcionSeno(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSine(imagenSal));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);

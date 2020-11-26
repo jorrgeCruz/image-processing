@@ -323,16 +323,16 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
-    MathImg.toSubtract = function (img, power) {
+    MathImg.toSubtract = function (img, escalar) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
         //variable donde guardamos la salida
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[0][i][j] = Math.pow(arrImage[0][i][j], power);
-                sal[1][i][j] = Math.pow(arrImage[1][i][j], power);
-                sal[2][i][j] = Math.pow(arrImage[2][i][j], power);
+                sal[0][i][j] = arrImage[0][i][j]-escalar;
+                sal[1][i][j] = arrImage[1][i][j]-escalar;
+                sal[2][i][j] = arrImage[2][i][j]-escalar;
             }
         }
         return sal;
