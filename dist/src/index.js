@@ -119,7 +119,7 @@ function opgetPow(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
 function subtract(evt) {
-    var argss = prompt('Ingresa el valor a restar');
+    var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
     var resta = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, resta));
