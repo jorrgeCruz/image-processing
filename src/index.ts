@@ -133,6 +133,16 @@ function Subtract(evt: any): void{
 function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
+}
+function add(evt: any): void{
+  var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
+  var sumar = parseFloat(argss);
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
+}
+function sqrt(evt: any): void{
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
 }  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -156,3 +166,5 @@ document.getElementById("op-contraste").addEventListener('click', opchangeContra
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-subtract").addEventListener('click', Subtract, false);
 document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-add").addEventListener('click', add, false);
+document.getElementById("op-sqrt").addEventListener('click', sqrt, false);

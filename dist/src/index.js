@@ -118,17 +118,26 @@ function opgetPow(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
-function subtract(evt) {
+function Subtract(evt) {
     var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
-    var resta = parseFloat(argss);
+    var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, resta));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
 }
-function funcionSeno(evt) {
+function funcionSine(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
-
+function add(evt) {
+    var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
+    var sumar = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
+}
+function sqrt(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -149,5 +158,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
-document.getElementById("op-subtract").addEventListener('click', subtract, false);
-document.getElementById("op-sine").addEventListener('click', funcionSeno, false);
+document.getElementById("op-subtract").addEventListener('click', Subtract, false);
+document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-add").addEventListener('click', add, false);
+document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
