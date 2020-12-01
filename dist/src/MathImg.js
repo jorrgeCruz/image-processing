@@ -323,6 +323,34 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.toCos = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = Math.cos(arrImage[0][i][j]);
+                sal[1][i][j] = Math.cos(arrImage[1][i][j]);
+                sal[2][i][j] = Math.cos(arrImage[2][i][j]);
+            }
+        }
+        return sal;
+    };
+    MathImg.toMultiplication = function (img, valor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = valor * arrImage[0][i][j];
+                sal[1][i][j] = valor * arrImage[1][i][j];
+                sal[2][i][j] = valor * arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };
