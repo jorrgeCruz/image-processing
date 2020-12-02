@@ -334,20 +334,37 @@ export class MathImg{
     } 
     return sal;
   }
+
   public static toCos(img: ImageType): number[][][]  {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) {
+         sal[0][i][j] = Math.cos(arrImage[0][i][j]);
+         sal[1][i][j] = Math.cos(arrImage[1][i][j]);
+         sal[2][i][j] = Math.cos(arrImage[2][i][j]);
+     }
+    } 
+    return sal;
+  }
+
+  public static toSubtract(img: ImageType, escalar: number): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
       for (let j = 0; j < img.getWidth(); j++) { 
-        sal[0][i][j] = Math.cos(arrImage[0][i][j]);
-        sal[1][i][j] = Math.cos(arrImage[1][i][j]);
-        sal[2][i][j] = Math.cos(arrImage[2][i][j]);
+        sal[0][i][j] = arrImage[0][i][j]-escalar;
+        sal[1][i][j] = arrImage[1][i][j]-escalar;
+        sal[2][i][j] = arrImage[2][i][j]-escalar;
       }
     } 
     return sal;
   }
+
 
   public static toMultiplication(img: ImageType, valor: number): number[][][]  {
     //variable que guarda el arreglo 3d de la imagen de color
@@ -364,5 +381,19 @@ export class MathImg{
     return sal;
   }
   
+  public static toSine(img: ImageType): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = Math.sin(arrImage[0][i][j]);
+        sal[1][i][j] = Math.sin(arrImage[1][i][j]);
+        sal[2][i][j] = Math.sin(arrImage[2][i][j]);
+      }
+    } 
+    return sal;
+  }  
 }
 
