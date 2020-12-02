@@ -1,11 +1,13 @@
-import { DefaultSettings } from "./DefaultSettings.js";
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 // let img = new Image();
-var lienzo1, lienzo2;
+var lienzo1;
+var lienzo2;
+var lienzo4;
 var pantalla1;
 var pantalla2;
+var pantalla4;
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt) {
     evt.stopPropagation();
@@ -19,26 +21,28 @@ lienzo1 = document.getElementById('img1');
 pantalla1 = lienzo1.getContext("2d");
 lienzo2 = document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
+lienzo4 = document.getElementById('img4');
+pantalla4 = lienzo4.getContext("2d");
 var dropZone = lienzo1; //document.getElementById('img1');
 var imgLocal = new ImageLocal(pantalla1);
-var testImage; // = new ImageType(imgOperator.getImage(), pantalla);
-/** Para que se dibuje la imagen en cuanto la cargamos se debe llamar a este evento onload */
+imgLocal.getImage().onload = imgLocal.onload;
+var imgLocal4 = new ImageLocal(pantalla4);
+imgLocal4.getImage().onload = imgLocal4.onload;
+/** Para que se dibuje la imagen en cuanto la cargamos se debe llamar a este evento onload *
 imgLocal.getImage().onload = function () {
-    imgLocal.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
-    /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal,
-     * si es mas grande se dibuja reescalado al ancho de ventana por default  */
-    if (imgLocal.getImage().width > DefaultSettings.SIZE_WIDTH
-        || imgLocal.getImage().height > DefaultSettings.SIZE_HEIGHT) {
-        imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
-        imgLocal.setScaled(true);
-    }
-    else {
-        imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, imgLocal.getImage().width, imgLocal.getImage().height);
-        imgLocal.setScaled(false);
-    }
-    /** Una vez leida la imagen se puede instancias un objeto de este tipo ya que depende del tamaño y daots de la imagen leida */
-    //testImage = new ImageType(imgLocal.getImage(), pantalla1);
-};
+  imgLocal.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+  /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal,
+   * si es mas grande se dibuja reescalado al ancho de ventana por default  *
+  if (imgLocal.getImage().width > DefaultSettings.SIZE_WIDTH
+    || imgLocal.getImage().height > DefaultSettings.SIZE_HEIGHT) {
+    imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+    imgLocal.setScaled(true);
+  }
+  else {
+    imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, imgLocal.getImage().width, imgLocal.getImage().height);
+    imgLocal.setScaled(false);
+  }
+} */
 function convertirAGris(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
@@ -118,19 +122,24 @@ function opgetPow(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
-function subtract(evt) {
+function Subtract(evt) {
     var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
-    var resta = parseFloat(argss);
+    var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, resta));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
 }
-function funcionSeno(evt) {
+function funcionSine(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
-
+function sumaImg(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
+document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
@@ -149,5 +158,6 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
-document.getElementById("op-subtract").addEventListener('click', subtract, false);
-document.getElementById("op-sine").addEventListener('click', funcionSeno, false);
+document.getElementById("op-subtract").addEventListener('click', Subtract, false);
+document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-addimg").addEventListener('click', sumaImg, false);

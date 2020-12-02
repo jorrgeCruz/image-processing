@@ -4,9 +4,12 @@ import { ImageType } from "./ImageType";
 import { MathImg } from "./MathImg";
 
 // let img = new Image();
-let lienzo1,lienzo2: HTMLCanvasElement;
+let lienzo1: HTMLCanvasElement;
+let lienzo2: HTMLCanvasElement;
+let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
+let pantalla4: CanvasRenderingContext2D;
 
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
@@ -22,16 +25,19 @@ lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
 pantalla1 = lienzo1.getContext("2d");
 lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
+lienzo4 = <HTMLCanvasElement>document.getElementById('img4');
+pantalla4 = lienzo4.getContext("2d");
 
 var dropZone = lienzo1;//document.getElementById('img1');
 var imgLocal: ImageLocal = new ImageLocal(pantalla1);
-var testImage: ImageType;// = new ImageType(imgOperator.getImage(), pantalla);
-
-/** Para que se dibuje la imagen en cuanto la cargamos se debe llamar a este evento onload */
+imgLocal.getImage().onload = imgLocal.onload;
+var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
+imgLocal4.getImage().onload = imgLocal4.onload;
+/** Para que se dibuje la imagen en cuanto la cargamos se debe llamar a este evento onload *
 imgLocal.getImage().onload = function () {
   imgLocal.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
   /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal, 
-   * si es mas grande se dibuja reescalado al ancho de ventana por default  */
+   * si es mas grande se dibuja reescalado al ancho de ventana por default  *
   if (imgLocal.getImage().width > DefaultSettings.SIZE_WIDTH
     || imgLocal.getImage().height > DefaultSettings.SIZE_HEIGHT) {
     imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
@@ -41,9 +47,9 @@ imgLocal.getImage().onload = function () {
     imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, imgLocal.getImage().width, imgLocal.getImage().height);
     imgLocal.setScaled(false);
   }
-  /** Una vez leida la imagen se puede instancias un objeto de este tipo ya que depende del tamaño y daots de la imagen leida */
-  //testImage = new ImageType(imgLocal.getImage(), pantalla1);
-} 
+} */
+
+
 
 function convertirAGris(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -133,9 +139,16 @@ function Subtract(evt: any): void{
 function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
-}  
+} 
+
+function sumaImg(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+} 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
+document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
@@ -156,3 +169,4 @@ document.getElementById("op-contraste").addEventListener('click', opchangeContra
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-subtract").addEventListener('click', Subtract, false);
 document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
