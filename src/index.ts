@@ -124,6 +124,18 @@ function opgetPow(evt: any): void{
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
+
+function Coseno(evt: any): void{
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toCos(imagenSal));
+}
+function multiplicacion(evt: any): void{
+  var argss = prompt('Ingresa el valor');
+  var valor = parseFloat(argss);
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
+}
+
 function Subtract(evt: any): void{
   var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
   var restar = parseFloat(argss);
@@ -134,6 +146,7 @@ function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }  
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -154,5 +167,8 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
+document.getElementById("op-cos").addEventListener('click', Coseno, false);
+document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-subtract").addEventListener('click', Subtract, false);
 document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+
