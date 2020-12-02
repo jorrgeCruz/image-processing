@@ -354,13 +354,12 @@ var MathImg = /** @class */ (function () {
         return sal;
     };
 
-  
     MathImg.toMultiplication = function (img, valor) {
-      //variable que guarda el arreglo 3d de la imagen de color
+        //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
         //variable donde guardamos la salida
         var sal = this.initArray(img.getWidth(), img.getHeight());
-       for (var i = 0; i < img.getHeight(); i++) {
+        for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
                 sal[0][i][j] = valor * arrImage[0][i][j];
                 sal[1][i][j] = valor * arrImage[1][i][j];
@@ -382,6 +381,35 @@ var MathImg = /** @class */ (function () {
               sal[2][i][j] = Math.sin(arrImage[2][i][j]);
             }
         } 
+        return sal;
+    };
+  
+    MathImg.toDividir = function (img, dividir) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = arrImage[0][i][j] + dividir;
+                sal[1][i][j] = arrImage[1][i][j] + dividir;
+                sal[2][i][j] = arrImage[2][i][j] + dividir;
+            }
+        }
+        return sal;
+    };
+     MathImg.toTan = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = Math.tan(arrImage[0][i][j]);
+                sal[1][i][j] = Math.tan(arrImage[1][i][j]);
+                sal[2][i][j] = Math.tan(arrImage[2][i][j]);
+            }
+        }
         return sal;
     };
     return MathImg;
