@@ -118,17 +118,34 @@ function opgetPow(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
-function subtract(evt) {
+function Subtract(evt) {
     var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
-    var resta = parseFloat(argss);
+    var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, resta));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
 }
-function funcionSeno(evt) {
+function funcionSine(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
-
+function div(evt) {
+    var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
+    var dividir = parseFloat(argss);
+    if (dividir == 0) {
+        var argss = prompt('Ingresa un valor diferente de 0');
+        var dividir = parseFloat(argss);
+        var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+        imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+    }
+    else {
+        var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+        imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+    }
+}
+function tan(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toTan(imagenSal));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -149,5 +166,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
-document.getElementById("op-subtract").addEventListener('click', subtract, false);
-document.getElementById("op-sine").addEventListener('click', funcionSeno, false);
+document.getElementById("op-subtract").addEventListener('click', Subtract, false);
+document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-tan").addEventListener('click', tan, false);

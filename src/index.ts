@@ -133,7 +133,25 @@ function Subtract(evt: any): void{
 function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
-}  
+}
+function div(evt: any): void{
+  var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
+  var dividir = parseFloat(argss);
+  if(dividir==0){
+    var argss = prompt('Ingresa un valor diferente de 0');
+    var dividir = parseFloat(argss);
+    var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+  }
+  else{
+    var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+  }
+}
+function tan(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toTan(imagenSal));
+} 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -156,3 +174,5 @@ document.getElementById("op-contraste").addEventListener('click', opchangeContra
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-subtract").addEventListener('click', Subtract, false);
 document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-tan").addEventListener('click', tan, false);
