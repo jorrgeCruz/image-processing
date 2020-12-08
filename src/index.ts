@@ -134,7 +134,7 @@ function multiplicacion(evt: any): void{
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
-function Subtract(evt: any): void{
+function subtract(evt: any): void{
   var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
   var restar = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
@@ -143,6 +143,16 @@ function Subtract(evt: any): void{
 function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
+}
+function add(evt: any): void{
+  var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
+  var sumar = parseFloat(argss);
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
+}
+function sqrt(evt: any): void{
+  var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
 }  
 function div(evt: any): void{
   var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
@@ -167,6 +177,7 @@ lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
+//menu op basicas
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-negativo").addEventListener('click', convertirANegativo, false);
 document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
@@ -174,6 +185,8 @@ document.getElementById("op-verde").addEventListener('click', convertirAVerde, f
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
+
+//menu op. color
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
@@ -185,7 +198,9 @@ document.getElementById("op-contraste").addEventListener('click', opchangeContra
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-cos").addEventListener('click', Coseno, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
-document.getElementById("op-subtract").addEventListener('click', Subtract, false);
+document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-add").addEventListener('click', add, false);
+document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
 document.getElementById("op-div").addEventListener('click', div, false);
 document.getElementById("op-tan").addEventListener('click', tan, false);
