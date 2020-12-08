@@ -3,11 +3,12 @@ import { ImageLocal } from "./ImageLocal";
 import { ImageType } from "./ImageType";
 import { MathImg } from "./MathImg";
 
-// let img = new Image();
-let lienzo1,lienzo2: HTMLCanvasElement;
+let lienzo1: HTMLCanvasElement;
+let lienzo2: HTMLCanvasElement;
+let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
-
+let pantalla4: CanvasRenderingContext2D;
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
     evt.stopPropagation();
@@ -18,32 +19,18 @@ function handleDragOver(evt:any) {
   /** Variables que controla el canvas de la imagen, el primero 
    * posteriormemte se volveran arreglos cuando ya controlemos las seis ventanas de nuestro frame
   */
-lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
-pantalla1 = lienzo1.getContext("2d");
-lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
-pantalla2 = lienzo2.getContext("2d");
+ lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
+ pantalla1 = lienzo1.getContext("2d");
+ lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
+ pantalla2 = lienzo2.getContext("2d");
+ lienzo4 = <HTMLCanvasElement>document.getElementById('img4');
+ pantalla4 = lienzo4.getContext("2d");
 
 var dropZone = lienzo1;//document.getElementById('img1');
 var imgLocal: ImageLocal = new ImageLocal(pantalla1);
-var testImage: ImageType;// = new ImageType(imgOperator.getImage(), pantalla);
-
-/** Para que se dibuje la imagen en cuanto la cargamos se debe llamar a este evento onload */
-imgLocal.getImage().onload = function () {
-  imgLocal.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
-  /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal, 
-   * si es mas grande se dibuja reescalado al ancho de ventana por default  */
-  if (imgLocal.getImage().width > DefaultSettings.SIZE_WIDTH
-    || imgLocal.getImage().height > DefaultSettings.SIZE_HEIGHT) {
-    imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
-    imgLocal.setScaled(true);
-  }
-  else {
-    imgLocal.getScreen().drawImage(imgLocal.getImage(), 0, 0, imgLocal.getImage().width, imgLocal.getImage().height);
-    imgLocal.setScaled(false);
-  }
-  /** Una vez leida la imagen se puede instancias un objeto de este tipo ya que depende del tamaño y daots de la imagen leida */
-  //testImage = new ImageType(imgLocal.getImage(), pantalla1);
-} 
+imgLocal.getImage().onload = imgLocal.onload;
+var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
+imgLocal4.getImage().onload = imgLocal4.onload;
 
 function convertirAGris(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -124,7 +111,7 @@ function opgetPow(evt: any): void{
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
 }
-function Coseno(evt: any): void{
+function coseno(evt: any): void{
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toCos(imagenSal));
 }
@@ -173,8 +160,15 @@ function tan(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toTan(imagenSal));
 } 
 
+function sumaImg(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+} 
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
+document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 //menu op basicas
@@ -185,22 +179,27 @@ document.getElementById("op-verde").addEventListener('click', convertirAVerde, f
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
-
-//menu op. color
+document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
-document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
-document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
+
+//menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
+
+//op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
-document.getElementById("op-cos").addEventListener('click', Coseno, false);
-document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
-document.getElementById("op-subtract").addEventListener('click', subtract, false);
-document.getElementById("op-sine").addEventListener('click', funcionSine, false);
-document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
-document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-sine").addEventListener('click', funcionSine, false);
+document.getElementById("op-cos").addEventListener('click', coseno, false);
 document.getElementById("op-tan").addEventListener('click', tan, false);
+document.getElementById("op-add").addEventListener('click', add, false);
+document.getElementById("op-subtract").addEventListener('click', subtract, false);
+document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
+document.getElementById("op-div").addEventListener('click', div, false);
+
+
+//op con imagenes compuestas
+document.getElementById("op-addimg").addEventListener('click', sumaImg, false);

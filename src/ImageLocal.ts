@@ -18,6 +18,7 @@ export class ImageLocal implements ImageOp {
     this.isScaled = false;
     this.drawSmallImg = this.drawSmallImg.bind(this);
     this.handleFileSelect = this.handleFileSelect.bind(this);  
+    this.onload = this.onload.bind(this);  
   }
     
   public handleFileSelect(evt:any):void {
@@ -43,6 +44,7 @@ export class ImageLocal implements ImageOp {
     this.readyToDraw = true;  
 
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';     
+    this.onload();
   }
 
   public drawSmallImg(evt:any):void{
@@ -87,5 +89,19 @@ export class ImageLocal implements ImageOp {
 
   public setScaled(v:boolean):void{
         this.isScaled = v;
+  }
+  public onload() {
+    this.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+    /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal, 
+     * si es mas grande se dibuja reescalado al ancho de ventana por default  */
+    if (this.getImage().width > DefaultSettings.SIZE_WIDTH
+      || this.getImage().height > DefaultSettings.SIZE_HEIGHT) {
+      this.getScreen().drawImage(this.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+      this.setScaled(true);
+    }
+    else {
+      this.getScreen().drawImage(this.getImage(), 0, 0, this.getImage().width, this.getImage().height);
+      this.setScaled(false);
+    }
   }
 }

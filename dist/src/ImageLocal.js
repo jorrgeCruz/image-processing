@@ -9,6 +9,7 @@ var ImageLocal = /** @class */ (function () {
         this.isScaled = false;
         this.drawSmallImg = this.drawSmallImg.bind(this);
         this.handleFileSelect = this.handleFileSelect.bind(this);
+        this.onload = this.onload.bind(this);
     }
     ImageLocal.prototype.handleFileSelect = function (evt) {
         var files;
@@ -27,6 +28,7 @@ var ImageLocal = /** @class */ (function () {
         this.img.src = f.name;
         this.readyToDraw = true;
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        this.onload();
     };
     ImageLocal.prototype.drawSmallImg = function (evt) {
         var xPos = evt.offsetX - 2;
@@ -62,6 +64,20 @@ var ImageLocal = /** @class */ (function () {
     };
     ImageLocal.prototype.setScaled = function (v) {
         this.isScaled = v;
+    };
+    ImageLocal.prototype.onload = function () {
+        this.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+        /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal,
+         * si es mas grande se dibuja reescalado al ancho de ventana por default  */
+        if (this.getImage().width > DefaultSettings.SIZE_WIDTH
+            || this.getImage().height > DefaultSettings.SIZE_HEIGHT) {
+            this.getScreen().drawImage(this.getImage(), 0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
+            this.setScaled(true);
+        }
+        else {
+            this.getScreen().drawImage(this.getImage(), 0, 0, this.getImage().width, this.getImage().height);
+            this.setScaled(false);
+        }
     };
     return ImageLocal;
 }());
