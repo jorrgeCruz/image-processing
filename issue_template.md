@@ -1,4 +1,13 @@
-#¿Como puedo replicar el problema?
-Explicanos como replicar el problema paso a paso y en que sistema operativo ocurre
-# ¿En que version del software ocurre esto?
-Si este problema curre en todas las versiones explica lo mas ampliamente posible
+## Nombre de la nueva caracteristica
+Nombre de acuerdo al proyecto para acceder desde el menu a esta nueva cacteristica
+## Menu donde debe aparecer
+Indicar de acuerdo a la siguiente<.
+OP._________ -> NombreOperacion  
+
+o
+
+OP.__________ -> Submenu -> NombreOperacion 
+## Material guia para su implementacion
+
+
+
