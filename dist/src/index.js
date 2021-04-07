@@ -159,6 +159,10 @@ function sumaImg(evt) {
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
+function espejoenX(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.espejoX(imagenSal));
+}
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -192,3 +196,5 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+//op geometricas
+document.getElementById("op-espejoX").addEventListener('click', espejoenX, false);

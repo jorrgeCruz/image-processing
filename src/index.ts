@@ -1,7 +1,7 @@
-import { DefaultSettings } from "./DefaultSettings";
-import { ImageLocal } from "./ImageLocal";
-import { ImageType } from "./ImageType";
-import { MathImg } from "./MathImg";
+import { DefaultSettings } from "./DefaultSettings.js";
+import { ImageLocal } from "./ImageLocal.js";
+import { ImageType } from "./ImageType.js";
+import { MathImg } from "./MathImg.js";
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -166,6 +166,12 @@ function sumaImg(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
 
+function espejoenX(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.espejoX(imagenSal));
+}
+
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -203,3 +209,6 @@ document.getElementById("op-div").addEventListener('click', div, false);
 
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+
+//op geometricas
+document.getElementById("op-espejoX").addEventListener('click',espejoenX, false);
