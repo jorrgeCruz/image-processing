@@ -496,34 +496,5 @@ export class MathImg{
     } 
     return sal;
   }  
-
- /*  public static rain(img: ImageType,
-    pA: Particle[], nP: number, w: number, h: number,
-    ctx:CanvasRenderingContext2D
-  ): number[][][]  {
-    //variable que guarda el arreglo 3d de la imagen de color
-    var arrImage = img.getArrayImg();
-    //variable donde guardamos la salida
-    var sal = this.initArray(img.getWidth(), img.getHeight());
-
-    let particlesArray = [];
-    const numberOfParticles = 2000;
-    //init
-      for (let i = 0; i < numberOfParticles; i++){
-        particlesArray.push(new Particle(w, h, ctx));
-      }
-    //animate
-      ctx.globalAlpha = 0.05;
-      ctx.fillStyle = 'rgb(0,0,0)';
-    ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < particlesArray.length; i++){
-      particlesArray[i].update();
-      particlesArray[i].draw();
-    }
-
-    
-    return sal;
-  }  
- */
 }
 

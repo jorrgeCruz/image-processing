@@ -227,7 +227,6 @@ var MathImg = /** @class */ (function () {
                 sal[i][j] = Math.sqrt(Math.pow(arrImage[0][i][j], 2) * 0.299 +
                     Math.pow(arrImage[1][i][j], 2) * 0.587 +
                     Math.pow(arrImage[2][i][j], 2) * 0.114) / 100.0;
-                    //console.log(sal[i][j]);
             }
         }
         return sal;
