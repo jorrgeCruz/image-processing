@@ -1,5 +1,5 @@
-import { DefaultSettings } from "./DefaultSettings";
-import { ImageOp } from "./ImageOp";
+import { DefaultSettings } from "./DefaultSettings.js";
+import { ImageOp } from "./ImageOp.js";
 
 export class ImageLocal implements ImageOp {
   //atributos

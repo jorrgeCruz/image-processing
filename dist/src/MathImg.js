@@ -1,6 +1,26 @@
 var MathImg = /** @class */ (function () {
     function MathImg() {
     }
+    MathImg.initArray = function (width, height) {
+        var arrImage = new Array(3);
+        arrImage[0] = new Array(height);
+        arrImage[1] = new Array(height);
+        arrImage[2] = new Array(height);
+        for (var i = 0; i < height; i++) {
+            arrImage[0][i] = new Array(width);
+            arrImage[1][i] = new Array(width);
+            arrImage[2][i] = new Array(width);
+        }
+        return arrImage;
+    };
+    MathImg.initArray2D = function (width, height) {
+        var arrImage = new Array(1);
+        arrImage[0] = new Array(height);
+        for (var i = 0; i < height; i++) {
+            arrImage[i] = new Array(width);
+        }
+        return arrImage;
+    };
     MathImg.toGray = function (img) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -89,18 +109,6 @@ var MathImg = /** @class */ (function () {
     };
     MathImg.funcionGamma = function (pixel, factor) {
         return Math.min(255 * Math.pow(pixel / 250, factor), 255);
-    };
-    MathImg.initArray = function (width, height) {
-        var arrImage = new Array(3);
-        arrImage[0] = new Array(height);
-        arrImage[1] = new Array(height);
-        arrImage[2] = new Array(height);
-        for (var i = 0; i < height; i++) {
-            arrImage[0][i] = new Array(width);
-            arrImage[1][i] = new Array(width);
-            arrImage[2][i] = new Array(width);
-        }
-        return arrImage;
     };
     MathImg.toUmbral = function (img, umbral) {
         //variable que guarda el arreglo 3d de la imagen de color
@@ -207,6 +215,18 @@ var MathImg = /** @class */ (function () {
                 sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
                 sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor;
                 sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor;
+            }
+        }
+        return sal;
+    };
+    MathImg.relativeBrightness = function (img) {
+        var arrImage = img.getArrayImg();
+        var sal = this.initArray2D(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[i][j] = Math.sqrt(Math.pow(arrImage[0][i][j], 2) * 0.299 +
+                    Math.pow(arrImage[1][i][j], 2) * 0.587 +
+                    Math.pow(arrImage[2][i][j], 2) * 0.114) / 100.0;
             }
         }
         return sal;
