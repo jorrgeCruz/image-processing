@@ -93,6 +93,20 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.toYellow = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (let i = 0; i < img.getHeight(); i++){
+          for (let j = 0; j < img.getWidth(); j++) { 
+            sal[0][i][j] = arrImage[0][i][j];
+            sal[1][i][j] = arrImage[1][i][j];
+            sal[2][i][j] = 0;
+          }
+        } 
+        return sal;
+      }
     MathImg.correctionGamma = function (img, factores) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
