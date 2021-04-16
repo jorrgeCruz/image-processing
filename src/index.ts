@@ -1,8 +1,7 @@
-
-import { ImageLocal } from "./ImageLocal.js";
-import { ImageType } from "./ImageType.js";
-import { MathImg } from "./MathImg.js";
-import { Particle } from "./particle.js";
+import { DefaultSettings } from "./DefaultSettings";
+import { ImageLocal } from "./ImageLocal";
+import { ImageType } from "./ImageType";
+import { MathImg } from "./MathImg";
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -10,23 +9,22 @@ let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
 let pantalla4: CanvasRenderingContext2D;
-
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
     evt.stopPropagation();
     evt.preventDefault(); //que no se abra en otra ventana sola la imagen
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
+  }
 
   /** Variables que controla el canvas de la imagen, el primero 
    * posteriormemte se volveran arreglos cuando ya controlemos las seis ventanas de nuestro frame
   */
-lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
-pantalla1 = lienzo1.getContext("2d");
-lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
-pantalla2 = lienzo2.getContext("2d");
-lienzo4 = <HTMLCanvasElement>document.getElementById('img4');
-pantalla4 = lienzo4.getContext("2d");
+ lienzo1 = <HTMLCanvasElement>document.getElementById('img1');
+ pantalla1 = lienzo1.getContext("2d");
+ lienzo2 = <HTMLCanvasElement>document.getElementById('img2');
+ pantalla2 = lienzo2.getContext("2d");
+ lienzo4 = <HTMLCanvasElement>document.getElementById('img4');
+ pantalla4 = lienzo4.getContext("2d");
 
 var dropZone = lienzo1;//document.getElementById('img1');
 var imgLocal: ImageLocal = new ImageLocal(pantalla1);
@@ -108,7 +106,7 @@ function opchangeContraste(evt: any): void{
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
 }
 function opgetPow(evt: any): void{
-  var argss = prompt('Ingresa un numero ( potencia )');
+  var argss = prompt('Ingresa el valor de la potencia');
   var valor = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
@@ -118,13 +116,13 @@ function coseno(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toCos(imagenSal));
 }
 function multiplicacion(evt: any): void{
-  var argss = prompt('Ingresa un numero real');
+  var argss = prompt('Ingresa el valor');
   var valor = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
 function subtract(evt: any): void{
-  var argss = prompt('Ingresa un numero real');
+  var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
   var restar = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
@@ -134,7 +132,7 @@ function funcionSine(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
 function add(evt: any): void{
-  var argss = prompt('Ingresa un numero real');
+  var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
   var sumar = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
@@ -144,7 +142,7 @@ function sqrt(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
 }  
 function div(evt: any): void{
-  var argss = prompt('Ingresa un numero real');
+  var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
   var dividir = parseFloat(argss);
   if(dividir==0){
     var argss = prompt('Ingresa un valor diferente de 0');
@@ -166,59 +164,11 @@ function sumaImg(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+}
+function espejoY(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toespejoY(imagenSal));
 } 
-
-//variables adicionales para el efecto rain
-let ctx = pantalla2;
-let w:number;
-let h:number;
-const numberOfParticles = 5000;
-let particlesArray: Particle[];
-particlesArray = new Array(0);
-
-function init() {
-  //init
-  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  let tmp = MathImg.relativeBrightness(imagenSal);
-  w = imagenSal.getWidth();
-  h = imagenSal.getHeight();
-  for (let i = 0; i < numberOfParticles; i++){
-    particlesArray.push(new Particle(w, h, ctx, tmp));
-  }
-}
-
-function animate() {
-  ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
-  ctx.globalAlpha = 0.25;
-  ctx.fillStyle = 'rgb(0,0,0)';
-  ctx.fillRect(0, 0, w, h);
-  for (let i = 0; i < particlesArray.length; i++){
-    particlesArray[i].update();
-    particlesArray[i].draw();
-  }
-  requestAnimationFrame(animate);
-}
-
-function animate2() {
-  ctx.globalAlpha = 0.25;
-  ctx.fillStyle = 'rgb(0,0,0)';
-  ctx.fillRect(0, 0, w, h);
-  for (let i = 0; i < particlesArray.length; i++){
-    particlesArray[i].update();
-    particlesArray[i].draw();
-  }
-  requestAnimationFrame(animate2);
-}
-
-function rain(evt: any): void { 
-  init();
-  animate();
-}
-
-function rain2(evt: any): void { 
-  init();
-  animate2();
-}
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -258,6 +208,5 @@ document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 
-//op con efectos
-document.getElementById("op-rain").addEventListener('click', rain, false);
-document.getElementById("op-rain2").addEventListener('click', rain2, false);
+//op Geometricas
+document.getElementById("espejoY").addEventListener('click', espejoY, false);
