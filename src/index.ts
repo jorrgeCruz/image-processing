@@ -205,6 +205,7 @@ function animate2() {
   ctx.fillRect(0, 0, w, h);
   for (let i = 0; i < particlesArray.length; i++){
     particlesArray[i].update();
+    ctx.globalAlpha = particlesArray[i].getSpeed()*0.5;
     particlesArray[i].draw();
   }
   requestAnimationFrame(animate2);

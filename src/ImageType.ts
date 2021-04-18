@@ -32,7 +32,7 @@ export class ImageType {
   /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
   public getColorIndicesForCoord(x:number, y:number):number[] {
     var red = y * (this._width * 4) + x * 4;
-    return [red, red + 1, red + 2];
+    return [red, red + 1, red + 2, red + 3];
   }
 
   /** Convierte la data de la imagen a un arreglo tridimensional de manera que que queda asi:
@@ -116,9 +116,11 @@ export class ImageType {
   public getArrayImg():number[][][]  {
     return this.arrImage;
   }
+
   public getWidth():number {
     return this._width;
   }
+  
   public getHeight():number {
     return this._height;
   }
