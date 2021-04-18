@@ -10,18 +10,18 @@ export class Particle {
   protected _2PI: number;
   protected position1: number;
   protected position2: number;
-  protected mappedImage: number[][];
+  protected mappedImage: any[][][];
   
   constructor(width: number, height: number,
     screenCanvas: CanvasRenderingContext2D,
-    mapImg: number[][]) {
+    mapImg: number[][][]) {
     this.width = width;
     this.height = height;
     this.ctx = screenCanvas;
     this.x = Math.random() * width;
     this.y = 0;
     this.speed = 0;
-    this.velocity = Math.random() * 0.5;
+    this.velocity = Math.random() * 2.5;
     this.size = Math.random() * 1.5 + 1;
     this._2PI = Math.PI * 2;
     this.position1 = Math.floor(this.y);
@@ -34,7 +34,7 @@ export class Particle {
     this.position2 = Math.floor(this.x);
     let movement = 0;
     if (this.y < this.height) {
-      this.speed = this.mappedImage[this.position1][this.position2];
+      this.speed = this.mappedImage[0][this.position1][this.position2];
       movement = (2.5 - this.speed) + this.velocity;
     }
 
@@ -48,8 +48,12 @@ export class Particle {
 
   public draw() {
     this.ctx.beginPath();
-    this.ctx.fillStyle = 'white';
+    this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
     this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
     this.ctx.fill();
+  }
+
+  public getSpeed(): number {
+    return this.speed;
   }
 }

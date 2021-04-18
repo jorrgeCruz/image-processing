@@ -14,10 +14,12 @@ var MathImg = /** @class */ (function () {
         return arrImage;
     };
     MathImg.initArray2D = function (width, height) {
-        var arrImage = new Array(1);
+        var arrImage = new Array(2);
         arrImage[0] = new Array(height);
+        arrImage[1] = new Array(height);
         for (var i = 0; i < height; i++) {
-            arrImage[i] = new Array(width);
+            arrImage[0][i] = new Array(width);
+            arrImage[1][i] = new Array(width);
         }
         return arrImage;
     };
@@ -224,9 +226,10 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray2D(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[i][j] = Math.sqrt(Math.pow(arrImage[0][i][j], 2) * 0.299 +
+                sal[0][i][j] = Math.sqrt(Math.pow(arrImage[0][i][j], 2) * 0.299 +
                     Math.pow(arrImage[1][i][j], 2) * 0.587 +
                     Math.pow(arrImage[2][i][j], 2) * 0.114) / 100.0;
+                sal[1][i][j] = 'rgb(' + arrImage[0][i][j] + ',' + arrImage[1][i][j] + ',' + arrImage[2][i][j] + ')';
             }
         }
         return sal;
