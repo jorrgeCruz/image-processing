@@ -165,6 +165,10 @@ function sumaImg(evt: any): void{
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
+function giro (evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.togiro(imagenSal));
+}
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -203,3 +207,5 @@ document.getElementById("op-div").addEventListener('click', div, false);
 
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+document.getElementById("giro").addEventListener('click',giro, false);
+
