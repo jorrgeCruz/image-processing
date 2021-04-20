@@ -24,7 +24,7 @@ var ImageType = /** @class */ (function () {
     /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
     ImageType.prototype.getColorIndicesForCoord = function (x, y) {
         var red = y * (this._width * 4) + x * 4;
-        return [red, red + 1, red + 2];
+        return [red, red + 1, red + 2, red + 3];
     };
     /** Convierte la data de la imagen a un arreglo tridimensional de manera que que queda asi:
      * img[canalDeColor][anchoImg][altoImg]
