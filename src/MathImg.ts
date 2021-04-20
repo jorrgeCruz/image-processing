@@ -499,5 +499,19 @@ export class MathImg{
     } 
     return sal;
   }  
+  public static togiro(img: ImageType): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][img.getHeight()-1-i][img.getWidth()-1-j] = arrImage[0][i][j];
+        sal[1][img.getHeight()-1-i][img.getWidth()-1-j]= arrImage[1][i][j];
+        sal[2][img.getHeight()-1-i][img.getWidth()-1-j] = arrImage[2][i][j];
+      }//
+    } 
+    return sal;
+  } 
 }
 
