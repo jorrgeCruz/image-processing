@@ -91,7 +91,7 @@ export class MathImg{
     } 
     return sal;
   }
-  public static  conversion01( img: ImageType): number[][][] {
+  public static  reescalarRango01( img: ImageType): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida

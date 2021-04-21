@@ -54,7 +54,7 @@ function convertirAAzul(evt: any): void{
 }
 function conversion01(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.conversion01(imagenSal));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.reescalarRango01(imagenSal));
 }
 
 function correccionGamma(evt: any): void{
