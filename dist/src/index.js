@@ -1,6 +1,7 @@
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
+import { Particle } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -105,7 +106,7 @@ function opchangeContraste(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
 }
 function opgetPow(evt) {
-    var argss = prompt('Ingresa el valor de la potencia');
+    var argss = prompt('Ingresa un numero ( potencia )');
     var valor = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
@@ -115,13 +116,13 @@ function coseno(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toCos(imagenSal));
 }
 function multiplicacion(evt) {
-    var argss = prompt('Ingresa el valor');
+    var argss = prompt('Ingresa un numero real');
     var valor = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
 function subtract(evt) {
-    var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
@@ -131,7 +132,7 @@ function funcionSine(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
 function add(evt) {
-    var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var sumar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
@@ -141,7 +142,7 @@ function sqrt(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
 }
 function div(evt) {
-    var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var dividir = parseFloat(argss);
     if (dividir == 0) {
         var argss = prompt('Ingresa un valor diferente de 0');
@@ -162,6 +163,53 @@ function sumaImg(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+}
+//variables adicionales para el efecto rain
+var ctx = pantalla2;
+var w;
+var h;
+var numberOfParticles = 5000;
+var particlesArray;
+particlesArray = new Array(0);
+function init() {
+    //init
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle(w, h, ctx, tmp));
+    }
+}
+function animate() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+    }
+    requestAnimationFrame(animate);
+}
+function animate2() {
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        ctx.globalAlpha = particlesArray[i].getSpeed() * 0.5;
+        particlesArray[i].draw();
+    }
+    requestAnimationFrame(animate2);
+}
+function rain(evt) {
+    init();
+    animate();
+}
+function rain2(evt) {
+    init();
+    animate2();
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -196,3 +244,6 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+//op con efectos
+document.getElementById("op-rain").addEventListener('click', rain, false);
+document.getElementById("op-rain2").addEventListener('click', rain2, false);
