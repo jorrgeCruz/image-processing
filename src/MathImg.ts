@@ -500,6 +500,6 @@ export class MathImg{
       }
     } 
     return sal;
-  }  
+  }
 }
 

@@ -3,6 +3,7 @@ import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
+import { ParticleText } from "./particle.js";
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -175,6 +176,7 @@ let h:number;
 const numberOfParticles = 5000;
 let particlesArray: Particle[];
 particlesArray = new Array(0);
+var imagenSal: ImageType;
 
 function init() {
   //init
@@ -221,6 +223,72 @@ function rain2(evt: any): void {
   animate2();
 }
 
+//codigo para efecto de particulas
+let particleArray: ParticleText[];
+let mouse:any = {
+  x: null,
+  y: null,
+  radius: 100
+};
+
+function handleMouse(e: any) {
+  mouse.x = e.x;// - canvasPosition.left;
+  mouse.y = e.y;// - canvasPosition.top;
+  //console.log(mouse.x, mouse.y)
+}
+
+function textEfects(evt: any): void{
+  var args = prompt("Ingresa texto:");
+  pantalla1.font = 'bold  64px Verdana';
+  pantalla1.fillText(args, 50, 150);
+  //var factores = args.split(',').map(elem => parseFloat(elem));
+  imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+  initParticles();
+  animateParticles();
+
+  //imagenSal.drawText('tset',10,10)
+  //var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
+  //imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
+}
+
+function initParticles() {
+  particleArray = [];
+  let arrImage = imagenSal.getArrayImg();
+  let cont = 0;
+  for (let i = 0; i < 300; i++){
+    for (let j = 0; j < 300; j++) { 
+      if (arrImage[0][i][j] > 127) {
+        cont++;
+        particleArray.push(new ParticleText(j, i, pantalla1));
+      }
+    }
+  } 
+  console.log(cont)
+  
+  //particleArray.push(new ParticleText(150, 150, pantalla1));
+}
+
+function animateParticles(){
+  //ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  //ctx.fillRect(0,0,innerWidth,innerHeight);
+  pantalla1.clearRect(0,0,300,300);
+  
+  for (let i = 0; i < particleArray.length; i++){
+      particleArray[i].update(mouse);
+      particleArray[i].draw();
+  }
+  //connect();
+  requestAnimationFrame(animateParticles);
+}
+
+
+/*drawText(text: string, x: number, y: number) {
+  this.screenCanvas.font = 'bold 16px Verdana';
+  this.screenCanvas.fillText(text, x, y);
+}*/
+
+lienzo1.addEventListener('mousemove', handleMouse);
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -262,3 +330,7 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
+
+
+//op con texto.
+document.getElementById("op-text").addEventListener('click', textEfects, false);
