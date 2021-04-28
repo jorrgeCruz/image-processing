@@ -13,7 +13,7 @@
 }
 
 .header{
-  width: 800px;
+  width: 1000px;
   font-family: Arial, Helvetica, sans-serif;
   grid-area: header;
 }
@@ -44,7 +44,7 @@ ul{
 .nav li ul{
   display: none;
   position: absolute;
-  min-width: 167px;
+  min-width: 160px;
 }
 .nav li:hover > ul{
   display: block;
@@ -53,7 +53,7 @@ ul{
   position: relative;
 }
 .nav li ul li ul{
-  right: -167px;
+  right: -160px;
   top: 0;
 }
 .im-container1{

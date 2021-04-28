@@ -239,7 +239,9 @@ export class MathImg{
     var sal: any[][][] = this.initArray2D(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++){
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = Math.sqrt(arrImage[0][i][j] ** 2 * 0.299 +
+        //si el valor del pixel > umbral, entoncesa calculo el brillo
+        //si no el brillo =0
+          sal[0][i][j] = Math.sqrt(arrImage[0][i][j] ** 2 * 0.299 +
           arrImage[1][i][j] ** 2 * 0.587 +
           arrImage[2][i][j] ** 2 * 0.114) / 100.0;
         sal[1][i][j] = 'rgb(' + arrImage[0][i][j]+','+arrImage[1][i][j]+','+arrImage[2][i][j]+')';
@@ -498,6 +500,6 @@ export class MathImg{
       }
     } 
     return sal;
-  }  
+  }
 }
 

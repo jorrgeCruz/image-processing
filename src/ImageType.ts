@@ -9,7 +9,7 @@ export class ImageType {
    * @img es un objeto tipo HTMLImageElement del cual se extrae el tamaño de la imagen
    * @sc es el elemento Canvas de donde se ha dibujado la img
   */
-  constructor(sc: CanvasRenderingContext2D, img?: HTMLImageElement,  w?:number, h?:number) {
+  constructor(sc: CanvasRenderingContext2D, img?: HTMLImageElement,  w?:number, h?:number, data?: boolean) {
     if (img) {
       this._width = img.width;
       this._height = img.height;
@@ -20,13 +20,12 @@ export class ImageType {
     this.screenCanvas = sc;
     this.imageData = sc.getImageData(0, 0, this._width, this._height);
     this.initArray();
-    this.dataToImageArray2D();
+    if (!data)
+      this.dataToImageArray2D();
+    else
+      this.dataTextToImageArray2D();
     this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
     this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
-  }
-
-  private _initConstructor1() {
-    
   }
 
   /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
@@ -51,6 +50,19 @@ export class ImageType {
     //return this.arrImage;
   }
 
+  public dataTextToImageArray2D():void { // number[][][]
+    let position: number[];
+    
+    for (let i = 0; i < this._height; i++){
+      for (let j = 0; j < this._width; j++) {
+        position = this.getColorIndicesForCoord(j, i);
+        this.arrImage[0][i][j] = this.imageData.data[position[3]];
+        //this.arrImage[1][i][j] = this.imageData.data[position[1]];
+        //this.arrImage[2][i][j] = this.imageData.data[position[2]];
+      }
+    }
+    //return this.arrImage;
+  }
   /** Covierte un arreglo 3d de la imagen a un objeto data, si el argumento existe se dibuja
    * @sc elemento Canas donde se desa dibujar la data
    */
@@ -124,6 +136,7 @@ export class ImageType {
   public getHeight():number {
     return this._height;
   }
+
+  
 }
 
-// new ImageType(new ImageData(2,2)).testint();
