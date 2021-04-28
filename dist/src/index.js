@@ -214,7 +214,7 @@ var particleArray;
 var mouse = {
     x: null,
     y: null,
-    radius: 100
+    radius: 150
 };
 function handleMouse(e) {
     mouse.x = e.x; // - canvasPosition.left;
@@ -222,47 +222,34 @@ function handleMouse(e) {
     //console.log(mouse.x, mouse.y)
 }
 function textEfects(evt) {
-    var args = prompt("Ingresa texto:");
-    pantalla1.font = 'bold  64px Verdana';
-    pantalla1.fillText(args, 50, 150);
-    //var factores = args.split(',').map(elem => parseFloat(elem));
+    var args = prompt("Ingresa texto, tamaño de texto y coord x y y, separados por coma:");
+    var factores = args.split(','); //.map(elem => parseInt(elem));
+    pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
+    //let cadena = 
+    pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
     imagenSal = new ImageType(pantalla1, null, 300, 300, true);
     initParticles();
     animateParticles();
-    //imagenSal.drawText('tset',10,10)
-    //var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-    //imagenSal.imageArray2DtoData(pantalla2, MathImg.colorGradientY(imagenSal, factores));
 }
 function initParticles() {
     particleArray = [];
     var arrImage = imagenSal.getArrayImg();
-    var cont = 0;
     for (var i = 0; i < 300; i++) {
         for (var j = 0; j < 300; j++) {
-            if (arrImage[0][i][j] > 127) {
-                cont++;
+            if (arrImage[0][i][j] > 128) {
                 particleArray.push(new ParticleText(j, i, pantalla1));
             }
         }
     }
-    console.log(cont);
-    //particleArray.push(new ParticleText(150, 150, pantalla1));
 }
 function animateParticles() {
-    //ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    //ctx.fillRect(0,0,innerWidth,innerHeight);
     pantalla1.clearRect(0, 0, 300, 300);
     for (var i = 0; i < particleArray.length; i++) {
         particleArray[i].update(mouse);
         particleArray[i].draw();
     }
-    //connect();
     requestAnimationFrame(animateParticles);
 }
-/*drawText(text: string, x: number, y: number) {
-  this.screenCanvas.font = 'bold 16px Verdana';
-  this.screenCanvas.fillText(text, x, y);
-}*/
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
