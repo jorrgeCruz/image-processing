@@ -46,6 +46,26 @@ export class Particle {
     }
   }
 
+  public updateAngular() {
+    this.position1 = Math.floor(this.y);
+    this.position2 = Math.floor(this.x);
+    let movement = 0;
+    if (this.y < this.height) {
+      this.speed = this.mappedImage[0][this.position1][this.position2];
+      movement = (2.5 - this.speed) + this.velocity;
+    }
+
+    this.y += movement/2;
+    this.x += movement/2;
+    if (this.y >= this.height) {
+      this.y = 0;
+      this.x = Math.random() * this.width;
+    }
+    if (this.x >= this.width) {
+      this.x = 0;
+      this.y = Math.random() * this.height;
+    }
+  }
   public draw() {
     this.ctx.beginPath();
     this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
