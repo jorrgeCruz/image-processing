@@ -1,4 +1,3 @@
-
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
@@ -221,6 +220,22 @@ function rain2(evt: any): void {
   animate2();
 }
 
+function Angular() {
+  ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+  ctx.globalAlpha = 0.25;
+  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.fillRect(0, 0, w, h);
+  for (let i = 0; i < particlesArray.length; i++){
+    particlesArray[i].updateAngular();
+    particlesArray[i].draw();
+  }
+  requestAnimationFrame(Angular);
+}
+function rainAngular(evt: any): void { 
+  init();
+  Angular();
+}
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -262,3 +277,4 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
+document.getElementById("op-rainAngular").addEventListener('click', rainAngular, false);
