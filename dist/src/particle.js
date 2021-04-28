@@ -27,6 +27,20 @@ var Particle = /** @class */ (function () {
             this.x = Math.random() * this.width;
         }
     };
+    Particle.prototype.updateBottomRain = function () {
+        this.position1 = Math.floor(this.y);
+        this.position2 = Math.floor(this.x);
+        var movement = 0;
+        if (this.y < this.height) {
+            this.speed = this.mappedImage[0][this.position1][this.position2];
+            movement = (2.5 - this.speed) + this.velocity;
+        }
+        this.y -= movement;
+        if (this.y <= 0) {
+            this.y = this.height - 1;
+            this.x = Math.random() * this.width;
+        }
+    };
     Particle.prototype.draw = function () {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
