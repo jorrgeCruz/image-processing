@@ -101,7 +101,7 @@ function opchangeContraste(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeContraste(imagenSal, valor));
 }
 function opgetPow(evt) {
-    var argss = prompt('Ingresa el valor de la potencia');
+    var argss = prompt('Ingresa un numero ( potencia )');
     var valor = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.pow(imagenSal, valor));
@@ -111,13 +111,13 @@ function coseno(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toCos(imagenSal));
 }
 function multiplicacion(evt) {
-    var argss = prompt('Ingresa el valor');
+    var argss = prompt('Ingresa un numero real');
     var valor = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
 function subtract(evt) {
-    var argss = prompt('Ingresa el valor a restar en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
@@ -127,7 +127,7 @@ function funcionSine(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSine(imagenSal));
 }
 function add(evt) {
-    var argss = prompt('Ingresa el valor a sumar en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var sumar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toAdd(imagenSal, sumar));
@@ -137,7 +137,7 @@ function sqrt(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSqrt(imagenSal));
 }
 function div(evt) {
-    var argss = prompt('Ingresa el valor a dividir en el rango 1 hasta 255');
+    var argss = prompt('Ingresa un numero real');
     var dividir = parseFloat(argss);
     if (dividir == 0) {
         var argss = prompt('Ingresa un valor diferente de 0');
@@ -196,5 +196,4 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
-//op geometricas
 document.getElementById("op-espejoX").addEventListener('click', espejoenX, false);

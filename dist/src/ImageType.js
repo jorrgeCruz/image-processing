@@ -3,7 +3,7 @@ var ImageType = /** @class */ (function () {
      * @img es un objeto tipo HTMLImageElement del cual se extrae el tamaño de la imagen
      * @sc es el elemento Canvas de donde se ha dibujado la img
     */
-    function ImageType(sc, img, w, h) {
+    function ImageType(sc, img, w, h, data) {
         if (img) {
             this._width = img.width;
             this._height = img.height;
@@ -15,16 +15,17 @@ var ImageType = /** @class */ (function () {
         this.screenCanvas = sc;
         this.imageData = sc.getImageData(0, 0, this._width, this._height);
         this.initArray();
-        this.dataToImageArray2D();
+        if (!data)
+            this.dataToImageArray2D();
+        else
+            this.dataTextToImageArray2D();
         this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
         this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
     }
-    ImageType.prototype._initConstructor1 = function () {
-    };
     /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
     ImageType.prototype.getColorIndicesForCoord = function (x, y) {
         var red = y * (this._width * 4) + x * 4;
-        return [red, red + 1, red + 2];
+        return [red, red + 1, red + 2, red + 3];
     };
     /** Convierte la data de la imagen a un arreglo tridimensional de manera que que queda asi:
      * img[canalDeColor][anchoImg][altoImg]
@@ -37,6 +38,18 @@ var ImageType = /** @class */ (function () {
                 this.arrImage[0][i][j] = this.imageData.data[position[0]];
                 this.arrImage[1][i][j] = this.imageData.data[position[1]];
                 this.arrImage[2][i][j] = this.imageData.data[position[2]];
+            }
+        }
+        //return this.arrImage;
+    };
+    ImageType.prototype.dataTextToImageArray2D = function () {
+        var position;
+        for (var i = 0; i < this._height; i++) {
+            for (var j = 0; j < this._width; j++) {
+                position = this.getColorIndicesForCoord(j, i);
+                this.arrImage[0][i][j] = this.imageData.data[position[3]];
+                //this.arrImage[1][i][j] = this.imageData.data[position[1]];
+                //this.arrImage[2][i][j] = this.imageData.data[position[2]];
             }
         }
         //return this.arrImage;
@@ -110,4 +123,3 @@ var ImageType = /** @class */ (function () {
     return ImageType;
 }());
 export { ImageType };
-// new ImageType(new ImageData(2,2)).testint();
