@@ -223,6 +223,24 @@ function rain2(evt: any): void {
   animate2();
 }
 
+// lluvia bottom up
+function animateBottomRain() {
+  ctx.globalAlpha = 0.25;
+  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.fillRect(0, 0, w, h);
+  for (let i = particlesArray.length-1; i >0 ; i--){
+    particlesArray[i].updateBottomRain();
+
+    particlesArray[i].draw();
+  }
+  requestAnimationFrame(animateBottomRain);
+}
+
+function BottomRain(evt: any): void { 
+  init();
+  animateBottomRain();
+}
+
 //codigo para efecto de particulas
 let particleArray: ParticleText[];
 let mouse:any = {
@@ -315,6 +333,7 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
+document.getElementById("op-BottomRain").addEventListener('click', BottomRain, false);
 
 
 //op con texto.
