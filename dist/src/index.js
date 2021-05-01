@@ -1,6 +1,8 @@
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
+import { Particle } from "./particle.js";
+import { ParticleText } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -163,6 +165,96 @@ function espejoenX(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.espejoX(imagenSal));
 }
+//variables adicionales para el efecto rain
+var ctx = pantalla2;
+var w;
+var h;
+var numberOfParticles = 5000;
+var particlesArray;
+particlesArray = new Array(0);
+var imagenSal;
+function init() {
+    //init
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle(w, h, ctx, tmp));
+    }
+}
+function animate() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+    }
+    requestAnimationFrame(animate);
+}
+function animate2() {
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        ctx.globalAlpha = particlesArray[i].getSpeed() * 0.5;
+        particlesArray[i].draw();
+    }
+    requestAnimationFrame(animate2);
+}
+function rain(evt) {
+    init();
+    animate();
+}
+function rain2(evt) {
+    init();
+    animate2();
+}
+//codigo para efecto de particulas
+var particleArray;
+var mouse = {
+    x: null,
+    y: null,
+    radius: 150
+};
+function handleMouse(e) {
+    mouse.x = e.x; // - canvasPosition.left;
+    mouse.y = e.y; // - canvasPosition.top;
+    //console.log(mouse.x, mouse.y)
+}
+function textEfects(evt) {
+    var args = prompt("Ingresa texto, tamaño de texto y coord x y y, separados por coma:");
+    var factores = args.split(','); //.map(elem => parseInt(elem));
+    pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
+    //let cadena = 
+    pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
+    imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+    initParticles();
+    animateParticles();
+}
+function initParticles() {
+    particleArray = [];
+    var arrImage = imagenSal.getArrayImg();
+    for (var i = 0; i < 300; i++) {
+        for (var j = 0; j < 300; j++) {
+            if (arrImage[0][i][j] > 128) {
+                particleArray.push(new ParticleText(j, i, pantalla1));
+            }
+        }
+    }
+}
+function animateParticles() {
+    pantalla1.clearRect(0, 0, 300, 300);
+    for (var i = 0; i < particleArray.length; i++) {
+        particleArray[i].update(mouse);
+        particleArray[i].draw();
+    }
+    requestAnimationFrame(animateParticles);
+}
+lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -196,4 +288,10 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+//op geometricas
 document.getElementById("op-espejoX").addEventListener('click', espejoenX, false);
+//op con efectos
+document.getElementById("op-rain").addEventListener('click', rain, false);
+document.getElementById("op-rain2").addEventListener('click', rain2, false);
+//op con texto.
+document.getElementById("op-text").addEventListener('click', textEfects, false);
