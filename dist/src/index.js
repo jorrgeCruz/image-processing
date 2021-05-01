@@ -161,6 +161,10 @@ function sumaImg(evt) {
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
+function espejoenX(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.espejoX(imagenSal));
+}
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
 var w;
@@ -284,6 +288,8 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+//op geometricas
+document.getElementById("op-espejoX").addEventListener('click', espejoenX, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);

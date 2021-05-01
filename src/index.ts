@@ -1,4 +1,3 @@
-
 import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
@@ -169,6 +168,11 @@ function sumaImg(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
 
+function espejoenX(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.espejoX(imagenSal));
+}
+
 //variables adicionales para el efecto rain
 let ctx = pantalla2;
 let w:number;
@@ -312,6 +316,8 @@ document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 
+//op geometricas
+document.getElementById("op-espejoX").addEventListener('click',espejoenX, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
