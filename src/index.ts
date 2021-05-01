@@ -223,7 +223,6 @@ function rain2(evt: any): void {
   animate2();
 }
 
-<<<<<<< HEAD
 // lluvia bottom up
 function animateBottomRain() {
   ctx.globalAlpha = 0.25;
@@ -242,7 +241,6 @@ function BottomRain(evt: any): void {
   animateBottomRain();
 }
 
-=======
 //codigo para efecto de particulas
 let particleArray: ParticleText[];
 let mouse:any = {
@@ -293,7 +291,6 @@ function animateParticles(){
 
 
 lienzo1.addEventListener('mousemove', handleMouse);
->>>>>>> 2226bc56c02f57368c2950ec9647ac66207834b1
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -336,11 +333,8 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
-<<<<<<< HEAD
 document.getElementById("op-BottomRain").addEventListener('click', BottomRain, false);
-=======
 
 
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
->>>>>>> 2226bc56c02f57368c2950ec9647ac66207834b1
