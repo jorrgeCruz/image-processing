@@ -2,6 +2,7 @@ import { ImageLocal } from "./ImageLocal.js";
 import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
+import { ParticleText } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -167,6 +168,7 @@ var h;
 var numberOfParticles = 5000;
 var particlesArray;
 particlesArray = new Array(0);
+var imagenSal;
 function init() {
     //init
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -207,6 +209,7 @@ function rain2(evt) {
     init();
     animate2();
 }
+<<<<<<< HEAD
 // lluvia bottom up
 function animateBottomRain() {
     ctx.globalAlpha = 0.25;
@@ -222,6 +225,50 @@ function BottomRain(evt) {
     init();
     animateBottomRain();
 }
+=======
+//codigo para efecto de particulas
+var particleArray;
+var mouse = {
+    x: null,
+    y: null,
+    radius: 150
+};
+function handleMouse(e) {
+    mouse.x = e.x; // - canvasPosition.left;
+    mouse.y = e.y; // - canvasPosition.top;
+    //console.log(mouse.x, mouse.y)
+}
+function textEfects(evt) {
+    var args = prompt("Ingresa texto, tamaño de texto y coord x y y, separados por coma:");
+    var factores = args.split(','); //.map(elem => parseInt(elem));
+    pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
+    //let cadena = 
+    pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
+    imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+    initParticles();
+    animateParticles();
+}
+function initParticles() {
+    particleArray = [];
+    var arrImage = imagenSal.getArrayImg();
+    for (var i = 0; i < 300; i++) {
+        for (var j = 0; j < 300; j++) {
+            if (arrImage[0][i][j] > 128) {
+                particleArray.push(new ParticleText(j, i, pantalla1));
+            }
+        }
+    }
+}
+function animateParticles() {
+    pantalla1.clearRect(0, 0, 300, 300);
+    for (var i = 0; i < particleArray.length; i++) {
+        particleArray[i].update(mouse);
+        particleArray[i].draw();
+    }
+    requestAnimationFrame(animateParticles);
+}
+lienzo1.addEventListener('mousemove', handleMouse);
+>>>>>>> 2226bc56c02f57368c2950ec9647ac66207834b1
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -258,4 +305,9 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
+<<<<<<< HEAD
 document.getElementById("op-BottomRain").addEventListener('click', BottomRain, false);
+=======
+//op con texto.
+document.getElementById("op-text").addEventListener('click', textEfects, false);
+>>>>>>> 2226bc56c02f57368c2950ec9647ac66207834b1
