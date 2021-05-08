@@ -231,10 +231,28 @@ function HorizontalRL() {
   }
   requestAnimationFrame(HorizontalRL);
 }
+
 function rainHorizontal(evt: any): void { 
   init();
   HorizontalRL();
 }
+
+function HorizontalLR() {
+  ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+  ctx.globalAlpha = 0.25;
+  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.fillRect(0, 0, w, h);
+  for (let i = 0; i < particlesArray.length; i++){
+    particlesArray[i].upLR();
+    particlesArray[i].draw();
+  }
+  requestAnimationFrame(HorizontalLR);
+}
+function rainLR(evt: any): void { 
+  init();
+  HorizontalLR();
+}
+
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -278,3 +296,4 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 document.getElementById("op-HorizontalRL").addEventListener('click', rainHorizontal, false);
+document.getElementById("op-LR").addEventListener('click', rainLR, false);
