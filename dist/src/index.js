@@ -3,6 +3,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { CanvasLocal } from './canvasLocal.js';
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -159,7 +160,7 @@ function tan(evt) {
 function sumaImg(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
-    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
@@ -250,6 +251,24 @@ function animateParticles() {
     }
     requestAnimationFrame(animateParticles);
 }
+//seccion de histogramas  
+function histogramas(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var canvas1 = lienzo2;
+    var graphics1 = pantalla2;
+    var canvas2 = lienzo4;
+    var graphics2 = pantalla4;
+    var hist = MathImg.hist(imagenSal);
+    var miCanvas1 = new CanvasLocal(graphics1, canvas1, hist);
+    miCanvas1.paint();
+    var histAc = MathImg.histAcum(hist);
+    var miCanvas2 = new CanvasLocal(graphics2, canvas2, histAc);
+    miCanvas2.paint();
+}
+function ecualizado(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.ecualizar(imagenSal));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -289,3 +308,6 @@ document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+//histogramas
+document.getElementById("op-hist").addEventListener('click', histogramas, false);
+document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);

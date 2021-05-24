@@ -4,6 +4,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { CanvasLocal } from './canvasLocal.js';
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -166,7 +167,7 @@ function tan(evt: any): void{
 function sumaImg(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
 
 //variables adicionales para el efecto rain
@@ -270,6 +271,26 @@ function animateParticles(){
   }
   requestAnimationFrame(animateParticles);
 }
+//seccion de histogramas  
+function histogramas(evt: any): void{
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  let canvas1: HTMLCanvasElement = lienzo2;
+  let graphics1: CanvasRenderingContext2D = pantalla2;
+  let canvas2: HTMLCanvasElement = lienzo4;
+  let graphics2: CanvasRenderingContext2D = pantalla4;
+
+  let hist = MathImg.hist(imagenSal);
+  const miCanvas1:CanvasLocal = new CanvasLocal(graphics1, canvas1, hist);
+  miCanvas1.paint();
+  let histAc = MathImg.histAcum(hist);
+  const miCanvas2:CanvasLocal = new CanvasLocal(graphics2, canvas2, histAc);
+  miCanvas2.paint();
+ 
+} 
+function ecualizado(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.ecualizar(imagenSal));
+} 
 
 
 lienzo1.addEventListener('mousemove', handleMouse);
@@ -316,6 +337,9 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
-
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+
+//histogramas
+document.getElementById("op-hist").addEventListener('click', histogramas, false);
+document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
