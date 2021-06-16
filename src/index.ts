@@ -173,7 +173,7 @@ function sumaImg(evt: any): void{
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
-function Absoluto(evt: any): void{
+function absoluto(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.ValorAbsoluto(imagenSal));
 } 
@@ -317,7 +317,7 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
-document.getElementById("op-Absoluto").addEventListener('click', Absoluto, false);
+document.getElementById("op-absoluto").addEventListener('click', absoluto, false);
 
 
 //op con imagenes compuestas

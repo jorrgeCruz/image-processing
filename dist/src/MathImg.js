@@ -139,7 +139,7 @@ var MathImg = /** @class */ (function () {
         }
         }
         return sal;
-        };
+    };
     MathImg.funcionGamma = function (pixel, factor) {
         return Math.min(255 * Math.pow(pixel / 250, factor), 255);
     };

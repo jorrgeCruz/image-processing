@@ -144,7 +144,7 @@ export class MathImg{
     }
     }
     return sal;
-    }
+  }
 
 
   public static funcionGamma(pixel: number, factor: number):number {
