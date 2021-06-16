@@ -257,6 +257,8 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray2D(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
+                //si el valor del pixel > umbral, entoncesa calculo el brillo
+                //si no el brillo =0
                 sal[0][i][j] = Math.sqrt(Math.pow(arrImage[0][i][j], 2) * 0.299 +
                     Math.pow(arrImage[1][i][j], 2) * 0.587 +
                     Math.pow(arrImage[2][i][j], 2) * 0.114) / 100.0;
