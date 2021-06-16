@@ -155,6 +155,10 @@ function div(evt) {
         imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
     }
 }
+function Absoluto(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ValorAbsoluto(imagenSal));
+  }
 function tan(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toTan(imagenSal));
@@ -242,6 +246,7 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-Absoluto").addEventListener('click', ValorAbsoluto, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos

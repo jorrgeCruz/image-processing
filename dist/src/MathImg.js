@@ -126,6 +126,20 @@ var MathImg = /** @class */ (function () {
             
             return sal;
     };
+    MathImg.ValorAbsoluto = function (img) {
+        var arrImage = img.getArrayImg();
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for(let i = 0; i < img.getHeight(); i++)
+        {
+        for(let j = 0; j < img.getWidth(); j++)
+        {
+          sal[0][i][j] = arrImage[0][i][j];
+          sal[1][i][j] = arrImage[1][i][j];
+          sal[2][i][j] = arrImage[2][i][j];
+        }
+        }
+        return sal;
+        };
     MathImg.funcionGamma = function (pixel, factor) {
         return Math.min(255 * Math.pow(pixel / 250, factor), 255);
     };
