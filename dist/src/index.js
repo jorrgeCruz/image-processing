@@ -253,55 +253,36 @@ function animateParticles() {
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
-// para efecto bouncingParticles
-var ctxBouncing = pantalla1; //pantalla donde se muestra la animacion
-var wBouncing;
-var hBouncing;
+// para efecto bouncingParticle
 var particleArrayBouncing;
-particleArrayBouncing = new Array(0);
-var weigthBouncing;
-var sizeBouncing;
-var imagenSalBouncing;
+particleArrayBouncing = new Array(0); // particleArray = []
+var weigth;
+var size;
+var ctxb = pantalla1;
+//size = (Math.random () * 5) + 2;
 function initBouncingParticle() {
-    var numberParticles = 500;
-    imagenSalBouncing = new ImageType(pantalla1, null, 300, 300, true);
-    var tmpBouncing = MathImg.relativeBrightness(imagenSalBouncing); // canvas de la particula
-    wBouncing = imagenSalBouncing.getWidth();
-    hBouncing = imagenSalBouncing.getHeight();
-    var speed = 0.25;
-    var color = 'white';
-    for (var i = 0; i < numberParticles; i++) {
-        var a = Math.random() * wBouncing;
-        var b = Math.random() * hBouncing;
-        sizeBouncing = (Math.random() * 5) + 2; // tamaño de la particula
-        weigthBouncing = 1;
-        particleArrayBouncing.push(new BouncingParticle(a, b, ctxBouncing, tmpBouncing, weigthBouncing, sizeBouncing, speed, color));
+    //init
+    var imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+    var tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfParticles; i++) {
+        particleArrayBouncing.push(new BouncingParticle(w, h, ctxb, tmp, weigth, size));
     }
 }
-var mouseBouncing = {
-    //x: null,
-    //y: null,
-    x: Math.random() * wBouncing,
-    y: Math.random() * hBouncing
-    // radius: 150
-};
-function handleMouseBouncing(e) {
-    mouseBouncing.x = e.x; // - canvasPosition.left;
-    mouseBouncing.y = e.y; // - canvasPosition.top;
-}
-lienzo1.addEventListener('mousemove', handleMouseBouncing);
 //
 function animateBouncingParticle() {
-    // ctxBouncing.globalAlpha = 0.25;
-    ctxBouncing.fillStyle = 'rgb(0,0,0)';
-    ctxBouncing.fillRect(0, 0, wBouncing, hBouncing);
+    ctxb.globalAlpha = 0.25;
+    ctxb.fillStyle = 'rgb(0,0,0)';
+    ctxb.fillRect(0, 0, w, h);
     for (var i = 0; i < particleArrayBouncing.length; i++) {
-        particleArrayBouncing[i].updateBouncingParticle(mouseBouncing);
-        ctxBouncing.globalAlpha = particleArrayBouncing[i].getSpeed();
+        particleArrayBouncing[i].updateBouncingParticle(mouse);
         particleArrayBouncing[i].draw();
     }
     requestAnimationFrame(animateBouncingParticle);
 }
+//
+//
 function bouncingParticle(evt) {
     initBouncingParticle();
     animateBouncingParticle();
