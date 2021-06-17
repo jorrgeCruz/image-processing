@@ -3,6 +3,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { BouncingParticle } from "./particle.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -252,6 +253,41 @@ function animateParticles() {
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
+// para efecto bouncingParticle
+var particleArrayBouncing;
+particleArrayBouncing = new Array(0); // particleArray = []
+var weigth;
+var size;
+var ctxb = pantalla1;
+//size = (Math.random () * 5) + 2;
+function initBouncingParticle() {
+    //init
+    var imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+    var tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfParticles; i++) {
+        particleArrayBouncing.push(new BouncingParticle(w, h, ctxb, tmp, weigth, size));
+    }
+}
+//
+function animateBouncingParticle() {
+    ctxb.globalAlpha = 0.25;
+    ctxb.fillStyle = 'rgb(0,0,0)';
+    ctxb.fillRect(0, 0, w, h);
+    for (var i = 0; i < particleArrayBouncing.length; i++) {
+        particleArrayBouncing[i].updateBouncingParticle(mouse);
+        particleArrayBouncing[i].draw();
+    }
+    requestAnimationFrame(animateBouncingParticle);
+}
+//
+//
+function bouncingParticle(evt) {
+    initBouncingParticle();
+    animateBouncingParticle();
+}
+//
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -289,3 +325,5 @@ document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+//op nuevas 
+document.getElementById("op-BouncingParticle").addEventListener('click', bouncingParticle, false);
