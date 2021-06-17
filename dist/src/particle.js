@@ -87,34 +87,37 @@ var ParticleText = /** @class */ (function () {
 }());
 export { ParticleText };
 var BouncingParticle = /** @class */ (function () {
-    function BouncingParticle(width, height, screenCanvas, mapImg, weight, size) {
+    function BouncingParticle(width, height, screenCanvas, mapImg, weight, size, speed, color) {
         this.width = width;
         this.height = height;
         this.ctx = screenCanvas;
-        this.weight = 1;
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.speed = 0;
-        this.velocity = Math.random() * 2.5;
-        //this.size = Math.random() * 1.5 + 1;
-        this.size = (Math.random() * 5) + 2;
+        this.weight = weight;
+        this.x = width;
+        this.y = height;
+        this.speed = speed;
+        this.size = size;
         this._2PI = Math.PI * 2;
-        this.position1 = Math.floor(this.y);
-        this.position2 = Math.floor(this.x);
         this.mappedImage = mapImg;
+        this.color = color;
     }
     BouncingParticle.prototype.updateBouncingParticle = function (mouse) {
-        this.size -= 0.05;
-        if (this.size < 0) {
-            this.x = (mouse.x + ((Math.random() * 20) - 10));
-            this.y = (mouse.y + ((Math.random() * 20) - 10));
-            this.size = (Math.random() * 10) + 2;
-            this.weight = (Math.random() * 2) - 0.5;
-        }
+        this.size -= 0.05; // se hace mas pequeña cada iteracion
+        // mas peso para ir mas rapido al mismo tiempo que se hace mas pequeño 
         this.y += this.weight;
         this.weight += 0.2;
+        if (this.size < 0) { // si no hay tamaño visible
+            // para dar un efecto de dispersion al pasar el mouse
+            this.x = (mouse.x + ((Math.random() * 20) - 10));
+            this.y = (mouse.y + ((Math.random() * 20) - 10));
+            //if(this.x >= this.width - this.size){this.x-this.size;}  //prueba
+            // de tamaño y peso random
+            this.size = (Math.random() * 10) + 2;
+            //this.size = (Math.random () * 10) + this.size;
+            this.weight = (Math.random() * 2) - 0.5;
+        }
+        // le restamos el tamaño de la particula al heigth para que no desborde
         if (this.y >= this.height - this.size) {
-            this.weight *= -1;
+            this.weight *= -1; // se cambia la particula a negativo para dar el efecto rebote
         }
         ;
     };
@@ -122,11 +125,12 @@ var BouncingParticle = /** @class */ (function () {
         return this.speed;
     };
     BouncingParticle.prototype.draw = function () {
+        this.ctx.fillStyle = this.color;
         this.ctx.beginPath();
-        this.ctx.fillStyle = 'pink';
+        this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
-        this.ctx.fill();
         this.ctx.closePath();
+        this.ctx.fill();
     };
     return BouncingParticle;
 }());
