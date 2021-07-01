@@ -253,41 +253,58 @@ function animateParticles() {
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
-// para efecto bouncingParticle
+// _________________Efecto bouncingParticles____________________________
 var particleArrayBouncing;
 particleArrayBouncing = new Array(0); // particleArray = []
 var weigth;
 var size;
 var ctxb = pantalla1;
-//size = (Math.random () * 5) + 2;
+var speedBounciong;
+var numberParticles;
+var color;
+var fondoBouncing;
 function initBouncingParticle() {
-    //init
-    var imagenSal = new ImageType(pantalla1, null, 300, 300, true);
-    var tmp = MathImg.relativeBrightness(imagenSal);
+    fondoBouncing = 'rgba(0,0,0,0.08)'; //'rgb(0,0,0)'            // color de fondo                   //
+    color = 'pink'; //white                   // color de la particula            //
+    numberParticles = 300; //500                     // numero de particulas             //
+    speedBounciong = 1; //0.25;               //0.25                    // velocidad de la particula        //
+    var imagenSal = new ImageType(pantalla1, null, 300, 300, true); // imagen de salida de la particula //
+    //let tmp = MathImg.relativeBrightness(imagenSal);
     w = imagenSal.getWidth();
-    h = imagenSal.getHeight();
-    for (var i = 0; i < numberOfParticles; i++) {
-        particleArrayBouncing.push(new BouncingParticle(w, h, ctxb, tmp, weigth, size));
+    h = imagenSal.getHeight(); // largo y ancho del contenedor     //
+    size = 10; // tamaño de la particula  (2 a 12) //
+    weigth = 0.2; // ganacia de peso al caer          //
+    for (var i = 0; i < numberParticles; i++) { //__________________________________//
+        particleArrayBouncing.push(new BouncingParticle(color, w, h, ctxb, weigth, size));
     }
 }
+// para solucionar el error de que caian particulas desde la coordena 0,0
+var mouseBouncing = {
+    x: Math.random() * w,
+    y: Math.random() * h,
+    radius: 1
+};
+function handleMouseBouncing(e) {
+    mouseBouncing.x = e.x; // - canvasPosition.left;
+    mouseBouncing.y = e.y; // - canvasPosition.top;
+}
+lienzo1.addEventListener('mousemove', handleMouseBouncing);
 //
 function animateBouncingParticle() {
-    ctxb.globalAlpha = 0.25;
-    ctxb.fillStyle = 'rgb(0,0,0)';
+    ctxb.globalAlpha = speedBounciong; // 0.25;
+    ctxb.fillStyle = fondoBouncing; // negro con opacidad 0.08
     ctxb.fillRect(0, 0, w, h);
     for (var i = 0; i < particleArrayBouncing.length; i++) {
-        particleArrayBouncing[i].updateBouncingParticle(mouse);
+        particleArrayBouncing[i].updateBouncingParticle(mouseBouncing);
         particleArrayBouncing[i].draw();
     }
     requestAnimationFrame(animateBouncingParticle);
 }
-//
-//
 function bouncingParticle(evt) {
     initBouncingParticle();
     animateBouncingParticle();
 }
-//
+//_______________________fin de efecto bouncing particles________________
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);

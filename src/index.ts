@@ -276,58 +276,69 @@ lienzo1.addEventListener('mousemove', handleMouse);
 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 
-// para efecto bouncingParticle
-let particleArrayBouncing: BouncingParticle[];  
-particleArrayBouncing=new Array(0);                // particleArray = []
-let weigth : number;
-let size : number;
-let ctxb = pantalla1;
-//size = (Math.random () * 5) + 2;
+ // _________________Efecto bouncingParticles____________________________
 
-
-function initBouncingParticle() {
-  //init
- 
-  var imagenSal = new ImageType(pantalla1, null, 300, 300, true);
-  let tmp = MathImg.relativeBrightness(imagenSal);
-  w = imagenSal.getWidth();
-  h = imagenSal.getHeight();
-
-  for (let i = 0; i < numberOfParticles; i++){
+ let particleArrayBouncing: BouncingParticle[];  
+ particleArrayBouncing=new Array(0);                // particleArray = []
+ let weigth : number;
+ let size : number;
+ let ctxb = pantalla1;
+ let speedBounciong: number;
+ let numberParticles: number;
+ let color: string;
+ let fondoBouncing:string;
  
  
-    particleArrayBouncing.push(new BouncingParticle(w, h, ctxb,tmp,weigth,size));
-  }
-}
-
-
-//
-function animateBouncingParticle() {
-  ctxb.globalAlpha = 0.25;
-  ctxb.fillStyle = 'rgb(0,0,0)';
-  ctxb.fillRect(0, 0, w, h);
-  for (let i = 0; i < particleArrayBouncing.length; i++){
-    particleArrayBouncing[i].updateBouncingParticle(mouse);
-
+ 
+ function initBouncingParticle() {                                    //_____________PARAMETROS___________//
+   fondoBouncing = 'rgba(0,0,0,0.08)';      //'rgb(0,0,0)'            // color de fondo                   //
+   color = 'pink';                          //white                   // color de la particula            //
+   numberParticles = 300;                   //500                     // numero de particulas             //
+   speedBounciong = 1;//0.25;               //0.25                    // velocidad de la particula        //
+   var imagenSal = new ImageType(pantalla1, null, 300, 300, true);    // imagen de salida de la particula //
+   //let tmp = MathImg.relativeBrightness(imagenSal);
+   w = imagenSal.getWidth();
+   h = imagenSal.getHeight();                                         // largo y ancho del contenedor     //
+   size  =  10;                                                       // tamaño de la particula  (2 a 12) //
+   weigth=0.2;                                                        // ganacia de peso al caer          //
+   for (let i = 0; i < numberParticles; i++){                         //__________________________________//
+     particleArrayBouncing.push(new BouncingParticle(color,w, h, ctxb,weigth,size));
+   }
+ }
+ 
+ // para solucionar el error de que caian particulas desde la coordena 0,0
+  let mouseBouncing:any = {
+  x: Math.random() * w,
+  y: Math.random() * h,
+  radius: 1
+ };
+ function handleMouseBouncing(e: any) {
+   mouseBouncing.x =  e.x;// - canvasPosition.left;
+   mouseBouncing.y =  e.y;// - canvasPosition.top;
+   }
+ lienzo1.addEventListener('mousemove', handleMouseBouncing); 
+ //
+ 
+ 
+ function animateBouncingParticle() {
+   ctxb.globalAlpha = speedBounciong;                            // 0.25;
+   ctxb.fillStyle = fondoBouncing;                               // negro con opacidad 0.08
+   ctxb.fillRect(0, 0, w, h);
+ 
+   for (let i = 0; i < particleArrayBouncing.length; i++){
+    particleArrayBouncing[i].updateBouncingParticle(mouseBouncing);
     particleArrayBouncing[i].draw();
-  }
-  requestAnimationFrame(animateBouncingParticle);
-}
-//
-//
-function bouncingParticle(evt: any): void {
+   }
+   requestAnimationFrame(animateBouncingParticle);
+ }
  
  
-  initBouncingParticle()
-  animateBouncingParticle();
-}
-//
-
-
-
-
-
-
+ function bouncingParticle(evt: any): void {
+   initBouncingParticle()
+   animateBouncingParticle();
+ }
+ //_______________________fin de efecto bouncing particles________________
+ 
 
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
