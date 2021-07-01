@@ -118,3 +118,76 @@ export class ParticleText {
   }
 
 }
+
+export class BouncingParticle{
+
+  protected x: number;
+  protected y: number;
+  protected width: number;
+  protected height: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected _2PI: number;
+  //protected mappedImage: any[][][];
+  protected weight: number;
+  protected color: string;
+  protected tamanio: number;
+  protected weightGainer: number;
+ 
+  constructor(           color:string,
+                         width: number,
+                         height: number,
+                         screenCanvas: CanvasRenderingContext2D,
+                        
+                         weight:number,
+                         size:number) {
+
+    this.width = width;
+    this.height = height;
+    this.ctx = screenCanvas;
+    this.color=color;
+    this.weight = 1;
+    this.weightGainer=weight;
+    this.x =   Math.random() * width;
+    this.y =   Math.random() * height;
+    this.tamanio=size;
+    this.size = (Math.random () * 5) + 2;
+    this._2PI = Math.PI * 2;
+    //this.mappedImage = mapImg;
+  }
+   
+  public updateBouncingParticle (mouse: any) {
+ 
+    this.size -= 0.05;                                   // decrementa el tamaño al caer     //
+                                                         // se hace mas pequeña cada iteracion
+                                                        
+    if(this.size < 0 ) {                                  // si no hay tamaño visible
+    this.x = (mouse.x + ((Math.random () * 20) - 10));    // dispersion al pasar el mouse     //
+    this.y = (mouse.y + ((Math.random () * 20) - 10));
+                                         // de no tener este factor de dispersion las 
+                                         // particulas se crearian  en la misma columna del punto x,y
+    this.size = (Math.random () * this.tamanio) + 2;      // tamanio=10
+    this.weight = (Math.random () * 2 ) - 0.5;            // entre mas peso mas rebote
+    }
+    this.y += this.weight;
+    this.weight += this.weightGainer;                     //weightGainer=0.2
+   // entre mas pequeño el weigthGainer da una apariencia paracida al humo (pierde solides)
+   // entre mas grande la particula rebota mas alto, por lo que al disminuir el size en -0.05
+   //   las particulas rebotan mas alto
+
+    // le restamos el tamaño de la particula al heigth para que no desborde
+    if (this.y >= this.height - this.size) {
+      this.weight *= -1; // se cambia la particula a negativo para dar el efecto rebote
+     
+    };
+    }
+
+  public draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = this.color;
+     this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
+     this.ctx.fill();
+    this.ctx.closePath();
+   
+  }
+}
