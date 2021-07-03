@@ -317,5 +317,6 @@ document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
 
+
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
