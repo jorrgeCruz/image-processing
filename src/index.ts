@@ -55,6 +55,11 @@ function convertirAAzul(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toBlue(imagenSal));
 }
+function conversion01(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.reescalarRango01(imagenSal));
+}
+
 function correccionGamma(evt: any): void{
   var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
   var factores = args.split(',').map(elem => parseFloat(elem));
@@ -167,6 +172,10 @@ function sumaImg(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+}
+function absoluto(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.ValorAbsoluto(imagenSal));
 } 
 
 //variables adicionales para el efecto rain
@@ -290,6 +299,7 @@ document.getElementById("op-umbral1").addEventListener('click', umbralizado, fal
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-conversio01").addEventListener('click', conversion01, false);
 
 //menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
@@ -307,6 +317,7 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-absoluto").addEventListener('click', absoluto, false);
 
 
 //op con imagenes compuestas

@@ -49,6 +49,10 @@ function convertirAAzul(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toBlue(imagenSal));
 }
+function conversion01(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.reescalarRango01(imagenSal));
+  }
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -151,6 +155,10 @@ function div(evt) {
         var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
         imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
     }
+}
+function absoluto(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ValorAbsoluto(imagenSal));
 }
 function tan(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -282,6 +290,7 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-absoluto").addEventListener('click', absoluto, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
