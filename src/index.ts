@@ -4,6 +4,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import {BouncingParticle } from "./particle.js";
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -270,11 +271,45 @@ function animateParticles(){
   }
   requestAnimationFrame(animateParticles);
 }
-
-
 lienzo1.addEventListener('mousemove', handleMouse);
-
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
+// para efecto bouncingParticle
+let particleArrayBouncing: BouncingParticle[];  
+particleArrayBouncing=new Array(0);                // particleArray = []
+let weigth : number;
+let size : number;
+let ctxb = pantalla1;
+
+function initBouncingParticle() {
+  var imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+  let tmp = MathImg.relativeBrightness(imagenSal);
+  w = imagenSal.getWidth();
+  h = imagenSal.getHeight();
+
+  for (let i = 0; i < numberOfParticles; i++){
+ 
+ 
+    particleArrayBouncing.push(new BouncingParticle(w, h, ctxb,tmp,weigth,size));
+  }
+}
+
+function animateBouncingParticle() {
+  ctxb.globalAlpha = 0.25;
+  ctxb.fillStyle = 'rgb(0,0,0)';
+  ctxb.fillRect(0, 0, w, h);
+  for (let i = 0; i < particleArrayBouncing.length; i++){
+    particleArrayBouncing[i].updateBouncingParticle(mouse);
+
+    particleArrayBouncing[i].draw();
+  }
+  requestAnimationFrame(animateBouncingParticle);
+}
+
+function bouncingParticle(evt: any): void { 
+  initBouncingParticle()
+  animateBouncingParticle();
+}
+
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -319,3 +354,6 @@ document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+
+//op nuevas 
+document.getElementById("pattern4").addEventListener('click', bouncingParticle, false);
