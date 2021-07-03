@@ -76,7 +76,7 @@
                     <ul>
                         <li><span id="op-rain">Lluvia</span></li>
                         <li><span id="op-rain2">Lluvia sombra</span></li>
-                        <li><span>Op3</span></li>
+                        <li><span id="pattern2">Patron 2</span></li>
                     </ul>
                 </li>
                 <li><span>Op Texto</span>
@@ -91,6 +91,22 @@
         <section class="img-container1">Imagen 1
             <div class="item img-item">
                 <canvas id="img1" width="300" height="300" crossorigin="anonymous"> </canvas>
+                <svg>
+                    <defs>
+                        <filter id='goo'>
+                            <feGaussianBlur in="SourseGraphic" stdDeviation="10" 
+                            result="blur"/>
+                            <feColorMatrix in="blur" mode="matrix"
+                            values="1 0 0 0 0 
+                                    0 1 0 0 0 
+                                    0 0 1 0 0 
+                                    0 0 0 19 -9" result="goo" />
+                            <feComposite in="SourseGraphic" in2="goo"
+                            operator="atop" />
+                        </filter>
+                    </defs>
+                </svg>  
+
             </div>
             <div id="item">
                 <a href="" id="color"> </a> <output id="rgb">RGB:</output>
@@ -130,5 +146,3 @@
     </script>
 </body>
 </html>
-
- 
