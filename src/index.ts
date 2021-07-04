@@ -173,7 +173,7 @@ function sumaImg(evt: any): void{
 let ctx = pantalla2;
 let w:number;
 let h:number;
-const numberOfParticles = 200;
+const numberOfParticles = 100;
 let particlesArray: Particle[];
 particlesArray = new Array(0);
 var imagenSal: ImageType;
