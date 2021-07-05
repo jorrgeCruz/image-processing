@@ -118,3 +118,69 @@ export class ParticleText {
   }
 
 }
+
+
+export class BouncingParticle{
+  protected x: number;
+  protected y: number;
+  protected width: number;
+  protected height: number;
+  protected speed: number;
+  protected velocity: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected _2PI: number;
+  protected position1: number;
+  protected position2: number;
+  protected mappedImage: any[][][];
+  protected weight: number;
+
+
+  constructor(width: number, height: number,
+    screenCanvas: CanvasRenderingContext2D,
+    mapImg: number[][][],weight:number,size:number) {
+    this.width = width;
+    this.height = height;
+    this.ctx = screenCanvas;
+    this.weight = 1;
+    this.x =   Math.random() * width;
+    this.y =   Math.random() * height;
+
+    this.speed = 0;
+    this.velocity = Math.random() * 2.5;
+
+    //this.size = Math.random() * 1.5 + 1;
+    this.size = (Math.random () * 5) + 2;
+
+    this._2PI = Math.PI * 2;
+    this.position1 = Math.floor(this.y);
+    this.position2 = Math.floor(this.x);
+    this.mappedImage = mapImg;
+  }
+
+  public updatepattern3Particle (mouse: any) {
+    this.size -= 0.05;
+    if(this.size < 0 ) {
+    this.x = (mouse.x + ((Math.random () * 20) - 10));
+    this.y = (mouse.y + ((Math.random () * 20) - 10));
+    this.size = (Math.random () * 10) + 2;
+    this.weight = (Math.random () * 2 ) - 0.5;
+    }
+    this.y += this.weight;
+    this.weight += 0.2;  
+    if (this.y >= this.height - this.size) {
+      this.weight *= -1;
+    };
+  }
+  public getSpeed(): number {
+    return this.speed;
+  }
+  public draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = 'black';
+     this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
+     this.ctx.fill();
+    this.ctx.closePath();
+
+  }
+}
