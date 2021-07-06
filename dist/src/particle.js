@@ -86,3 +86,39 @@ var ParticleText = /** @class */ (function () {
     return ParticleText;
 }());
 export { ParticleText };
+var BParticle = /** @class */ (function () {
+    function BParticle(width, height, screenCanvas) {
+        this.width = width;
+        this.height = height;
+        this.ctx = screenCanvas;
+        this.weight = (Math.random() * 2) - 0.2;
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = (Math.random() * 12) + 7;
+        this._2PI = Math.PI * 2;
+    }
+    BParticle.prototype.update = function (mouse) {
+        this.size -= 0.05;
+        if (this.size < 0) {
+            this.x = (mouse.x); //+ ((Math.random () * 20)));// - 10));    
+            this.y = (mouse.y); //+ ((Math.random () * 20)));// - 10));                                   
+            this.size = (Math.random() * 12) + 7;
+            this.weight = (Math.random() * 2) - 0.2;
+        }
+        this.y += this.weight;
+        this.weight += 0.2;
+        if (this.y >= this.height - this.size) {
+            this.weight *= -0.2;
+        }
+        ;
+    };
+    BParticle.prototype.draw = function () {
+        this.ctx.beginPath();
+        this.ctx.fillStyle = 'white';
+        this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
+        this.ctx.fill();
+        this.ctx.closePath();
+    };
+    return BParticle;
+}());
+export { BParticle };
