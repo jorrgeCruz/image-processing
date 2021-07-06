@@ -118,3 +118,54 @@ export class ParticleText {
   }
 
 }
+export class BParticle {
+  protected width: number;
+  protected height: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected _2PI: number;
+  protected weight: number;
+  protected x: number;
+  protected y: number;
+
+ 
+  constructor( width: number,height: number,screenCanvas: CanvasRenderingContext2D) {
+
+    this.width = width;
+    this.height = height;
+    this.ctx = screenCanvas;
+    this.weight =(Math.random () * 2 ) - 0.2;
+    this.x =   Math.random() * width;
+    this.y =   Math.random() * height;
+    this.size = (Math.random () * 12)+7;
+    this._2PI = Math.PI * 2;
+    
+  }
+   
+  public update ( mouse:any) {
+    this.size -= 0.05; 
+    if(this.size < 0 ) {  
+    this.x = (mouse.x );//+ ((Math.random () * 20)));// - 10));    
+    this.y = (mouse.y );//+ ((Math.random () * 20)));// - 10));                                   
+    this.size = (Math.random () * 12)+7 ;     
+    this.weight = (Math.random () * 2 ) - 0.2;   
+    }
+
+    this.y += this.weight;
+    this.weight += 0.2;                  
+  
+    if (this.y >= this.height - this.size) {
+      this.weight *= -0.2; 
+     
+    };
+    }
+
+  public draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = 'white';
+     this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
+     this.ctx.fill();
+    this.ctx.closePath();
+   
+  }
+}

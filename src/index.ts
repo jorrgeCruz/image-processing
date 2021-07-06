@@ -319,3 +319,43 @@ document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+// :::::::::::::::::::::::::
+ import {BParticle } from "./particle.js";
+document.getElementById("op-Bouncing").addEventListener('click', particle_b, false);
+ let particleB: BParticle[];
+ particleB=new Array(0);  
+ let weigth : number;
+ let contenedor = pantalla1;
+ var nParticles=1000; 
+ var imagenSal = new ImageType(pantalla1, null, 300, 300, true);   
+ w = imagenSal.getWidth();
+ h = imagenSal.getHeight();   
+ 
+ function initBouncingParticle() {  
+   var imagenSal = new ImageType(pantalla1, null, 300, 300, true);   
+   w = imagenSal.getWidth();
+   h = imagenSal.getHeight();                                         
+   for (let i = 0; i < nParticles; i++){                        
+    particleB.push(new BParticle(w, h, contenedor));
+   }
+   mouse.x= Math.random() * w;  //resulve bug posicion inicial mouse
+   mouse.y= Math.random() * h;
+ }
+ 
+ 
+ function animateBouncingParticle() {
+   contenedor.fillStyle = 'black';  
+   contenedor.fillRect(0, 0, w, h);
+   for (let i = 0; i < particleB.length; i++){
+    particleB[i].update(mouse);
+    particleB[i].draw();
+   }
+   requestAnimationFrame(animateBouncingParticle);
+ }
+ 
+ 
+ function particle_b(evt: any): void {
+   initBouncingParticle()
+   animateBouncingParticle();
+ }
+ //:::::::::::::::::::::::::
