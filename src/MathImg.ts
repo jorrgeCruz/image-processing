@@ -579,5 +579,146 @@ export class MathImg{
     return sal;
   }
 
+
+  public static erosionar(img: ImageType, vec8: boolean): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = 0;
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    } 
+    let vecinos:number, valorComp=4;
+    if(vec8) valorComp=8;
+    
+    for (let i = 1; i < img.getHeight()-1; i++){
+      for (let j = 1; j < img.getWidth()-1; j++) { 
+        vecinos = 0;
+        vecinos += arrImage[0][i+1][j]?1:0;
+        vecinos += arrImage[0][i-1][j]?1:0;
+        vecinos += arrImage[0][i][j+1]?1:0;
+        vecinos += arrImage[0][i][j-1]?1:0;
+        if(vec8){
+          vecinos += arrImage[0][i+1][j-1]?1:0;
+          vecinos += arrImage[0][i+1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j-1]?1:0;
+        }
+
+        if (arrImage[0][i][j] && vecinos == valorComp) {
+          sal[0][i][j] = 255;
+          sal[1][i][j] = 255;
+          sal[2][i][j] = 255;
+        }    
+      }
+    }
+    
+    return sal;
+  }  
+  public static dilatar(img: ImageType, vec8: boolean): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = 0;
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    } 
+    let vecinos:number, valorComp=4;
+    if(vec8) valorComp=8;
+    
+    for (let i = 1; i < img.getHeight()-1; i++){
+      for (let j = 1; j < img.getWidth()-1; j++) { 
+        vecinos = 0;
+        vecinos += arrImage[0][i+1][j]?1:0;
+        vecinos += arrImage[0][i-1][j]?1:0;
+        vecinos += arrImage[0][i][j+1]?1:0;
+        vecinos += arrImage[0][i][j-1]?1:0;
+        if(vec8){
+          vecinos += arrImage[0][i+1][j-1]?1:0;
+          vecinos += arrImage[0][i+1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j-1]?1:0;
+        }
+
+        if (arrImage[0][i][j] && vecinos) {
+          sal[0][i][j] = 255;
+          sal[1][i][j] = 255;
+          sal[2][i][j] = 255;
+        }    
+      }
+    }
+    
+    return sal;
+  }  
+
+  public static apertura(img: ImageType, vec8: boolean): number[][][] {
+    var arrImage = this.erosionar(img, vec8);
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    let vecinos:number, valorComp=4;
+    if(vec8) valorComp=8;
+    
+    for (let i = 1; i < img.getHeight()-1; i++){
+      for (let j = 1; j < img.getWidth()-1; j++) { 
+        vecinos = 0;
+        vecinos += arrImage[0][i+1][j]?1:0;
+        vecinos += arrImage[0][i-1][j]?1:0;
+        vecinos += arrImage[0][i][j+1]?1:0;
+        vecinos += arrImage[0][i][j-1]?1:0;
+        if(vec8){
+          vecinos += arrImage[0][i+1][j-1]?1:0;
+          vecinos += arrImage[0][i+1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j-1]?1:0;
+        }
+
+        if (arrImage[0][i][j] && vecinos) {
+          sal[0][i][j] = 255;
+          sal[1][i][j] = 255;
+          sal[2][i][j] = 255;
+        }    
+      }
+    }
+    
+    return sal;
+  }
+
+  public static cierre(img: ImageType, vec8: boolean): number[][][] {
+    var arrImage = this.dilatar(img, vec8);
+    let vecinos: number, valorComp = 4;
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    if(vec8) valorComp=8;
+    
+    for (let i = 1; i < img.getHeight()-1; i++){
+      for (let j = 1; j < img.getWidth()-1; j++) { 
+        vecinos = 0;
+        vecinos += arrImage[0][i+1][j]?1:0;
+        vecinos += arrImage[0][i-1][j]?1:0;
+        vecinos += arrImage[0][i][j+1]?1:0;
+        vecinos += arrImage[0][i][j-1]?1:0;
+        if(vec8){
+          vecinos += arrImage[0][i+1][j-1]?1:0;
+          vecinos += arrImage[0][i+1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j+1]?1:0;
+          vecinos += arrImage[0][i-1][j-1]?1:0;
+        }
+
+        if (arrImage[0][i][j] && vecinos == valorComp) {
+          sal[0][i][j] = 255;
+          sal[1][i][j] = 255;
+          sal[2][i][j] = 255;
+        }    
+      }
+    }
+    
+    return sal;
+  }
 }
 

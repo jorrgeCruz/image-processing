@@ -37,6 +37,7 @@ var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
 imgLocal4.getImage().onload = imgLocal4.onload;
 
 function convertirAGris(evt: any): void{
+  console.log("mensaje visto en consola");
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
@@ -289,12 +290,30 @@ function histogramas(evt: any): void{
 } 
 function ecualizado(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.ecualizar(imagenSal));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.ecualizar(imagenSal));
 } 
 
 
-lienzo1.addEventListener('mousemove', handleMouse);
+function erosionarImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.erosionar(imagenSal, true));
+}
 
+function dilatarImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.dilatar(imagenSal, true));
+} 
+function aperturaImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.apertura(imagenSal, true));
+}
+function cierreImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.cierre(imagenSal, true));
+}
+
+lienzo1.addEventListener('mousemove', handleMouse);
+ 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -343,3 +362,10 @@ document.getElementById("op-text").addEventListener('click', textEfects, false);
 //histogramas
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
+
+
+//mortfologia
+document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
+document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
+document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
+document.getElementById("op-cier").addEventListener('click', cierreImg, false);
