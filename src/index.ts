@@ -37,7 +37,7 @@ var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
 imgLocal4.getImage().onload = imgLocal4.onload;
 
 function convertirAGris(evt: any): void{
-  console.log("mensaje visto en consola");
+  console.log("mensaje visto en consola modificado en github");
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
