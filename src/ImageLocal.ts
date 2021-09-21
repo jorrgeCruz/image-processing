@@ -92,7 +92,7 @@ export class ImageLocal implements ImageOp {
   }
   public onload() {
     this.getScreen().clearRect(0, 0, DefaultSettings.SIZE_WIDTH, DefaultSettings.SIZE_HEIGHT);
-    /** SI nuestro canas es mas pequeño que la imagen se dibuja a su escala normal, 
+    /** SI nuestro canvas es mas pequeño que la imagen se dibuja a su escala normal, 
      * si es mas grande se dibuja reescalado al ancho de ventana por default  */
     if (this.getImage().width > DefaultSettings.SIZE_WIDTH
       || this.getImage().height > DefaultSettings.SIZE_HEIGHT) {

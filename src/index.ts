@@ -37,13 +37,12 @@ var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
 imgLocal4.getImage().onload = imgLocal4.onload;
 
 function convertirAGris(evt: any): void{
-  console.log("mensaje visto en consola modificado en github");
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
 }
 function convertirANegativo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegative(imagenSal));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toNegative(imagenSal));
 }
 function convertirARojo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -312,6 +311,13 @@ function cierreImg(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.cierre(imagenSal, true));
 }
 
+function opchangeFalsoColor(evt: any): void{
+  var argss = prompt('Ingresa un valor de color Hue');
+  var hue = parseFloat(argss);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 0)));
+}
+
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -336,6 +342,7 @@ document.getElementById("op-brillo").addEventListener('click', changeBrightness,
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
+document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
 
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);

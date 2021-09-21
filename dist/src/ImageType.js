@@ -19,8 +19,8 @@ var ImageType = /** @class */ (function () {
             this.dataToImageArray2D();
         else
             this.dataTextToImageArray2D();
-        this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
-        this.imageArray2DtoData = this.imageArray2DtoData.bind(this);
+        /*this.dataToImageArray2D = this.dataToImageArray2D.bind(this);
+        this.imageArray2DtoData = this.imageArray2DtoData.bind(this);*/
     }
     /** Metodo que devuelve las coordenas del array unidimensional de datos de la imagen */
     ImageType.prototype.getColorIndicesForCoord = function (x, y) {
