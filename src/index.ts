@@ -315,7 +315,7 @@ function opchangeFalsoColor(evt: any): void{
   var argss = prompt('Ingresa un valor de color Hue');
   var hue = parseFloat(argss);
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 0)));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
 
 lienzo1.addEventListener('mousemove', handleMouse);

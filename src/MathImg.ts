@@ -785,28 +785,37 @@ export class MathImg {
   }
   public static falseColorByHue(arrImage: number[][][], hue: number, newHue: number): number[][][] {
     let width: number;
-    let height: number;
-    let huemax: number;
-    let huemin: number; 
+    let height: number; 
     height = arrImage[0].length;
     width = arrImage[0][0].length;
     //variable donde guardamos la salida
     var sal = this.initArray(width, height);
-    let range = 20;
+    let range = 25;
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        huemin = hue - range;
-        huemax = hue + range;
+        //si hue es menor a cero estamos en el rango de 360 bajos, por lo que hay que revisar esos valores
         if ((hue - range) < 0) {
-          huemin = 360 - range;
+          if (Math.abs(hue - arrImage[0][i][j]) < range) {
+            sal[0][i][j] = newHue;
+          } else if ( (360 + hue - arrImage[0][i][j])< range) {
+            sal[0][i][j] = newHue;
+          } else {
+            sal[0][i][j] = arrImage[0][i][j];
+          }
         }
-        if ((hue + range) > 360) {
-          huemax = hue + range - 360;
-        }
-          //checar rangos un falta cuando se suma. eje 350
-        if (arrImage[0][i][j] < huemax && arrImage[0][i][j] > huemin) {
+        else if ((hue + range) > 360) {
+          if (Math.abs(hue - arrImage[0][i][j]) < range) {
+            sal[0][i][j] = newHue;
+          } else if ( (-360 + hue - arrImage[0][i][j])< range) {
+            sal[0][i][j] = newHue;
+          } else {
+            sal[0][i][j] = arrImage[0][i][j];
+          }
+        }// si no se rebasa del cero
+        else if (Math.abs(hue - arrImage[0][i][j]) < range) {
           sal[0][i][j] = newHue;
-        } else {
+        } // si no se rebasa del rango
+        else {
           sal[0][i][j] = arrImage[0][i][j];
         }
         sal[1][i][j] = arrImage[1][i][j];

@@ -739,12 +739,35 @@ var MathImg = /** @class */ (function () {
         width = arrImage[0][0].length;
         //variable donde guardamos la salida
         var sal = this.initArray(width, height);
-        var range = 20;
+        var range = 25;
         for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
-                if (Math.abs(arrImage[0][i][j] - hue) < range) {
-                    sal[0][i][j] = newHue;
+                //si hue es menor a cero estamos en el rango de 360 bajos, por lo que hay que revisar esos valores
+                if ((hue - range) < 0) {
+                    if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else if ((360 + hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else {
+                        sal[0][i][j] = arrImage[0][i][j];
+                    }
                 }
+                else if ((hue + range) > 360) {
+                    if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else if ((-360 + hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else {
+                        sal[0][i][j] = arrImage[0][i][j];
+                    }
+                } // si no se rebasa del cero
+                else if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                    sal[0][i][j] = newHue;
+                } // si no se rebasa del rango
                 else {
                     sal[0][i][j] = arrImage[0][i][j];
                 }
