@@ -4,6 +4,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { CanvasLocal } from './canvasLocal.js';
 
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
@@ -41,7 +42,7 @@ function convertirAGris(evt: any): void{
 }
 function convertirANegativo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegative(imagenSal));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toNegative(imagenSal));
 }
 function convertirARojo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -166,7 +167,7 @@ function tan(evt: any): void{
 function sumaImg(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.addImg(imagenSal, imagen2));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
 
 //variables adicionales para el efecto rain
@@ -270,10 +271,56 @@ function animateParticles(){
   }
   requestAnimationFrame(animateParticles);
 }
+//seccion de histogramas  
+function histogramas(evt: any): void{
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  let canvas1: HTMLCanvasElement = lienzo2;
+  let graphics1: CanvasRenderingContext2D = pantalla2;
+  let canvas2: HTMLCanvasElement = lienzo4;
+  let graphics2: CanvasRenderingContext2D = pantalla4;
+
+  let hist = MathImg.hist(imagenSal);
+  const miCanvas1:CanvasLocal = new CanvasLocal(graphics1, canvas1, hist);
+  miCanvas1.paint();
+  let histAc = MathImg.histAcum(hist);
+  const miCanvas2:CanvasLocal = new CanvasLocal(graphics2, canvas2, histAc);
+  miCanvas2.paint();
+ 
+} 
+function ecualizado(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.ecualizar(imagenSal));
+} 
+
+
+function erosionarImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.erosionar(imagenSal, true));
+}
+
+function dilatarImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.dilatar(imagenSal, true));
+} 
+function aperturaImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.apertura(imagenSal, true));
+}
+function cierreImg(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.cierre(imagenSal, true));
+}
+
+function opchangeFalsoColor(evt: any): void{
+  var argss = prompt('Ingresa un valor de color Hue');
+  var hue = parseFloat(argss);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
+}
 
 
 lienzo1.addEventListener('mousemove', handleMouse);
-
+ 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -296,6 +343,7 @@ document.getElementById("op-brillo").addEventListener('click', changeBrightness,
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
+document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
 
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
@@ -316,6 +364,16 @@ document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
-
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+
+//histogramas
+document.getElementById("op-hist").addEventListener('click', histogramas, false);
+document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
+
+
+//mortfologia
+document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
+document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
+document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
+document.getElementById("op-cier").addEventListener('click', cierreImg, false);

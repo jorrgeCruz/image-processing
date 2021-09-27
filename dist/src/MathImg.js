@@ -46,9 +46,9 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[0][i][j] = 255 - arrImage[0][i][j];
-                sal[1][i][j] = 255 - arrImage[1][i][j];
-                sal[2][i][j] = 255 - arrImage[2][i][j];
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = 0; //255-arrImage[2][i][j];
             }
         }
         return sal;
@@ -471,6 +471,308 @@ var MathImg = /** @class */ (function () {
                 sal[0][i][j] = arrImage[0][i][j] + arrImage2[0][i][j];
                 sal[1][i][j] = arrImage[1][i][j] + arrImage2[1][i][j];
                 sal[2][i][j] = arrImage[2][i][j] + arrImage2[2][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.hist = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = new Array(3);
+        sal[0] = new Array(256);
+        sal[1] = new Array(256);
+        sal[2] = new Array(256);
+        for (var i = 0; i < 256; i++) {
+            sal[0][i] = 0;
+            sal[1][i] = 0;
+            sal[2][i] = 0;
+        }
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][arrImage[0][i][j]]++;
+                sal[1][arrImage[1][i][j]]++;
+                sal[2][arrImage[2][i][j]]++;
+            }
+        }
+        //console.log(sal[0])
+        return sal;
+    };
+    MathImg.histAcum = function (h) {
+        //variable donde guardamos la salida
+        var hist = new Array(3);
+        hist[0] = new Array(256);
+        hist[1] = new Array(256);
+        hist[2] = new Array(256);
+        hist[0][0] = h[0][0];
+        hist[1][0] = h[1][0];
+        hist[2][0] = h[2][0];
+        for (var i = 1; i < h[0].length; i++) {
+            hist[0][i] = hist[0][i - 1] + h[0][i];
+            hist[1][i] = hist[1][i - 1] + h[1][i];
+            hist[2][i] = hist[2][i - 1] + h[2][i];
+            //if(i==255)
+        }
+        return hist;
+    };
+    MathImg.ecualizar = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var h = this.hist(img);
+        var hA = this.histAcum(h);
+        var fT;
+        fT = new Array(3);
+        fT[0] = new Array(256);
+        fT[2] = new Array(256);
+        fT[1] = new Array(256);
+        for (var i = 0; i < 256; i++) {
+            fT[0][i] = Math.floor(hA[0][i] * 255.0 / hA[0][255]);
+            fT[1][i] = Math.floor(hA[1][i] * 255.0 / hA[1][255]);
+            fT[2][i] = Math.floor(hA[2][i] * 255.0 / hA[2][254]);
+        }
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = fT[0][arrImage[0][i][j]];
+                sal[1][i][j] = fT[1][arrImage[1][i][j]];
+                sal[2][i][j] = fT[2][arrImage[2][i][j]];
+            }
+        }
+        //console.log(sal[0])
+        return sal;
+    };
+    MathImg.erosionar = function (img, vec8) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = 0;
+                sal[1][i][j] = 0;
+                sal[2][i][j] = 0;
+            }
+        }
+        var vecinos, valorComp = 4;
+        if (vec8)
+            valorComp = 8;
+        for (var i = 1; i < img.getHeight() - 1; i++) {
+            for (var j = 1; j < img.getWidth() - 1; j++) {
+                vecinos = 0;
+                vecinos += arrImage[0][i + 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i - 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i][j + 1] ? 1 : 0;
+                vecinos += arrImage[0][i][j - 1] ? 1 : 0;
+                if (vec8) {
+                    vecinos += arrImage[0][i + 1][j - 1] ? 1 : 0;
+                    vecinos += arrImage[0][i + 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j - 1] ? 1 : 0;
+                }
+                if (arrImage[0][i][j] && vecinos == valorComp) {
+                    sal[0][i][j] = 255;
+                    sal[1][i][j] = 255;
+                    sal[2][i][j] = 255;
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.dilatar = function (img, vec8) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                sal[0][i][j] = 0;
+                sal[1][i][j] = 0;
+                sal[2][i][j] = 0;
+            }
+        }
+        var vecinos, valorComp = 4;
+        if (vec8)
+            valorComp = 8;
+        for (var i = 1; i < img.getHeight() - 1; i++) {
+            for (var j = 1; j < img.getWidth() - 1; j++) {
+                vecinos = 0;
+                vecinos += arrImage[0][i + 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i - 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i][j + 1] ? 1 : 0;
+                vecinos += arrImage[0][i][j - 1] ? 1 : 0;
+                if (vec8) {
+                    vecinos += arrImage[0][i + 1][j - 1] ? 1 : 0;
+                    vecinos += arrImage[0][i + 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j - 1] ? 1 : 0;
+                }
+                if (arrImage[0][i][j] && vecinos) {
+                    sal[0][i][j] = 255;
+                    sal[1][i][j] = 255;
+                    sal[2][i][j] = 255;
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.apertura = function (img, vec8) {
+        var arrImage = this.erosionar(img, vec8);
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var vecinos, valorComp = 4;
+        if (vec8)
+            valorComp = 8;
+        for (var i = 1; i < img.getHeight() - 1; i++) {
+            for (var j = 1; j < img.getWidth() - 1; j++) {
+                vecinos = 0;
+                vecinos += arrImage[0][i + 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i - 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i][j + 1] ? 1 : 0;
+                vecinos += arrImage[0][i][j - 1] ? 1 : 0;
+                if (vec8) {
+                    vecinos += arrImage[0][i + 1][j - 1] ? 1 : 0;
+                    vecinos += arrImage[0][i + 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j - 1] ? 1 : 0;
+                }
+                if (arrImage[0][i][j] && vecinos) {
+                    sal[0][i][j] = 255;
+                    sal[1][i][j] = 255;
+                    sal[2][i][j] = 255;
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.cierre = function (img, vec8) {
+        var arrImage = this.dilatar(img, vec8);
+        var vecinos, valorComp = 4;
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        if (vec8)
+            valorComp = 8;
+        for (var i = 1; i < img.getHeight() - 1; i++) {
+            for (var j = 1; j < img.getWidth() - 1; j++) {
+                vecinos = 0;
+                vecinos += arrImage[0][i + 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i - 1][j] ? 1 : 0;
+                vecinos += arrImage[0][i][j + 1] ? 1 : 0;
+                vecinos += arrImage[0][i][j - 1] ? 1 : 0;
+                if (vec8) {
+                    vecinos += arrImage[0][i + 1][j - 1] ? 1 : 0;
+                    vecinos += arrImage[0][i + 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j + 1] ? 1 : 0;
+                    vecinos += arrImage[0][i - 1][j - 1] ? 1 : 0;
+                }
+                if (arrImage[0][i][j] && vecinos == valorComp) {
+                    sal[0][i][j] = 255;
+                    sal[1][i][j] = 255;
+                    sal[2][i][j] = 255;
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.fromRGBtoHSI = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var hue;
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                arrImage[0][i][j] /= 255.0;
+                arrImage[1][i][j] /= 255.0;
+                arrImage[2][i][j] /= 255.0;
+                hue = 180 / Math.PI * Math.acos(0.5 * ((arrImage[0][i][j] - arrImage[1][i][j]) + (arrImage[0][i][j] - arrImage[2][i][j])) /
+                    Math.sqrt(Math.pow(arrImage[0][i][j] - arrImage[1][i][j], 2) + (arrImage[0][i][j] - arrImage[2][i][j]) * (arrImage[1][i][j] - arrImage[2][i][j])));
+                sal[0][i][j] = arrImage[2][i][j] > arrImage[1][i][j] ? 360 - hue : hue;
+                sal[1][i][j] = 1 - (3 * Math.min(arrImage[0][i][j], arrImage[1][i][j], arrImage[2][i][j])) / (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]);
+                sal[2][i][j] = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+            }
+        }
+        return sal;
+    };
+    MathImg.fromHSItoRGB = function (arrImage) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var width;
+        var height;
+        height = arrImage[0].length;
+        width = arrImage[0][0].length;
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        var hue;
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                //H de 0 - 120
+                if (arrImage[0][i][j] >= 0 && arrImage[0][i][j] < 120) {
+                    sal[0][i][j] = arrImage[2][i][j] * (1 + (arrImage[1][i][j] * Math.cos(this.toRad(arrImage[0][i][j]))) /
+                        (Math.cos(this.toRad(60 - arrImage[0][i][j]))));
+                    sal[2][i][j] = arrImage[2][i][j] * (1 - arrImage[1][i][j]);
+                    sal[1][i][j] = 3 * arrImage[2][i][j] - sal[0][i][j] - sal[2][i][j];
+                }
+                else if (arrImage[0][i][j] >= 120 && arrImage[0][i][j] < 240) {
+                    sal[0][i][j] = arrImage[2][i][j] * (1 - arrImage[1][i][j]);
+                    sal[1][i][j] = arrImage[2][i][j] * (1 + (arrImage[1][i][j] * Math.cos(this.toRad(arrImage[0][i][j] - 120))) /
+                        (Math.cos(this.toRad(180 - arrImage[0][i][j]))));
+                    sal[2][i][j] = 3 * arrImage[2][i][j] - sal[0][i][j] - sal[1][i][j];
+                }
+                else if (arrImage[0][i][j] >= 240 && arrImage[0][i][j] < 360) {
+                    sal[1][i][j] = arrImage[2][i][j] * (1 - arrImage[1][i][j]);
+                    sal[2][i][j] = arrImage[2][i][j] * (1 + (arrImage[1][i][j] * Math.cos(this.toRad(arrImage[0][i][j] - 240))) /
+                        (Math.cos(this.toRad(300 - arrImage[0][i][j]))));
+                    sal[0][i][j] = 3 * arrImage[2][i][j] - sal[1][i][j] - sal[2][i][j];
+                }
+                sal[0][i][j] *= 255.0;
+                sal[1][i][j] *= 255.0;
+                sal[2][i][j] *= 255.0;
+            }
+        }
+        return sal;
+    };
+    MathImg.toRad = function (grados) {
+        return (grados * Math.PI / 180);
+    };
+    MathImg.falseColorByHue = function (arrImage, hue, newHue) {
+        var width;
+        var height;
+        height = arrImage[0].length;
+        width = arrImage[0][0].length;
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        var range = 25;
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                //si hue es menor a cero estamos en el rango de 360 bajos, por lo que hay que revisar esos valores
+                if ((hue - range) < 0) {
+                    if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else if ((360 + hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else {
+                        sal[0][i][j] = arrImage[0][i][j];
+                    }
+                }
+                else if ((hue + range) > 360) {
+                    if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else if ((-360 + hue - arrImage[0][i][j]) < range) {
+                        sal[0][i][j] = newHue;
+                    }
+                    else {
+                        sal[0][i][j] = arrImage[0][i][j];
+                    }
+                } // si no se rebasa del cero
+                else if (Math.abs(hue - arrImage[0][i][j]) < range) {
+                    sal[0][i][j] = newHue;
+                } // si no se rebasa del rango
+                else {
+                    sal[0][i][j] = arrImage[0][i][j];
+                }
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = arrImage[2][i][j];
             }
         }
         return sal;
