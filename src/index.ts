@@ -318,6 +318,7 @@ function opchangeFalsoColor(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
 
+
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
