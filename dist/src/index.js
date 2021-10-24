@@ -10,6 +10,7 @@ var lienzo4;
 var pantalla1;
 var pantalla2;
 var pantalla4;
+var contador = 0;
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt) {
     evt.stopPropagation();
@@ -286,10 +287,14 @@ function cierreImg(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.cierre(imagenSal, true));
 }
 function opchangeFalsoColor(evt) {
-    var argss = prompt('Ingresa un valor de color Hue');
-    var hue = parseFloat(argss);
+    alert('selecciona el area dando click de una esquina hacia la otra ');
+    lienzo1.addEventListener('click', imgLocal.drawArea);
+    lienzo1.addEventListener('click', clickearCanvas);
+    lienzo1.removeEventListener("mousemove", imgLocal.drawSmallImg);
+}
+function clickearCanvas(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), imgLocal.minMax, 210)));
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);

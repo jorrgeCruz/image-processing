@@ -12,12 +12,13 @@ let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
 let pantalla4: CanvasRenderingContext2D;
+let contador:number=0;
 
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
-    evt.stopPropagation();
-    evt.preventDefault(); //que no se abra en otra ventana sola la imagen
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  evt.stopPropagation();
+  evt.preventDefault(); //que no se abra en otra ventana sola la imagen
+  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
   /** Variables que controla el canvas de la imagen, el primero 
@@ -312,15 +313,18 @@ function cierreImg(evt: any): void{
 }
 
 function opchangeFalsoColor(evt: any): void{
-  var argss = prompt('Ingresa un valor de color Hue');
-  var hue = parseFloat(argss);
-  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
+  alert('selecciona el area dando click de una esquina hacia la otra ')
+  lienzo1.addEventListener('click',imgLocal.drawArea);
+  lienzo1.addEventListener('click',clickearCanvas);
+  lienzo1.removeEventListener("mousemove", imgLocal.drawSmallImg);
 }
 
+function clickearCanvas(evt:any):void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal),imgLocal.minMax,210)));
+}
 
 lienzo1.addEventListener('mousemove', handleMouse);
- 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
