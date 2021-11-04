@@ -114,6 +114,24 @@ export class MathImg {
     }
     return sal;
   }
+  public static  reescalarRango01( img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+        for(let i = 0; i < 3; i++)
+            sal[i] = this.initArray(img.getWidth(), img.getHeight());
+        for(let i = 0; i < img.getHeight(); i++)
+            for(let j = 0; j < img.getWidth(); j++)
+            {
+                sal[0][i][j] = arrImage[0][i][j]/255;
+                sal[1][i][j] = arrImage[1][i][j]/255;
+                sal[2][i][j] = arrImage[2][i][j]/255;          
+            }
+        
+        return sal;
+  }
+
 
   public static funcionGamma(pixel: number, factor: number): number {
     return Math.min(255 * Math.pow(pixel / 250, factor), 255);

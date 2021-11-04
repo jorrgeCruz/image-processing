@@ -56,6 +56,11 @@ function convertirAAzul(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toBlue(imagenSal));
 }
+function conversion01(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.reescalarRango01(imagenSal));
+}
+
 function correccionGamma(evt: any): void{
   var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
   var factores = args.split(',').map(elem => parseFloat(elem));
@@ -337,6 +342,7 @@ document.getElementById("op-umbral1").addEventListener('click', umbralizado, fal
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-conversio01").addEventListener('click', conversion01, false);
 
 //menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
