@@ -291,6 +291,14 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
+function opEscalarImagen(evt) {
+    var args = prompt("Ingresa 2 valores de escalado mayor a 0 para x y y, separados por una coma (Ejemplo: 1.5,0.6):");
+    var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    pantalla2.save();
+    pantalla2.scale(factores[0], factores[1]);
+    pantalla2.drawImage(lienzo1, 0, 0);
+    pantalla2.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -314,6 +322,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-escalarImagen").addEventListener('click', opEscalarImagen, false);
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
