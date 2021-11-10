@@ -169,6 +169,10 @@ function sumaImg(evt: any): void{
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
+function giro (evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.togiro(imagenSal));
+}
 
 //variables adicionales para el efecto rain
 let ctx = pantalla2;
@@ -371,6 +375,8 @@ document.getElementById("op-text").addEventListener('click', textEfects, false);
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
 
+//op con giro de imagen
+document.getElementById("giro").addEventListener('click',giro, false);
 
 //mortfologia
 document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
