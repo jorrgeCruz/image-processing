@@ -291,6 +291,14 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
+function Trasladar_Imagen(evt) {
+    var args = prompt("Escribe los valores de X(100) y Y(100) separado por una ,");
+    var vectores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    pantalla2.save();
+    pantalla2.translate(vectores[0], vectores[1]);
+    pantalla2.drawImage(lienzo1, 0, 0);
+    pantalla2.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -324,6 +332,7 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
+document.getElementById("op-Trasladar_Imagen").addEventListener('click', Trasladar_Imagen, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
