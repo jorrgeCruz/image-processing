@@ -322,6 +322,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-Trasladar_Imagen").addEventListener('click', Trasladar_Imagen, false);
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
@@ -332,7 +333,6 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
-document.getElementById("op-Trasladar_Imagen").addEventListener('click', Trasladar_Imagen, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 //op con efectos
