@@ -4,6 +4,7 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
+import { DefaultSettings } from './DefaultSettings.js';
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -291,6 +292,17 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
+function rotacionImg(evt) {
+    var img = lienzo1;
+    var valor = prompt('Ingresa el valor de rotación en grados');
+    var gradosvl = parseFloat(valor);
+    pantalla2.save();
+    pantalla2.translate(DefaultSettings.SIZE_WIDTH / 2, DefaultSettings.SIZE_HEIGHT / 2); // translar el canvas al centro 
+    pantalla2.rotate((Math.PI / 180) * gradosvl); // rotar imagen
+    pantalla2.translate(-(DefaultSettings.SIZE_WIDTH / 2), -(DefaultSettings.SIZE_HEIGHT / 2)); // retornar el canvas centro
+    pantalla2.drawImage(img, 0, 0); //imagen rotada
+    pantalla2.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -339,3 +351,5 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+//Transformaciones Geométricas
+document.getElementById("op-rotacion").addEventListener('click', rotacionImg, false);
