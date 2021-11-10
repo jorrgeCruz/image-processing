@@ -4,6 +4,7 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
+import { DefaultSettings } from './DefaultSettings.js';
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -296,9 +297,9 @@ function rotacionImg(evt) {
     var valor = prompt('Ingresa el valor de rotación en grados');
     var gradosvl = parseFloat(valor);
     pantalla2.save();
-    pantalla2.translate(150, 150); // translar el canvas al centro 
-    pantalla2.rotate((Math.PI / 180) * gradosvl); // rotar
-    pantalla2.translate(-150, -150); // retornar al centro
+    pantalla2.translate(DefaultSettings.SIZE_WIDTH / 2, DefaultSettings.SIZE_HEIGHT / 2); // translar el canvas al centro 
+    pantalla2.rotate((Math.PI / 180) * gradosvl); // rotar imagen
+    pantalla2.translate(-(DefaultSettings.SIZE_WIDTH / 2), -(DefaultSettings.SIZE_HEIGHT / 2)); // retornar el canvas centro
     pantalla2.drawImage(img, 0, 0); //imagen rotada
     pantalla2.restore();
 }
