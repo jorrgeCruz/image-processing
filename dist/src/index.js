@@ -291,6 +291,17 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
+function rotacionImg(evt) {
+    var img = lienzo1;
+    var valor = prompt('Ingresa el valor de rotación en grados');
+    var gradosvl = parseFloat(valor);
+    pantalla2.save();
+    pantalla2.translate(150, 150); // translar el canvas al centro 
+    pantalla2.rotate((Math.PI / 180) * gradosvl); // rotar
+    pantalla2.translate(-150, -150); // retornar al centro
+    pantalla2.drawImage(img, 0, 0); //imagen rotada
+    pantalla2.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -339,3 +350,5 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+//Transformaciones Geométricas
+document.getElementById("op-rotacion").addEventListener('click', rotacionImg, false);
