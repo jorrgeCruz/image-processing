@@ -314,6 +314,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-escaladoimagen").addEventListener('click', opEscaladoImagen, false);
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
@@ -339,3 +340,12 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+//Escalado de imagen
+function opEscaladoImagen(evt){
+var args=prompt("Ingresa 2 valores que sean mayor de 0 separados por coma para el valor de X y Y");
+var factores=args.split(',');
+pantalla2.save();
+pantalla2.scale(factores[0], factores[1]);
+pantalla2.drawImage(lienzo1, 0, 0);
+pantalla2.restore();
+}
