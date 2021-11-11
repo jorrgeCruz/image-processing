@@ -4,6 +4,7 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
+import { DefaultSettings } from "./DefaultSettings.js";
 var lienzo1;
 var lienzo2;
 var lienzo4;
@@ -291,6 +292,17 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
 }
+function optransRotateImage(evt) {
+    var canvas = lienzo1;
+    var ctx = pantalla2;
+    var args = prompt('Ingresa valor del ángulo');
+    var degress = parseFloat(args);
+    ctx.save();
+    ctx.translate((DefaultSettings.SIZE_WIDTH * 0.5), (DefaultSettings.SIZE_HEIGHT * 0.5));
+    ctx.rotate((Math.PI / 180) * degress);
+    ctx.drawImage(canvas, (-DefaultSettings.SIZE_WIDTH * 0.5), (-DefaultSettings.SIZE_HEIGHT * 0.5));
+    ctx.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -314,6 +326,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-rotarimagen").addEventListener('click', optransRotateImage, false);
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
