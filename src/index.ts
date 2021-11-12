@@ -376,3 +376,12 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+
+function bilinealImg(evt: any): void{
+  let data: number[][]= [[55,394,460,1],
+                        [2,2,275,275]];
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.bilineal(imagenSal, data));
+}
+//geometrica
+document.getElementById("op-bilineal").addEventListener('click', bilinealImg, false);

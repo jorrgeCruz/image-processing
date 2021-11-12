@@ -1,6 +1,6 @@
 export const DefaultSettings = {
-  SIZE_WIDTH : 300,
-  SIZE_HEIGHT : 300,
+  SIZE_WIDTH : 463,
+  SIZE_HEIGHT : 279,
   SMALL_W: 40,
   SMALL_H: 40
 }

@@ -50,6 +50,7 @@ export class ImageLocal implements ImageOp {
   public drawSmallImg(evt:any):void{
     let xPos:number = evt.offsetX-2;
     let yPos: number = evt.offsetY - 2;
+    //console.log(xPos, yPos);
     let pixel:ImageData = this.screen.getImageData(xPos, yPos, 1, 1);
        
     if (this.readyToDraw) {    

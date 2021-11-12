@@ -2,11 +2,13 @@
   "name": "imagenes",
   "version": "1.0.0",
   "description": "Procesamiento de imagenes con js",
-  "main": "./src/index.js",
+  "main": "./dist/src/index.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "tsc --build",
+    "build-we": "webpack --mode production",
     "build-dev": "webpack --mode development",
-    "build-external": "webpack --config ./external/webpack.config.js"
+    "build-external": "webpack --config ./external/webpack.config.js",
+    "deploy": "npm run build && npm run build-dev"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,11 @@
   },
   "homepage": "https://github.com/jorrgeCruz/image-processing#readme",
   "devDependencies": {
+    "typescript": "^4.4.4",
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12"
+  },
+  "dependencies": {
+    "@felipeaamacedo/matrix-ts": "^1.0.4"
   }
 }

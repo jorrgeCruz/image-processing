@@ -33,6 +33,7 @@ var ImageLocal = /** @class */ (function () {
     ImageLocal.prototype.drawSmallImg = function (evt) {
         var xPos = evt.offsetX - 2;
         var yPos = evt.offsetY - 2;
+        //console.log(xPos, yPos);
         var pixel = this.screen.getImageData(xPos, yPos, 1, 1);
         if (this.readyToDraw) {
             if (this.isScaled) {
