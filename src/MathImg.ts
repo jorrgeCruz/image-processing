@@ -99,6 +99,21 @@ export class MathImg {
     }
     return sal;
   }
+
+  public static toYellow(img: ImageType): number[][][]  {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++){
+      for (let j = 0; j < img.getWidth(); j++) { 
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[1][i][j];
+        sal[2][i][j] = 0;
+      }
+    } 
+    return sal;
+  }
   
   public static correctionGamma(img: ImageType, factores: number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
