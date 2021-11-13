@@ -783,7 +783,7 @@ export class MathImg {
   public static toRad(grados: number ): number{
     return ( grados * Math.PI / 180);
   }
-  public static falseColorByHue(arrImage: number[][][], hue: number, newHue: number): number[][][] {
+  public static falseColorByHue(arrImage: number[][][], hue: number[], newHue: number): number[][][] {
     let width: number;
     let height: number; 
     height = arrImage[0].length;
@@ -793,35 +793,47 @@ export class MathImg {
     let range = 25;
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        //si hue es menor a cero estamos en el rango de 360 bajos, por lo que hay que revisar esos valores
-        if ((hue - range) < 0) {
-          if (Math.abs(hue - arrImage[0][i][j]) < range) {
-            sal[0][i][j] = newHue;
-          } else if ( (360 + hue - arrImage[0][i][j])< range) {
-            sal[0][i][j] = newHue;
-          } else {
-            sal[0][i][j] = arrImage[0][i][j];
+        //si la diferencia entre el hue minimo y maximo es mayor a 180
+        if(hue[1]-hue[0]>200){
+          //si el hue es menor o igual a 360 y mayor o igual al mayor
+          if(arrImage[0][i][j]<=360 && arrImage[0][i][j]>=hue[1]){
+            sal[0][i][j]=newHue;
+          }else{
+            //si el hue es mayor o igual a 0 y menor o igual al menor
+            if(arrImage[0][i][j]>=0 && arrImage[0][i][j]<=hue[0]+1){
+              sal[0][i][j]=newHue;
+            }else{if(arrImage[0][i][j]==360){
+              sal[0][i][j]=newHue;
+            }
+              sal[0][i][j] = arrImage[0][i][j];
+            }
           }
-        }
-        else if ((hue + range) > 360) {
-          if (Math.abs(hue - arrImage[0][i][j]) < range) {
-            sal[0][i][j] = newHue;
-          } else if ( (-360 + hue - arrImage[0][i][j])< range) {
-            sal[0][i][j] = newHue;
-          } else {
-            sal[0][i][j] = arrImage[0][i][j];
-          }
-        }// si no se rebasa del cero
-        else if (Math.abs(hue - arrImage[0][i][j]) < range) {
-          sal[0][i][j] = newHue;
-        } // si no se rebasa del rango
+        }else{
+        //si hue es mayor al valor minimo y menor al valor maximo
+        if (arrImage[0][i][j]>=hue[0] && arrImage[0][i][j]<=hue[1]+1) {
+          sal[0][i][j]=newHue;
+        } // si el hue no esta fuera del rango
         else {
           sal[0][i][j] = arrImage[0][i][j];
         }
+      }
         sal[1][i][j] = arrImage[1][i][j];
         sal[2][i][j] = arrImage[2][i][j];
       } 
     }
     return sal;
+  }
+  
+  public static averageHue(arrImage: number[][][], x1: number, y1: number, x2: number, y2: number): number[]{
+    let width: number;
+    let height: number; 
+    height = arrImage[0].length;
+    width = arrImage[0][0].length;
+    let min: number=360;
+    let max: number=0;
+    var minMax=[0,0];
+    minMax=[min,max];
+    console.log(minMax);
+    return minMax;
   }
 }

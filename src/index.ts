@@ -12,12 +12,13 @@ let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
 let pantalla4: CanvasRenderingContext2D;
+let contador:number=0;
 
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
-    evt.stopPropagation();
-    evt.preventDefault(); //que no se abra en otra ventana sola la imagen
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  evt.stopPropagation();
+  evt.preventDefault(); //que no se abra en otra ventana sola la imagen
+  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
   /** Variables que controla el canvas de la imagen, el primero 
@@ -312,15 +313,28 @@ function cierreImg(evt: any): void{
 }
 
 function opchangeFalsoColor(evt: any): void{
-  var argss = prompt('Ingresa un valor de color Hue');
-  var hue = parseFloat(argss);
+  alert('selecciona el area dando click de una esquina hacia la otra ')
+  lienzo1.addEventListener('click',imgLocal.drawArea);
+  lienzo1.addEventListener('click',clickearCanvas);
+  lienzo1.removeEventListener("mousemove", imgLocal.drawSmallImg);
+}
+
+function clickearCanvas(evt:any):void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal),imgLocal.minMax,210)));
+}
+/*funcion para trasladar una imagen de posicion*/ 
+function optrasladar(evt:any):void{
+  var  args  =  prompt ( "Escribe las cordenadas de x , y sepado por una coma" ) ;
+  var  vectores  = args.split( ',' ).map( elem  =>parseFloat( elem));
+  pantalla2.save( ) ;
+  pantalla2.translate ( vectores [ 0 ] , vectores [ 0 ] ) ;
+  pantalla2.drawImage( lienzo1 , 0 , 0 ) ;  
+  pantalla2.restore( );
 }
 
 
 lienzo1.addEventListener('mousemove', handleMouse);
- 
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -344,6 +358,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-trasladar").addEventListener('click',  optrasladar, false);
 
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);

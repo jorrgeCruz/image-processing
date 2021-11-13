@@ -1,7 +1,11 @@
 import { DefaultSettings } from "./DefaultSettings.js";
+import { ImageType } from "./ImageType.js";
+import { MathImg } from "./MathImg.js";
 var ImageLocal = /** @class */ (function () {
     // protected document: HTMLDocument;
     function ImageLocal(p, ready) {
+        this.xStart = null;
+        this.minMax = [0, 0];
         this.img = new Image();
         this.screen = p;
         // this.document = d;
@@ -10,6 +14,7 @@ var ImageLocal = /** @class */ (function () {
         this.drawSmallImg = this.drawSmallImg.bind(this);
         this.handleFileSelect = this.handleFileSelect.bind(this);
         this.onload = this.onload.bind(this);
+        this.drawArea = this.drawArea.bind(this);
     }
     ImageLocal.prototype.handleFileSelect = function (evt) {
         var files;
@@ -77,6 +82,34 @@ var ImageLocal = /** @class */ (function () {
         else {
             this.getScreen().drawImage(this.getImage(), 0, 0, this.getImage().width, this.getImage().height);
             this.setScaled(false);
+        }
+    };
+    ImageLocal.prototype.drawArea = function (evt) {
+        var canvas;
+        var aux;
+        console.log('Funcion draw area');
+        if (this.xStart == null) {
+            this.xStart = evt.offsetX;
+            this.yStart = evt.offsetY;
+        }
+        else {
+            this.xFinal = evt.offsetX;
+            this.yFinal = evt.offsetY;
+            if (this.xFinal < this.xStart) {
+                aux = this.xFinal;
+                this.xFinal = this.xStart;
+                this.xStart = aux;
+            }
+            if (this.yFinal < this.yStart) {
+                aux = this.yFinal;
+                this.yFinal = this.yStart;
+                this.yStart = aux;
+            }
+            this.screen.strokeRect(this.xStart, this.yStart, this.xFinal - this.xStart + 4, this.yFinal - this.yStart + 4);
+            var imagencropSal = new ImageType(this.getScreen(), this.getImage(), this.getImage().width, this.getImage().height);
+            this.minMax = MathImg.averageHue(MathImg.fromRGBtoHSI(imagencropSal), this.xStart, this.yStart, this.xFinal, this.yFinal);
+            console.log(this.minMax);
+            this.xStart = null;
         }
     };
     return ImageLocal;

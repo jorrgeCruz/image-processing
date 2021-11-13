@@ -1,5 +1,7 @@
 import { DefaultSettings } from "./DefaultSettings.js";
 import { ImageOp } from "./ImageOp.js";
+import { ImageType } from "./ImageType.js";
+import { MathImg } from "./MathImg.js";
 
 export class ImageLocal implements ImageOp {
   //atributos
@@ -7,6 +9,11 @@ export class ImageLocal implements ImageOp {
   protected screen: CanvasRenderingContext2D;
   protected readyToDraw: boolean;
   protected isScaled: boolean;
+  public xStart: number = null;
+  public yStart: number;
+  public xFinal: number;
+  public yFinal: number;
+  public minMax=[0,0];
   // protected document: HTMLDocument;
 
   public constructor(p: CanvasRenderingContext2D, ready?: boolean){
@@ -18,7 +25,8 @@ export class ImageLocal implements ImageOp {
     this.isScaled = false;
     this.drawSmallImg = this.drawSmallImg.bind(this);
     this.handleFileSelect = this.handleFileSelect.bind(this);  
-    this.onload = this.onload.bind(this);  
+    this.onload = this.onload.bind(this);
+    this.drawArea = this.drawArea.bind(this);  
   }
     
   public handleFileSelect(evt:any):void {
@@ -102,6 +110,34 @@ export class ImageLocal implements ImageOp {
     else {
       this.getScreen().drawImage(this.getImage(), 0, 0, this.getImage().width, this.getImage().height);
       this.setScaled(false);
+    }
+  }
+
+  public drawArea(evt:any): void{
+    let canvas:CanvasRenderingContext2D;
+    let aux: number;
+
+    console.log('Funcion draw area');
+    if(this.xStart==null){
+      this.xStart = evt.offsetX;
+      this.yStart =evt.offsetY;
+    }else{
+      this.xFinal=evt.offsetX;
+      this.yFinal=evt.offsetY;
+      if(this.xFinal < this.xStart){
+        aux = this.xFinal;
+        this.xFinal = this.xStart;
+        this.xStart = aux;
+      }if(this.yFinal < this.yStart){
+        aux = this.yFinal;
+        this.yFinal = this.yStart;
+        this.yStart = aux;
+      }
+      this.screen.strokeRect(this.xStart,this.yStart,this.xFinal-this.xStart+4,this.yFinal-this.yStart+4);
+      var imagencropSal: ImageType=new ImageType(this.getScreen(),this.getImage(),this.getImage().width,this.getImage().height);
+      this.minMax=MathImg.averageHue(MathImg.fromRGBtoHSI(imagencropSal),this.xStart,this.yStart,this.xFinal,this.yFinal);
+      console.log(this.minMax);
+      this.xStart=null;
     }
   }
 }
