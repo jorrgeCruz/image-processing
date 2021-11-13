@@ -296,6 +296,7 @@ function clickearCanvas(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), imgLocal.minMax, 210)));
 }
+/*funcion para trasladar una imagen de posicion*/
 function optrasladar(evt) {
     var args = prompt("Escribe las cordenadas de x , y sepado por una coma");
     var vectores = args.split(',').map(function (elem) { return parseFloat(elem); });

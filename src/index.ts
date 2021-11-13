@@ -323,7 +323,7 @@ function clickearCanvas(evt:any):void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal),imgLocal.minMax,210)));
 }
-
+/*funcion para trasladar una imagen de posicion*/ 
 function optrasladar(evt:any):void{
   var  args  =  prompt ( "Escribe las cordenadas de x , y sepado por una coma" ) ;
   var  vectores  = args.split( ',' ).map( elem  =>parseFloat( elem));
@@ -332,6 +332,7 @@ function optrasladar(evt:any):void{
   pantalla2.drawImage( lienzo1 , 0 , 0 ) ;  
   pantalla2.restore( );
 }
+
 
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
