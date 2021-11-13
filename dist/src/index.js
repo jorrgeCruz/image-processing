@@ -296,6 +296,14 @@ function clickearCanvas(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), imgLocal.minMax, 210)));
 }
+function optrasladar(evt) {
+    var args = prompt("Escribe las cordenadas de x , y sepado por una coma");
+    var vectores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    pantalla2.save();
+    pantalla2.translate(vectores[0], vectores[0]);
+    pantalla2.drawImage(lienzo1, 0, 0);
+    pantalla2.restore();
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -319,6 +327,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+document.getElementById("op-trasladar").addEventListener('click', optrasladar, false);
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
