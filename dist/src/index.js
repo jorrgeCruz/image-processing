@@ -166,7 +166,7 @@ function sumaImg(evt) {
 var ctx = pantalla2;
 var w;
 var h;
-var numberOfParticles = 5000;
+var numberOfParticles = 1000;
 var particlesArray;
 particlesArray = new Array(0);
 var imagenSal;
@@ -215,7 +215,7 @@ var particleArray;
 var mouse = {
     x: null,
     y: null,
-    radius: 150
+    radius: 50
 };
 function handleMouse(e) {
     mouse.x = e.x; // - canvasPosition.left;

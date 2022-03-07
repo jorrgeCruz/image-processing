@@ -174,7 +174,7 @@ function sumaImg(evt: any): void{
 let ctx = pantalla2;
 let w:number;
 let h:number;
-const numberOfParticles = 5000;
+const numberOfParticles = 1000;
 let particlesArray: Particle[];
 particlesArray = new Array(0);
 var imagenSal: ImageType;
@@ -229,7 +229,7 @@ let particleArray: ParticleText[];
 let mouse:any = {
   x: null,
   y: null,
-  radius: 150
+  radius: 50
 };
 
 function handleMouse(e: any) {
@@ -244,7 +244,6 @@ function textEfects(evt: any): void{
   var factores = args.split(',');//.map(elem => parseInt(elem));
   pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
   //let cadena = 
-  
   pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
   imagenSal = new ImageType(pantalla1, null, 300, 300, true);
   initParticles();

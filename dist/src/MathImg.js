@@ -539,7 +539,6 @@ var MathImg = /** @class */ (function () {
                 sal[2][i][j] = fT[2][arrImage[2][i][j]];
             }
         }
-        //console.log(sal[0])
         return sal;
     };
     MathImg.erosionar = function (img, vec8) {
@@ -776,6 +775,10 @@ var MathImg = /** @class */ (function () {
             }
         }
         return sal;
+    };
+    //aqui va ir el codigo de la trasnformacion bilineal  
+    MathImg.bilineal = function () {
+        return 0;
     };
     return MathImg;
 }());
