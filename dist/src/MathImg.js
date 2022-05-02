@@ -157,8 +157,8 @@ var MathImg = /** @class */ (function () {
             for (var j = 0; j < img.getWidth(); j++) {
                 prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
                 sal[0][i][j] = prom > umbral ? 255 : 0;
-                sal[1][i][j] = prom > umbral ? 255 : 0;
-                sal[2][i][j] = prom > umbral ? 255 : 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
             }
         }
         return sal;
@@ -230,16 +230,8 @@ var MathImg = /** @class */ (function () {
                 }
                 else
                     sal[0][i][j] = 0;
-                if (prome <= rangoMin && prome >= rangoMax) {
-                    sal[1][i][j] = 250;
-                }
-                else
-                    sal[1][i][j] = 0;
-                if (prome <= rangoMin && prome >= rangoMax) {
-                    sal[2][i][j] = 250;
-                }
-                else
-                    sal[2][i][j] = 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
             }
         }
         return sal;
@@ -814,6 +806,23 @@ var MathImg = /** @class */ (function () {
     //aqui va ir el codigo de la trasnformacion bilineal  
     MathImg.bilineal = function () {
         return 0;
+    };
+    MathImg.pulso = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = 0;
+                sal[1][i][j] = 0;
+                sal[2][i][j] = 0;
+            }
+        }
+        sal[0][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        sal[1][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        sal[2][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        return sal;
     };
     return MathImg;
 }());

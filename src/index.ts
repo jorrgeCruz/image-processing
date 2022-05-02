@@ -323,6 +323,13 @@ function opchangeFalsoColor(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue( MathImg.fromRGBtoHSI(imagenSal), hue, 210)));
 }
 
+function generarPulso(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.pulso(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+
+
+
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -382,3 +389,9 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+
+//operacion con imagenes siteticas
+document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
+/*document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
+document.getElementById("op-rampax").addEventListener('click', generaraRampaX, false);
+document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);*/

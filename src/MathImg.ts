@@ -856,4 +856,24 @@ export class MathImg {
   public static bilineal(){
     return 0;
   }
+
+  public static pulso(width: number, height: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    //var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(width, height);
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+
+        sal[0][i][j] = 0;
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    }
+    sal[0][Math.floor(height/2)][Math.floor(width/2)] = 255;
+    sal[1][Math.floor(height/2)][Math.floor(width/2)] = 255;
+    sal[2][Math.floor(height/2)][Math.floor(width/2)] = 255;
+    return sal;
+  }
+
 }
