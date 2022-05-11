@@ -168,6 +168,11 @@ function sumaImg(evt) {
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
+function marcaAguaCentro(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, .25));
+}
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
 var w;
@@ -301,6 +306,18 @@ function generarPulso(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.pulso(imgLocal.getImage().width, imgLocal.getImage().height));
 }
+function generarRuido(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ruido(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaX(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaY(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaY(imgLocal.getImage().width, imgLocal.getImage().height));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -337,6 +354,7 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
@@ -352,6 +370,6 @@ document.getElementById("op-aper").addEventListener('click', aperturaImg, false)
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
 //operacion con imagenes siteticas
 document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
-/*document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
-document.getElementById("op-rampax").addEventListener('click', generaraRampaX, false);
-document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);*/ 
+document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
+document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
+document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);

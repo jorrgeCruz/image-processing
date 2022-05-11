@@ -176,6 +176,12 @@ function sumaImg(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 } 
 
+function marcaAguaCentro(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, .25));
+} 
+
 //variables adicionales para el efecto rain
 let ctx = pantalla2;
 let w:number;
@@ -328,7 +334,20 @@ function generarPulso(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.pulso(imgLocal.getImage().width, imgLocal.getImage().height));
 }
 
+function generarRuido(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.ruido(imgLocal.getImage().width, imgLocal.getImage().height));
+}
 
+function generarRampaX(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+
+function generarRampaY(evt: any): void{
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaY(imgLocal.getImage().width, imgLocal.getImage().height));
+}
 
 lienzo1.addEventListener('mousemove', handleMouse);
  
@@ -371,6 +390,8 @@ document.getElementById("op-div").addEventListener('click', div, false);
 
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
+
 
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
@@ -392,6 +413,6 @@ document.getElementById("op-cier").addEventListener('click', cierreImg, false);
 
 //operacion con imagenes siteticas
 document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
-/*document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
-document.getElementById("op-rampax").addEventListener('click', generaraRampaX, false);
-document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);*/
+document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
+document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
+document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);

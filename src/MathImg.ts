@@ -529,6 +529,57 @@ export class MathImg {
     return sal;
   }
 
+  public static marcaAguaCentro(img: ImageType, img2: ImageType, porc: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    let arrImage ;
+    let arrImage2 ;
+    let width ;
+    let height ;
+    let sal;
+    let midW, midH;
+    let midsmallW, midsmallH;
+    let widthsmall, heightsmall;
+    
+    if (img.getWidth() > img2.getWidth()) {
+      arrImage = img.getArrayImg();
+      arrImage2 = img2.getArrayImg();
+      width = img.getWidth();
+      height = img.getHeight();
+      widthsmall = img2.getWidth();
+      heightsmall = img2.getHeight();
+      sal = this.initArray(img.getWidth(), img.getHeight());
+    } else {
+      arrImage2 = img.getArrayImg();
+      arrImage = img2.getArrayImg();
+      width = img2.getWidth();
+      height = img2.getHeight();
+      widthsmall = img.getWidth();
+      heightsmall = img.getHeight();
+      sal = this.initArray(img2.getWidth(), img2.getHeight());
+    }
+    midW = Math.floor(width / 2);
+    midH = Math.floor(height / 2);
+    midsmallW = Math.floor(widthsmall / 2);
+    midsmallH  = Math.floor(heightsmall / 2);
+
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        sal[0][i][j] = arrImage[0][i][j] ;
+        sal[1][i][j] = arrImage[1][i][j] ;
+        sal[2][i][j] = arrImage[2][i][j] ;
+      }
+    }
+    for (let i = 0; i < heightsmall; i++) {
+      for (let j = 0; j < widthsmall; j++) {
+        sal[0][midH -midsmallH + i][midW -midsmallW + j] += arrImage2[0][i][j]*porc ;
+        sal[1][midH -midsmallH + i][midW -midsmallW+ j] += arrImage2[1][i][j]*porc ;
+        sal[2][midH -midsmallH + i][midW -midsmallW+ j] += arrImage2[2][i][j]*porc ;
+      }
+    }
+
+    return sal;
+  }
+  
   public static hist(img: ImageType): number[][] {
 
     //variable que guarda el arreglo 3d de la imagen de color
@@ -873,6 +924,51 @@ export class MathImg {
     sal[0][Math.floor(height/2)][Math.floor(width/2)] = 255;
     sal[1][Math.floor(height/2)][Math.floor(width/2)] = 255;
     sal[2][Math.floor(height/2)][Math.floor(width/2)] = 255;
+    return sal;
+  }
+
+  public static ruido(width: number, height: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    //var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(width, height);
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        sal[0][i][j] = (Math.random() * 256)>128?255:0;
+        sal[1][i][j] = sal[0][i][j];
+        sal[2][i][j] = sal[0][i][j];
+      }
+    }
+    return sal;
+  }
+
+  public static rampaX(width: number, height: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    //var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(width, height);
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        sal[0][i][j] = j;
+        sal[1][i][j] = j;
+        sal[2][i][j] = j;
+      }
+    }
+    return sal;
+  }
+
+  public static rampaY(width: number, height: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    //var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(width, height);
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        sal[0][i][j] = i;
+        sal[1][i][j] = i;
+        sal[2][i][j] = i;
+      }
+    }
     return sal;
   }
 

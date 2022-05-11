@@ -502,6 +502,54 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.marcaAguaCentro = function (img, img2, porc) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage;
+        var arrImage2;
+        var width;
+        var height;
+        var sal;
+        var midW, midH;
+        var midsmallW, midsmallH;
+        var widthsmall, heightsmall;
+        if (img.getWidth() > img2.getWidth()) {
+            arrImage = img.getArrayImg();
+            arrImage2 = img2.getArrayImg();
+            width = img.getWidth();
+            height = img.getHeight();
+            widthsmall = img2.getWidth();
+            heightsmall = img2.getHeight();
+            sal = this.initArray(img.getWidth(), img.getHeight());
+        }
+        else {
+            arrImage2 = img.getArrayImg();
+            arrImage = img2.getArrayImg();
+            width = img2.getWidth();
+            height = img2.getHeight();
+            widthsmall = img.getWidth();
+            heightsmall = img.getHeight();
+            sal = this.initArray(img2.getWidth(), img2.getHeight());
+        }
+        midW = Math.floor(width / 2);
+        midH = Math.floor(height / 2);
+        midsmallW = Math.floor(widthsmall / 2);
+        midsmallH = Math.floor(heightsmall / 2);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = arrImage[2][i][j];
+            }
+        }
+        for (var i = 0; i < heightsmall; i++) {
+            for (var j = 0; j < widthsmall; j++) {
+                sal[0][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[0][i][j] * porc;
+                sal[1][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[1][i][j] * porc;
+                sal[2][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[2][i][j] * porc;
+            }
+        }
+        return sal;
+    };
     MathImg.hist = function (img) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -822,6 +870,48 @@ var MathImg = /** @class */ (function () {
         sal[0][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
         sal[1][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
         sal[2][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        return sal;
+    };
+    MathImg.ruido = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = (Math.random() * 256) > 128 ? 255 : 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.rampaX = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = j;
+                sal[1][i][j] = j;
+                sal[2][i][j] = j;
+            }
+        }
+        return sal;
+    };
+    MathImg.rampaY = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = i;
+                sal[1][i][j] = i;
+                sal[2][i][j] = i;
+            }
+        }
         return sal;
     };
     return MathImg;
