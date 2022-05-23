@@ -106,6 +106,7 @@ var ImageType = /** @class */ (function () {
         max = arrImage[0][0][0];
         min = arrImage[0][0][0];
         var position;
+        console.log(arrImage);
         for (var i = 0; i < this._height; i++) {
             for (var j = 0; j < this._width; j++) {
                 max = Math.max(max, arrImage[0][i][j]);

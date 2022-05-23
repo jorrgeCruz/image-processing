@@ -11,6 +11,8 @@ var MathImg = /** @class */ (function () {
             arrImage[1][i] = new Array(width);
             arrImage[2][i] = new Array(width);
         }
+        console.log(arrImage);
+        console.log(width, height);
         return arrImage;
     };
     MathImg.initArray2D = function (width, height) {
@@ -548,6 +550,55 @@ var MathImg = /** @class */ (function () {
                 sal[2][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[2][i][j] * porc;
             }
         }
+        return sal;
+    };
+    MathImg.marcaAguaArray = function (img, img2, porc) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage;
+        var arrImage2;
+        var width;
+        var height;
+        var sal;
+        var widthsmall, heightsmall;
+        var noVecesAncho, noVecesAlto;
+        if (img.getWidth() > img2.getWidth()) {
+            arrImage = img.getArrayImg();
+            arrImage2 = img2.getArrayImg();
+            width = img.getWidth();
+            height = img.getHeight();
+            widthsmall = img2.getWidth();
+            heightsmall = img2.getHeight();
+            sal = this.initArray(img.getWidth(), img.getHeight());
+        }
+        else {
+            arrImage2 = img.getArrayImg();
+            arrImage = img2.getArrayImg();
+            width = img2.getWidth();
+            height = img2.getHeight();
+            widthsmall = img.getWidth();
+            heightsmall = img.getHeight();
+            sal = this.initArray(img2.getWidth(), img2.getHeight());
+        }
+        noVecesAncho = Math.floor(width / widthsmall);
+        noVecesAlto = Math.floor(height / heightsmall);
+        console.log(width, height);
+        console.log(sal);
+        for (var w = 0; w <= noVecesAlto; w++) {
+            for (var v = 0; v <= noVecesAncho; v++) {
+                for (var i = 0; i < heightsmall; i++) {
+                    for (var j = 0; j < widthsmall; j++) {
+                        if ((i + w * heightsmall) < height && (j + v * widthsmall) < width) {
+                            sal[0][i + w * heightsmall][j + v * widthsmall] = arrImage[0][i + w * heightsmall][j + v * widthsmall] + arrImage2[0][i][j] * porc;
+                            sal[1][i + w * heightsmall][j + v * widthsmall] = arrImage[1][i + w * heightsmall][j + v * widthsmall] + arrImage2[1][i][j] * porc;
+                            sal[2][i + w * heightsmall][j + v * widthsmall] = arrImage[2][i + w * heightsmall][j + v * widthsmall] + arrImage2[2][i][j] * porc;
+                        }
+                        //else
+                        // break;
+                    }
+                }
+            }
+        }
+        console.log(sal);
         return sal;
     };
     MathImg.hist = function (img) {

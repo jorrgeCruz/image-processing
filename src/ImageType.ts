@@ -118,7 +118,8 @@ export class ImageType {
       var max: number, min: number, factor: number;
       max = arrImage[0][0][0];
       min = arrImage[0][0][0];
-      let position: number[];
+    let position: number[];
+    console.log(arrImage)
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           max = Math.max(max, arrImage[0][i][j]);

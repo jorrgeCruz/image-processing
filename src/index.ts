@@ -179,8 +179,15 @@ function sumaImg(evt: any): void{
 function marcaAguaCentro(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, .25));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, 1));
 } 
+
+function marcaAguaArray(evt: any): void{
+  
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, 0.25));
+}
 
 //variables adicionales para el efecto rain
 let ctx = pantalla2;
@@ -391,7 +398,7 @@ document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
-
+document.getElementById("op-marca-agua-array").addEventListener('click', marcaAguaArray, false);
 
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);

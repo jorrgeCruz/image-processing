@@ -13,6 +13,8 @@ export class MathImg {
       arrImage[1][i] = new Array(width);
       arrImage[2][i] = new Array(width);
     }
+    console.log(arrImage)
+    console.log(width, height)
     return arrImage;
   }
   public static initArray2D(width: number, height: number): any {
@@ -577,6 +579,57 @@ export class MathImg {
       }
     }
 
+    return sal;
+  }
+
+  public static marcaAguaArray(img: ImageType, img2: ImageType, porc: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    let arrImage ;
+    let arrImage2 ;
+    let width ;
+    let height ;
+    let sal;
+    let widthsmall, heightsmall;
+    let noVecesAncho, noVecesAlto;
+    
+    if (img.getWidth() > img2.getWidth()) {
+      arrImage = img.getArrayImg();
+      arrImage2 = img2.getArrayImg();
+      width = img.getWidth();
+      height = img.getHeight();
+      widthsmall = img2.getWidth();
+      heightsmall = img2.getHeight();
+      sal = this.initArray(img.getWidth(), img.getHeight());
+    } else {
+      arrImage2 = img.getArrayImg();
+      arrImage = img2.getArrayImg();
+      width = img2.getWidth();
+      height = img2.getHeight();
+      widthsmall = img.getWidth();
+      heightsmall = img.getHeight();
+      sal = this.initArray(img2.getWidth(), img2.getHeight());
+    }
+    noVecesAncho =  Math.floor(width / widthsmall);
+    noVecesAlto =  Math.floor(height / heightsmall);
+    console.log(width, height)
+    console.log(sal)
+    for (let w = 0; w <= noVecesAlto; w++) {
+      for (let v = 0; v <= noVecesAncho; v++) {
+        
+        for (let i = 0; i < heightsmall; i++) {
+          for (let j = 0; j < widthsmall; j++) {
+            if ((i + w * heightsmall) < height && (j + v * widthsmall) < width) {
+              sal[0][i + w * heightsmall][j + v * widthsmall] = arrImage[0][i + w * heightsmall][j + v * widthsmall] + arrImage2[0][i][j] * porc;
+              sal[1][i + w * heightsmall][j + v * widthsmall] = arrImage[1][i + w * heightsmall][j + v * widthsmall] + arrImage2[1][i][j] * porc;
+              sal[2][i + w * heightsmall][j + v * widthsmall] = arrImage[2][i + w * heightsmall][j + v * widthsmall] + arrImage2[2][i][j] * porc;
+            }
+            //else
+             // break;
+          }
+        }
+      }
+    }
+    console.log(sal)
     return sal;
   }
   
