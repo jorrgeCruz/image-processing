@@ -11,6 +11,8 @@ var MathImg = /** @class */ (function () {
             arrImage[1][i] = new Array(width);
             arrImage[2][i] = new Array(width);
         }
+        console.log(arrImage);
+        console.log(width, height);
         return arrImage;
     };
     MathImg.initArray2D = function (width, height) {
@@ -46,9 +48,9 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[0][i][j] = arrImage[0][i][j];
-                sal[1][i][j] = arrImage[1][i][j];
-                sal[2][i][j] = 0; //255-arrImage[2][i][j];
+                sal[0][i][j] = Math.pow(arrImage[0][i][j], 2);
+                sal[1][i][j] = Math.pow(arrImage[1][i][j], 2);
+                sal[2][i][j] = Math.pow(arrImage[2][i][j], 2);
             }
         }
         return sal;
@@ -95,6 +97,41 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    //este codigose agrego el 4 de abril de 2022
+    MathImg.toTricolor = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var inicio = 0, termino = img.getWidth() / 3;
+        console.log(inicio, termino);
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = inicio; j < termino; j++) {
+                sal[0][i][j] = 0;
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = 0;
+            }
+        }
+        inicio = termino;
+        termino = 2 * img.getWidth() / 3;
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = inicio; j < termino; j++) {
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = arrImage[2][i][j];
+            }
+        }
+        inicio = termino;
+        termino = img.getWidth();
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = inicio; j < termino; j++) {
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = 0;
+                sal[2][i][j] = 0;
+            }
+        }
+        return sal;
+    };
     MathImg.correctionGamma = function (img, factores) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -122,8 +159,8 @@ var MathImg = /** @class */ (function () {
             for (var j = 0; j < img.getWidth(); j++) {
                 prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
                 sal[0][i][j] = prom > umbral ? 255 : 0;
-                sal[1][i][j] = prom > umbral ? 255 : 0;
-                sal[2][i][j] = prom > umbral ? 255 : 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
             }
         }
         return sal;
@@ -195,16 +232,8 @@ var MathImg = /** @class */ (function () {
                 }
                 else
                     sal[0][i][j] = 0;
-                if (prome <= rangoMin && prome >= rangoMax) {
-                    sal[1][i][j] = 250;
-                }
-                else
-                    sal[1][i][j] = 0;
-                if (prome <= rangoMin && prome >= rangoMax) {
-                    sal[2][i][j] = 250;
-                }
-                else
-                    sal[2][i][j] = 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
             }
         }
         return sal;
@@ -475,6 +504,103 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.marcaAguaCentro = function (img, img2, porc) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage;
+        var arrImage2;
+        var width;
+        var height;
+        var sal;
+        var midW, midH;
+        var midsmallW, midsmallH;
+        var widthsmall, heightsmall;
+        if (img.getWidth() > img2.getWidth()) {
+            arrImage = img.getArrayImg();
+            arrImage2 = img2.getArrayImg();
+            width = img.getWidth();
+            height = img.getHeight();
+            widthsmall = img2.getWidth();
+            heightsmall = img2.getHeight();
+            sal = this.initArray(img.getWidth(), img.getHeight());
+        }
+        else {
+            arrImage2 = img.getArrayImg();
+            arrImage = img2.getArrayImg();
+            width = img2.getWidth();
+            height = img2.getHeight();
+            widthsmall = img.getWidth();
+            heightsmall = img.getHeight();
+            sal = this.initArray(img2.getWidth(), img2.getHeight());
+        }
+        midW = Math.floor(width / 2);
+        midH = Math.floor(height / 2);
+        midsmallW = Math.floor(widthsmall / 2);
+        midsmallH = Math.floor(heightsmall / 2);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = arrImage[0][i][j];
+                sal[1][i][j] = arrImage[1][i][j];
+                sal[2][i][j] = arrImage[2][i][j];
+            }
+        }
+        for (var i = 0; i < heightsmall; i++) {
+            for (var j = 0; j < widthsmall; j++) {
+                sal[0][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[0][i][j] * porc;
+                sal[1][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[1][i][j] * porc;
+                sal[2][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[2][i][j] * porc;
+            }
+        }
+        return sal;
+    };
+    MathImg.marcaAguaArray = function (img, img2, porc) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage;
+        var arrImage2;
+        var width;
+        var height;
+        var sal;
+        var widthsmall, heightsmall;
+        var noVecesAncho, noVecesAlto;
+        if (img.getWidth() > img2.getWidth()) {
+            arrImage = img.getArrayImg();
+            arrImage2 = img2.getArrayImg();
+            width = img.getWidth();
+            height = img.getHeight();
+            widthsmall = img2.getWidth();
+            heightsmall = img2.getHeight();
+            sal = this.initArray(img.getWidth(), img.getHeight());
+        }
+        else {
+            arrImage2 = img.getArrayImg();
+            arrImage = img2.getArrayImg();
+            width = img2.getWidth();
+            height = img2.getHeight();
+            widthsmall = img.getWidth();
+            heightsmall = img.getHeight();
+            sal = this.initArray(img2.getWidth(), img2.getHeight());
+        }
+        noVecesAncho = Math.floor(width / widthsmall);
+        noVecesAlto = Math.floor(height / heightsmall);
+        console.log(width, height);
+        console.log(sal);
+        for (var w = 0; w <= noVecesAlto; w++) {
+            for (var v = 0; v <= noVecesAncho; v++) {
+                for (var i = 0; i < heightsmall; i++) {
+                    for (var j = 0; j < widthsmall; j++) {
+                        if ((i + w * heightsmall) < height && (j + v * widthsmall) < width) {
+                            sal[0][i + w * heightsmall][j + v * widthsmall] = arrImage[0][i + w * heightsmall][j + v * widthsmall] + arrImage2[0][i][j] * porc;
+                            sal[1][i + w * heightsmall][j + v * widthsmall] = arrImage[1][i + w * heightsmall][j + v * widthsmall] + arrImage2[1][i][j] * porc;
+                            sal[2][i + w * heightsmall][j + v * widthsmall] = arrImage[2][i + w * heightsmall][j + v * widthsmall] + arrImage2[2][i][j] * porc;
+                        }
+                        //else
+                        // break;
+                    }
+                }
+            }
+        }
+        console.log(sal);
+        return sal;
+    };
     MathImg.hist = function (img) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
@@ -539,7 +665,6 @@ var MathImg = /** @class */ (function () {
                 sal[2][i][j] = fT[2][arrImage[2][i][j]];
             }
         }
-        //console.log(sal[0])
         return sal;
     };
     MathImg.erosionar = function (img, vec8) {
@@ -773,6 +898,69 @@ var MathImg = /** @class */ (function () {
                 }
                 sal[1][i][j] = arrImage[1][i][j];
                 sal[2][i][j] = arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
+    //aqui va ir el codigo de la trasnformacion bilineal  
+    MathImg.bilineal = function () {
+        return 0;
+    };
+    MathImg.pulso = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = 0;
+                sal[1][i][j] = 0;
+                sal[2][i][j] = 0;
+            }
+        }
+        sal[0][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        sal[1][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        sal[2][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+        return sal;
+    };
+    MathImg.ruido = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = (Math.random() * 256) > 128 ? 255 : 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.rampaX = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = j;
+                sal[1][i][j] = j;
+                sal[2][i][j] = j;
+            }
+        }
+        return sal;
+    };
+    MathImg.rampaY = function (width, height) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        //var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                sal[0][i][j] = i;
+                sal[1][i][j] = i;
+                sal[2][i][j] = i;
             }
         }
         return sal;
