@@ -18,7 +18,7 @@ export class ImageType {
     } else {
       this._width = w;
       this._height = h;
-      this.imageData = sc.createImageData(this._width, this._height);
+      this.imageData = sc.getImageData(0, 0, this._width, this._height);
       console.log("sin",this.imageData)
     }
     this.screenCanvas = sc;
@@ -119,7 +119,7 @@ export class ImageType {
       max = arrImage[0][0][0];
       min = arrImage[0][0][0];
     let position: number[];
-    console.log(arrImage)
+    //console.log(arrImage)
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           max = Math.max(max, arrImage[0][i][j]);
@@ -127,7 +127,7 @@ export class ImageType {
         }
       }
     factor = 255.0 / (max - min);
-    console.log(factor, max, min )
+    //console.log(factor, max, min )
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           position = this.getColorIndicesForCoord(j, i);

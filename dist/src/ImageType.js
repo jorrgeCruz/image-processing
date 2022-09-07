@@ -13,7 +13,7 @@ var ImageType = /** @class */ (function () {
         else {
             this._width = w;
             this._height = h;
-            this.imageData = sc.createImageData(this._width, this._height);
+            this.imageData = sc.getImageData(0, 0, this._width, this._height);
             console.log("sin", this.imageData);
         }
         this.screenCanvas = sc;
@@ -106,7 +106,7 @@ var ImageType = /** @class */ (function () {
         max = arrImage[0][0][0];
         min = arrImage[0][0][0];
         var position;
-        console.log(arrImage);
+        //console.log(arrImage)
         for (var i = 0; i < this._height; i++) {
             for (var j = 0; j < this._width; j++) {
                 max = Math.max(max, arrImage[0][i][j]);
@@ -114,7 +114,7 @@ var ImageType = /** @class */ (function () {
             }
         }
         factor = 255.0 / (max - min);
-        console.log(factor, max, min);
+        //console.log(factor, max, min )
         for (var i = 0; i < this._height; i++) {
             for (var j = 0; j < this._width; j++) {
                 position = this.getColorIndicesForCoord(j, i);

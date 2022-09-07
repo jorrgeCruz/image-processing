@@ -174,9 +174,11 @@ function marcaAguaCentro(evt) {
     imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, 1));
 }
 function marcaAguaArray(evt) {
+    var argss = prompt('Ingresa porcentaje de  ');
+    var porc = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
-    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, 0.25));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, porc));
 }
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
