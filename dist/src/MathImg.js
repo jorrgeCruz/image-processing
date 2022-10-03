@@ -11,8 +11,6 @@ var MathImg = /** @class */ (function () {
             arrImage[1][i] = new Array(width);
             arrImage[2][i] = new Array(width);
         }
-        console.log(arrImage);
-        console.log(width, height);
         return arrImage;
     };
     MathImg.initArray2D = function (width, height) {
@@ -33,7 +31,8 @@ var MathImg = /** @class */ (function () {
         var prom;
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                //0.299 + 0.587G + 0.114B.
+                prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
                 sal[0][i][j] = prom;
                 sal[1][i][j] = prom;
                 sal[2][i][j] = prom;
@@ -48,9 +47,25 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[0][i][j] = Math.pow(arrImage[0][i][j], 2);
-                sal[1][i][j] = Math.pow(arrImage[1][i][j], 2);
-                sal[2][i][j] = Math.pow(arrImage[2][i][j], 2);
+                sal[0][i][j] = 255 - arrImage[0][i][j];
+                sal[1][i][j] = 255 - arrImage[1][i][j];
+                sal[2][i][j] = 255 - arrImage[2][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.toNegativeGrises = function (img) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var prom;
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
+                sal[0][i][j] = 255 - prom;
+                sal[1][i][j] = 255 - prom;
+                sal[2][i][j] = 255 - prom;
             }
         }
         return sal;
@@ -117,8 +132,8 @@ var MathImg = /** @class */ (function () {
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = inicio; j < termino; j++) {
                 sal[0][i][j] = arrImage[0][i][j];
-                sal[1][i][j] = arrImage[1][i][j];
-                sal[2][i][j] = arrImage[2][i][j];
+                sal[1][i][j] = arrImage[0][i][j];
+                sal[2][i][j] = arrImage[0][i][j];
             }
         }
         inicio = termino;
@@ -243,9 +258,40 @@ var MathImg = /** @class */ (function () {
         var sal = this.initArray(img.getWidth(), img.getHeight());
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
-                sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
+                sal[0][i][j] = arrImage[0][i][j] + factor;
+                sal[1][i][j] = arrImage[1][i][j] + factor;
+                sal[2][i][j] = arrImage[2][i][j] + factor;
+                /*sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
                 sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor;
                 sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor;
+              */
+            }
+        }
+        return sal;
+    };
+    MathImg.cambioFTransferencia = function (img, factores) {
+        var arrImage = img.getArrayImg();
+        factores.unshift(0, 0);
+        var tamFact = factores.length;
+        var I1, I2, O1, O2;
+        var factor;
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        for (var k = 2; k < tamFact; k += 2) {
+            I1 = factores[k - 2];
+            O1 = factores[k - 1];
+            I2 = factores[k];
+            O2 = factores[k + 1];
+            factor = (O2 - O1) / (I2 - I1);
+            //console.log(factor)
+            for (var i = 0; i < img.getHeight(); i++) {
+                for (var j = 0; j < img.getWidth(); j++) {
+                    if (arrImage[0][i][j] >= I1 && arrImage[0][i][j] < I2)
+                        sal[0][i][j] = factor * (arrImage[0][i][j] - I1) + O1;
+                    if (arrImage[1][i][j] >= I1 && arrImage[1][i][j] < I2)
+                        sal[1][i][j] = factor * (arrImage[1][i][j] - I1) + O1;
+                    if (arrImage[2][i][j] >= I1 && arrImage[2][i][j] < I2)
+                        sal[2][i][j] = factor * (arrImage[2][i][j] - I1) + O1;
+                }
             }
         }
         return sal;
@@ -261,6 +307,44 @@ var MathImg = /** @class */ (function () {
                     Math.pow(arrImage[1][i][j], 2) * 0.587 +
                     Math.pow(arrImage[2][i][j], 2) * 0.114) / 100.0;
                 sal[1][i][j] = 'rgb(' + arrImage[0][i][j] + ',' + arrImage[1][i][j] + ',' + arrImage[2][i][j] + ')';
+            }
+        }
+        return sal;
+    };
+    /**
+     * Metodo para Generar el contraste de una Imagen
+     * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
+     * @return number[][][] es la imagen de salida con contraste
+     */
+    MathImg.changeContraste = function (img, valor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        //
+        var cR, cG, cB;
+        var contraste;
+        contraste = (valor + 100) / 100;
+        for (var i = 0; i < img.getHeight(); i++) {
+            for (var j = 0; j < img.getWidth(); j++) {
+                cR = ((((arrImage[0][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cR > 255)
+                    cR = 255;
+                if (cR < 0)
+                    cR = 0;
+                sal[0][i][j] = cR;
+                cG = ((((arrImage[1][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cG > 255)
+                    cG = 255;
+                if (cG < 0)
+                    cG = 0;
+                sal[1][i][j] = cG;
+                cB = ((((arrImage[2][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+                if (cB > 255)
+                    cB = 255;
+                if (cB < 0)
+                    cB = 0;
+                sal[2][i][j] = cB;
             }
         }
         return sal;
@@ -322,44 +406,6 @@ var MathImg = /** @class */ (function () {
             r1 += dr;
             g1 += dg;
             b1 += db;
-        }
-        return sal;
-    };
-    /**
-     * Metodo para Generar el contraste de una Imagen
-     * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
-     * @return number[][][] es la imagen de salida con contraste
-     */
-    MathImg.changeContraste = function (img, valor) {
-        //variable que guarda el arreglo 3d de la imagen de color
-        var arrImage = img.getArrayImg();
-        //variable donde guardamos la salida
-        var sal = this.initArray(img.getWidth(), img.getHeight());
-        //
-        var cR, cG, cB;
-        var contraste;
-        contraste = (valor + 100) / 100;
-        for (var i = 0; i < img.getHeight(); i++) {
-            for (var j = 0; j < img.getWidth(); j++) {
-                cR = ((((arrImage[0][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-                if (cR > 255)
-                    cR = 255;
-                if (cR < 0)
-                    cR = 0;
-                sal[0][i][j] = cR;
-                cG = ((((arrImage[1][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-                if (cG > 255)
-                    cG = 255;
-                if (cG < 0)
-                    cG = 0;
-                sal[1][i][j] = cG;
-                cB = ((((arrImage[2][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-                if (cB > 255)
-                    cB = 255;
-                if (cB < 0)
-                    cB = 0;
-                sal[2][i][j] = cB;
-            }
         }
         return sal;
     };
@@ -616,6 +662,7 @@ var MathImg = /** @class */ (function () {
         }
         for (var i = 0; i < img.getHeight(); i++) {
             for (var j = 0; j < img.getWidth(); j++) {
+                //console.log(arrImage[0][i][j], i,j )
                 sal[0][arrImage[0][i][j]]++;
                 sal[1][arrImage[1][i][j]]++;
                 sal[2][arrImage[2][i][j]]++;

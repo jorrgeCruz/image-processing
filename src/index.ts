@@ -5,7 +5,7 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
-gfgfgfgfg
+
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
 let lienzo4: HTMLCanvasElement;
@@ -42,7 +42,11 @@ function convertirAGris(evt: any): void{
 }
 function convertirANegativo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toNegative(imagenSal));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegative(imagenSal));
+}
+function convertirANegativoGrises(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegativeGrises(imagenSal));
 }
 function convertirARojo(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -96,6 +100,14 @@ function changeBrightness(evt: any): void {
     var factor = prompt ("Ingresa un valor en el rango de 0-2, como un porcentaje");
     var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeBrightness(imagenSal,  parseFloat(factor)));
+}
+
+function cambioFtransferencia(evt: any): void {
+  var args = prompt('Ingresa los valores de la funcion de transferencia, separados por coma');
+  var factores = args.split(',').map(elem => parseFloat(elem));
+  //console.log(factores, factores.length)
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.cambioFTransferencia(imagenSal, factores));
 }
 function colorGradienteX(evt: any): void{
   var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
@@ -367,6 +379,7 @@ dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 //menu op basicas
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-negativo").addEventListener('click', convertirANegativo, false);
+document.getElementById("op-neg-gris").addEventListener('click', convertirANegativoGrises, false);
 document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
@@ -379,6 +392,7 @@ document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false
 
 //menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
+document.getElementById("op-ftrans").addEventListener('click', cambioFtransferencia, false);
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);

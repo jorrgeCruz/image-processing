@@ -13,8 +13,6 @@ export class MathImg {
       arrImage[1][i] = new Array(width);
       arrImage[2][i] = new Array(width);
     }
-    console.log(arrImage)
-    console.log(width, height)
     return arrImage;
   }
   public static initArray2D(width: number, height: number): any {
@@ -37,7 +35,8 @@ export class MathImg {
     var prom;
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+        //0.299 + 0.587G + 0.114B.
+        prom = (0.299*arrImage[0][i][j] + 0.587*arrImage[1][i][j] +0.114* arrImage[2][i][j]);
         sal[0][i][j] = prom;
         sal[1][i][j] = prom;
         sal[2][i][j] = prom;
@@ -52,9 +51,25 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = Math.pow(arrImage[0][i][j],2);
-        sal[1][i][j] = Math.pow(arrImage[1][i][j],2);
-        sal[2][i][j] = Math.pow(arrImage[2][i][j],2);
+        sal[0][i][j] = 255-arrImage[0][i][j];
+        sal[1][i][j] = 255-arrImage[1][i][j];
+        sal[2][i][j] = 255-arrImage[2][i][j];
+      }
+    }
+    return sal;
+  }
+  public static toNegativeGrises(img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let prom;
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        prom = (0.299*arrImage[0][i][j] + 0.587*arrImage[1][i][j] +0.114* arrImage[2][i][j]);
+        sal[0][i][j] = 255-prom;
+        sal[1][i][j] = 255-prom;
+        sal[2][i][j] = 255-prom;
       }
     }
     return sal;
@@ -121,8 +136,8 @@ export class MathImg {
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
         sal[0][i][j] = arrImage[0][i][j];
-        sal[1][i][j] = arrImage[1][i][j];
-        sal[2][i][j] = arrImage[2][i][j];
+        sal[1][i][j] = arrImage[0][i][j];
+        sal[2][i][j] = arrImage[0][i][j];
       }
     }
       inicio = termino;
@@ -255,14 +270,52 @@ export class MathImg {
     var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
+        sal[0][i][j] = arrImage[0][i][j] + factor
+        sal[1][i][j] = arrImage[1][i][j] + factor;
+        sal[2][i][j] = arrImage[2][i][j] + factor
+        /*sal[0][i][j] = arrImage[0][i][j] * factor > 255.0 ? 255.0 : arrImage[0][i][j] * factor;
         sal[1][i][j] = arrImage[1][i][j] * factor > 255.0 ? 255.0 : arrImage[1][i][j] * factor;
         sal[2][i][j] = arrImage[2][i][j] * factor > 255.0 ? 255.0 : arrImage[2][i][j] * factor;
+      */
       }
     }
     return sal;
   }
+  public static cambioFTransferencia(img: ImageType, factores: number[]): number[][][] {
+    var arrImage: number[][][] = img.getArrayImg();
+    factores.unshift(0, 0);
+    let tamFact = factores.length;
+    let I1: number, I2: number, O1: number, O2: number;
+    let factor;
+    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+ 
+    for (let k = 2; k < tamFact; k+=2) {
+      I1 = factores[k-2];
+      O1 = factores[k-1];
+      I2 = factores[k];
+      O2 = factores[k+1];
+      factor = (O2 - O1) / (I2 - I1);
+      //console.log(factor)
+      for (let i = 0; i < img.getHeight(); i++) {
+        for (let j = 0; j < img.getWidth(); j++) {
+          if (arrImage[0][i][j] >= I1 && arrImage[0][i][j] < I2)
+            sal[0][i][j] = factor * (arrImage[0][i][j] - I1) + O1;
+          
+          
+          if (arrImage[1][i][j] >= I1 && arrImage[1][i][j] < I2)
+            sal[1][i][j] = factor * (arrImage[1][i][j] - I1) + O1;
+         
+          
+          if (arrImage[2][i][j] >= I1 && arrImage[2][i][j] < I2)
+            sal[2][i][j] = factor * (arrImage[2][i][j] - I1) + O1;
+         
+          
+        }
+      }
 
+    }
+    return sal;
+  }
   public static relativeBrightness(img: ImageType): number[][][] {
     var arrImage: number[][][] = img.getArrayImg();
     var sal: any[][][] = this.initArray2D(img.getWidth(), img.getHeight());
@@ -279,6 +332,38 @@ export class MathImg {
     return sal;
   }
 
+  /**
+   * Metodo para Generar el contraste de una Imagen
+   * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
+   * @return number[][][] es la imagen de salida con contraste 
+   */
+   public static changeContraste(img: ImageType, valor: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage: number[][][] = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+    //
+    var cR, cG, cB: number;
+    var contraste: number;
+    contraste = (valor + 100) / 100;
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        cR = ((((arrImage[0][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+        if (cR > 255) cR = 255;
+        if (cR < 0) cR = 0;
+        sal[0][i][j] = cR;
+        cG = ((((arrImage[1][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+        if (cG > 255) cG = 255;
+        if (cG < 0) cG = 0;
+        sal[1][i][j] = cG;
+        cB = ((((arrImage[2][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
+        if (cB > 255) cB = 255;
+        if (cB < 0) cB = 0;
+        sal[2][i][j] = cB;
+      }
+    }
+    return sal;
+  }
   public static colorGradienteX(img: ImageType, factores: number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     let arrImage: number[][][] = img.getArrayImg();
@@ -344,38 +429,6 @@ export class MathImg {
     return sal;
   }
 
-  /**
-   * Metodo para Generar el contraste de una Imagen
-   * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
-   * @return number[][][] es la imagen de salida con contraste 
-   */
-  public static changeContraste(img: ImageType, valor: number): number[][][] {
-    //variable que guarda el arreglo 3d de la imagen de color
-    var arrImage: number[][][] = img.getArrayImg();
-    //variable donde guardamos la salida
-    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
-    //
-    var cR, cG, cB: number;
-    var contraste: number;
-    contraste = (valor + 100) / 100;
-    for (let i = 0; i < img.getHeight(); i++) {
-      for (let j = 0; j < img.getWidth(); j++) {
-        cR = ((((arrImage[0][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-        if (cR > 255) cR = 255;
-        if (cR < 0) cR = 0;
-        sal[0][i][j] = cR;
-        cG = ((((arrImage[1][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-        if (cG > 255) cG = 255;
-        if (cG < 0) cG = 0;
-        sal[1][i][j] = cG;
-        cB = ((((arrImage[2][i][j] / 255.0) - 0.5) * contraste) + 0.5) * 255.0;
-        if (cB > 255) cB = 255;
-        if (cB < 0) cB = 0;
-        sal[2][i][j] = cB;
-      }
-    }
-    return sal;
-  }
 
   public static pow(img: ImageType, power: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
@@ -651,11 +704,13 @@ export class MathImg {
     
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
+        //console.log(arrImage[0][i][j], i,j )
         sal[0][arrImage[0][i][j]]++;
         sal[1][arrImage[1][i][j]]++;
         sal[2][arrImage[2][i][j]]++;
       }
     }
+
     //console.log(sal[0])
     return sal;
   }
