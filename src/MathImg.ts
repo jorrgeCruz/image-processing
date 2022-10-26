@@ -180,10 +180,15 @@ export class MathImg {
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
         prom = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-        sal[0][i][j] = prom > umbral ? 255 : 0;
+        if (prom > umbral) {
+          sal[0][i][j] = arrImage[0][i][j];
+          sal[1][i][j] = arrImage[1][i][j];
+          sal[2][i][j] = arrImage[2][i][j];
+        }
+          
+        /*sal[0][i][j] = prom > umbral ? 255 : 0;
         sal[1][i][j] = sal[0][i][j];
-        sal[2][i][j] = sal[0][i][j];
-        
+        sal[2][i][j] = sal[0][i][j];*/
       }
     }
     return sal;
@@ -241,6 +246,34 @@ export class MathImg {
     return sal;
   }
 
+  public static toDesfaceD(img: ImageType, des: number, ang:number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage: number[][][] = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+    var fila = arrImage[0].length, cols = arrImage[0][0].length;
+    let desx = Math.floor(des * Math.cos(ang * Math.PI / 180));
+    let desy = Math.floor(des * Math.sin(ang * Math.PI / 180));
+    for (let i = 0; i < fila; i++) {
+      for (let j = 0; j < cols; j++) {
+        sal[1][i][j] = arrImage[1][i][j];
+        if ((i - desy) >= 0 && (j - desx) >= 0) {
+          sal[0][i][j] = arrImage[0][i - desy][j- desx];
+        }
+        else {
+          sal[0][i][j] = arrImage[0][i][j];
+        }
+        if ((i + desy) < fila && (j + desx) < cols) {
+          sal[2][i][j] = arrImage[2][i + desy][j+ desx];
+        }
+        else {
+          sal[2][i][j] = arrImage[2][i][j];
+        }
+      }
+    }
+    return sal;
+  }
+
   public static toUmbral2limites(img: ImageType, rangos: number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage: number[][][] = img.getArrayImg();
@@ -253,7 +286,7 @@ export class MathImg {
     for (let i = 0; i < fila; i++) {
       for (let j = 0; j < cols; j++) {
         prome = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-        if (prome <= rangoMin && prome >= rangoMax) {
+        if (prome >= rangoMin && prome <= rangoMax) {
           sal[0][i][j] = 250;
         }
         else
@@ -527,11 +560,11 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = arrImage[0][i][j] + dividir;
-        sal[1][i][j] = arrImage[1][i][j] + dividir;
-        sal[2][i][j] = arrImage[2][i][j] + dividir;
+        sal[0][i][j] = arrImage[0][i][j] / dividir;
+        sal[1][i][j] = arrImage[1][i][j] / dividir;
+        sal[2][i][j] = arrImage[2][i][j] / dividir;
       }
-    }
+  }
     return sal;
   }
   
@@ -576,9 +609,9 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = arrImage[0][i][j] + arrImage2[0][i][j];
-        sal[1][i][j] = arrImage[1][i][j] + arrImage2[1][i][j];
-        sal[2][i][j] = arrImage[2][i][j] + arrImage2[2][i][j];
+        sal[0][i][j] = arrImage[0][i][j] + 0.2*arrImage2[0][i][j];
+        sal[1][i][j] = arrImage[1][i][j] + 0.2*arrImage2[1][i][j];
+        sal[2][i][j] = arrImage[2][i][j] + 0.2*arrImage2[2][i][j];
       }
     }
     return sal;
@@ -664,8 +697,7 @@ export class MathImg {
     }
     noVecesAncho =  Math.floor(width / widthsmall);
     noVecesAlto =  Math.floor(height / heightsmall);
-    console.log(width, height)
-    console.log(sal)
+  
     for (let w = 0; w <= noVecesAlto; w++) {
       for (let v = 0; v <= noVecesAncho; v++) {
         
@@ -682,7 +714,6 @@ export class MathImg {
         }
       }
     }
-    console.log(sal)
     return sal;
   }
   

@@ -88,7 +88,13 @@ function desfaseY(evt: any): void{
   var args = prompt('Ingresa el valor del desfase en Y');
   var desy = parseFloat(args);
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceY(imagenSal, desy));
+}
+function desfaseD(evt: any): void{
+  var args = prompt('Ingresa el valor del desfase y angulo');
+  var rangos = args.split(',').map(elem => parseFloat(elem));
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceD(imagenSal, rangos[0], rangos[1]));
 }
 function umbral2limites(evt: any): void{
     var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
@@ -141,13 +147,13 @@ function multiplicacion(evt: any): void{
   var argss = prompt('Ingresa un numero real');
   var valor = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
 function subtract(evt: any): void{
   var argss = prompt('Ingresa un numero real');
   var restar = parseFloat(argss);
   var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSubtract(imagenSal, restar));
 } 
 function funcionSine(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -166,15 +172,15 @@ function sqrt(evt: any): void{
 function div(evt: any): void{
   var argss = prompt('Ingresa un numero real');
   var dividir = parseFloat(argss);
-  if(dividir==0){
+  if(dividir===0){
     var argss = prompt('Ingresa un valor diferente de 0');
     var dividir = parseFloat(argss);
     var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toDividir(imagenSal, dividir));
   }
   else{
     var imagenSal:ImageType=new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toDividir(imagenSal, dividir));
   }
 }
 function tan(evt: any): void{
@@ -195,7 +201,7 @@ function marcaAguaCentro(evt: any): void{
 } 
 
 function marcaAguaArray(evt: any): void{
-  let argss = prompt('Ingresa porcentaje de  ');
+  let argss = prompt('Ingresa porcentaje de ponderacion ');
   let porc = parseFloat(argss);
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   var imagen2:ImageType = new ImageType(pantalla4, imgLocal4.getImage());
@@ -361,7 +367,7 @@ function generarRuido(evt: any): void{
 
 function generarRampaX(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
+  imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
 }
 
 function generarRampaY(evt: any): void{
@@ -389,7 +395,7 @@ document.getElementById("op-umbral1").addEventListener('click', umbralizado, fal
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
-
+document.getElementById("op-desfaseD").addEventListener('click', desfaseD, false);
 //menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
 document.getElementById("op-ftrans").addEventListener('click', cambioFtransferencia, false);
