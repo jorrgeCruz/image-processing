@@ -9,11 +9,10 @@ export class ImageLocal implements ImageOp {
   protected isScaled: boolean;
   // protected document: HTMLDocument;
 
+
   public constructor(p: CanvasRenderingContext2D, ready?: boolean){
     this.img = new Image();
     this.screen = p;
-    // this.document = d;
-    
     this.readyToDraw = ready;
     this.isScaled = false;
     this.drawSmallImg = this.drawSmallImg.bind(this);

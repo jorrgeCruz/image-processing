@@ -4,7 +4,6 @@ var ImageLocal = /** @class */ (function () {
     function ImageLocal(p, ready) {
         this.img = new Image();
         this.screen = p;
-        // this.document = d;
         this.readyToDraw = ready;
         this.isScaled = false;
         this.drawSmallImg = this.drawSmallImg.bind(this);

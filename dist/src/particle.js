@@ -29,7 +29,8 @@ var Particle = /** @class */ (function () {
     };
     Particle.prototype.draw = function () {
         this.ctx.beginPath();
-        this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
+        //this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
+        this.ctx.fillStyle = 'white';
         this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
         this.ctx.fill();
     };
@@ -44,7 +45,7 @@ var ParticleText = /** @class */ (function () {
         this.ctx = screenCanvas;
         this.x = x; // + 200;
         this.y = y; // - 100,
-        this.size = 2;
+        this.size = 1;
         this.baseX = this.x;
         this.baseY = this.y;
         this.density = ((Math.random() * 30) + 1);
@@ -77,7 +78,7 @@ var ParticleText = /** @class */ (function () {
         }
     };
     ParticleText.prototype.draw = function () {
-        this.ctx.fillStyle = 'red';
+        this.ctx.fillStyle = 'blue';
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
         this.ctx.closePath();

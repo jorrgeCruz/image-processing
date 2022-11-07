@@ -50,6 +50,12 @@ function convertirAAzul(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toBlue(imagenSal));
 }
+//este codigo se agreo el 4 de abril de 2022
+function convertirTricolor(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolor(imagenSal));
+}
+////////////hasta aqui
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -162,11 +168,23 @@ function sumaImg(evt) {
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
 }
+function marcaAguaCentro(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, 1));
+}
+function marcaAguaArray(evt) {
+    var argss = prompt('Ingresa porcentaje de  ');
+    var porc = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, porc));
+}
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
 var w;
 var h;
-var numberOfParticles = 5000;
+var numberOfParticles = 1000;
 var particlesArray;
 particlesArray = new Array(0);
 var imagenSal;
@@ -215,7 +233,7 @@ var particleArray;
 var mouse = {
     x: null,
     y: null,
-    radius: 150
+    radius: 50
 };
 function handleMouse(e) {
     mouse.x = e.x; // - canvasPosition.left;
@@ -289,7 +307,23 @@ function opchangeFalsoColor(evt) {
     var argss = prompt('Ingresa un valor de color Hue');
     var hue = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 120)));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 210)));
+}
+function generarPulso(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.pulso(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRuido(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ruido(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaX(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaY(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaY(imgLocal.getImage().width, imgLocal.getImage().height));
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -303,6 +337,7 @@ document.getElementById("op-negativo").addEventListener('click', convertirANegat
 document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
+document.getElementById("op-tricolor").addEventListener('click', convertirTricolor, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
@@ -326,6 +361,8 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
+document.getElementById("op-marca-agua-array").addEventListener('click', marcaAguaArray, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
@@ -339,3 +376,8 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+//operacion con imagenes siteticas
+document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
+document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
+document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
+document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);
