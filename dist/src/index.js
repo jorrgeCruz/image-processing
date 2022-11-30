@@ -36,7 +36,11 @@ function convertirAGris(evt) {
 }
 function convertirANegativo(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toNegative(imagenSal));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegative(imagenSal));
+}
+function convertirANegativoGrises(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toNegativeGrises(imagenSal));
 }
 function convertirARojo(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -78,7 +82,13 @@ function desfaseY(evt) {
     var args = prompt('Ingresa el valor del desfase en Y');
     var desy = parseFloat(args);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceX(imagenSal, desy));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceY(imagenSal, desy));
+}
+function desfaseD(evt) {
+    var args = prompt('Ingresa el valor del desfase y angulo');
+    var rangos = args.split(',').map(function (elem) { return parseFloat(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toDesfaceD(imagenSal, rangos[0], rangos[1]));
 }
 function umbral2limites(evt) {
     var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
@@ -90,6 +100,13 @@ function changeBrightness(evt) {
     var factor = prompt("Ingresa un valor en el rango de 0-2, como un porcentaje");
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.changeBrightness(imagenSal, parseFloat(factor)));
+}
+function cambioFtransferencia(evt) {
+    var args = prompt('Ingresa los valores de la funcion de transferencia, separados por coma');
+    var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
+    //console.log(factores, factores.length)
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.cambioFTransferencia(imagenSal, factores));
 }
 function colorGradienteX(evt) {
     var args = prompt("Ingresa color de Inicio y final en formato r,g,b, separados por coma");
@@ -123,13 +140,13 @@ function multiplicacion(evt) {
     var argss = prompt('Ingresa un numero real');
     var valor = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toMultiplication(imagenSal, valor));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toMultiplication(imagenSal, valor));
 }
 function subtract(evt) {
     var argss = prompt('Ingresa un numero real');
     var restar = parseFloat(argss);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toSubtract(imagenSal, restar));
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toSubtract(imagenSal, restar));
 }
 function funcionSine(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -148,15 +165,15 @@ function sqrt(evt) {
 function div(evt) {
     var argss = prompt('Ingresa un numero real');
     var dividir = parseFloat(argss);
-    if (dividir == 0) {
+    if (dividir === 0) {
         var argss = prompt('Ingresa un valor diferente de 0');
         var dividir = parseFloat(argss);
         var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-        imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+        imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toDividir(imagenSal, dividir));
     }
     else {
         var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-        imagenSal.imageArray2DtoData(pantalla2, MathImg.toDividir(imagenSal, dividir));
+        imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.toDividir(imagenSal, dividir));
     }
 }
 function tan(evt) {
@@ -167,6 +184,18 @@ function sumaImg(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.addImg(imagenSal, imagen2));
+}
+function marcaAguaCentro(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaCentro(imagenSal, imagen2, 1));
+}
+function marcaAguaArray(evt) {
+    var argss = prompt('Ingresa porcentaje de ponderacion ');
+    var porc = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var imagen2 = new ImageType(pantalla4, imgLocal4.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, porc));
 }
 //variables adicionales para el efecto rain
 var ctx = pantalla2;
@@ -297,6 +326,67 @@ function opchangeFalsoColor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.fromHSItoRGB(MathImg.falseColorByHue(MathImg.fromRGBtoHSI(imagenSal), hue, 210)));
 }
+function generarPulso(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.pulso(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRuido(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ruido(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaX(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaX(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function generarRampaY(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaY(imgLocal.getImage().width, imgLocal.getImage().height));
+}
+function escalarImagen(evt) {
+    var argss = prompt('Ingresa un factor de escala');
+    var factor = parseFloat(argss);
+    //var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+    var imagenSal = new ImageType(pantalla2, null, Math.floor(imgLocal.getImage().width * factor), Math.floor(imgLocal.getImage().height * factor));
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.escalar(imagenSal, factor));
+}
+function escalarImagen2(evt) {
+    var argss = prompt('Ingresa un factor de escala');
+    var factor = parseFloat(argss);
+    pantalla2.drawImage(imgLocal.getImage(), 0, 0, Math.floor(imgLocal.getImage().width * factor), Math.floor(imgLocal.getImage().height * factor));
+}
+function rotarImagen(evt) {
+    var argss = prompt('Ingresa un angulo de rotacion');
+    var angulo = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.rotar(imagenSal, angulo));
+}
+function rotarImagen2(evt) {
+    var argss = prompt('Ingresa un angulo de rotacion');
+    var angulo = parseFloat(argss);
+    //pantalla2.drawImage(imgLocal.getImage(), 0,0)
+    pantalla2.translate(Math.floor(imgLocal.getImage().width / 2), Math.floor(imgLocal.getImage().height / 2));
+    pantalla2.rotate(angulo * Math.PI / 180);
+    pantalla2.translate(-Math.floor(imgLocal.getImage().width / 2), -Math.floor(imgLocal.getImage().height / 2));
+    pantalla2.drawImage(imgLocal.getImage(), 0, 0);
+}
+function shearingX(evt) {
+    var argss = prompt('Ingresa un factor de shearing');
+    var factor = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingX(imagenSal, factor));
+}
+function shearingY(evt) {
+    var argss = prompt('Ingresa un factor de shearing');
+    var factor = parseFloat(argss);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingY(imagenSal, factor));
+}
+function tAfin(evt) {
+    var argss = prompt('Ingresa 6 valores para t Afin, con x3<x1<x2 y y1<y2, y1<y3');
+    var factores = argss.split(',').map(function (elem) { return parseInt(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -306,6 +396,7 @@ dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 //menu op basicas
 document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-negativo").addEventListener('click', convertirANegativo, false);
+document.getElementById("op-neg-gris").addEventListener('click', convertirANegativoGrises, false);
 document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
@@ -315,8 +406,10 @@ document.getElementById("op-umbral1").addEventListener('click', umbralizado, fal
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
+document.getElementById("op-desfaseD").addEventListener('click', desfaseD, false);
 //menu op. edicion
 document.getElementById("op-brillo").addEventListener('click', changeBrightness, false);
+document.getElementById("op-ftrans").addEventListener('click', cambioFtransferencia, false);
 document.getElementById("op-gradienteX").addEventListener('click', colorGradienteX, false);
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
@@ -333,6 +426,8 @@ document.getElementById("op-multiplicacion").addEventListener('click', multiplic
 document.getElementById("op-div").addEventListener('click', div, false);
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
+document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
+document.getElementById("op-marca-agua-array").addEventListener('click', marcaAguaArray, false);
 //op con efectos
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
@@ -346,3 +441,14 @@ document.getElementById("op-eros").addEventListener('click', erosionarImg, false
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+//operacion con imagenes siteticas
+document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
+document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
+document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
+document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);
+//operaciones geometricas
+document.getElementById("op-escalamiento").addEventListener('click', escalarImagen2, false);
+document.getElementById("op-rotacion").addEventListener('click', rotarImagen2, false);
+document.getElementById("op-shearingX").addEventListener('click', shearingX, false);
+document.getElementById("op-shearingY").addEventListener('click', shearingY, false);
+document.getElementById("op-afin").addEventListener('click', tAfin, false);

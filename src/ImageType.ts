@@ -13,12 +13,16 @@ export class ImageType {
     if (img) {
       this._width = img.width;
       this._height = img.height;
+      this.imageData = sc.getImageData(0, 0, this._width, this._height);
+      
     } else {
       this._width = w;
       this._height = h;
+      this.imageData = sc.getImageData(0, 0, this._width, this._height);
+      
     }
+    
     this.screenCanvas = sc;
-    this.imageData = sc.getImageData(0, 0, this._width, this._height);
     this.initArray();
     if (!data)
       this.dataToImageArray2D();
@@ -77,9 +81,29 @@ export class ImageType {
         this.imageData.data[position[2]] = arrImage[2][i][j];
       }
     }
-    sc.putImageData(this.imageData, 0,0);
+    sc.putImageData(this.imageData, 0, 0);
+    //sc.fillRect(10,10,100,100)
   }
-
+  /** Covierte un arreglo 3d de la imagen a un objeto data, si el argumento existe se dibuja
+   * @sc elemento Canas donde se desa dibujar la data
+   *
+   public newImageArray2DtoData(sc:CanvasRenderingContext2D, arrImage: number[][][]):void {
+    let position: number[];
+    this.imageData = sc.createImageData(this._width, this._height);
+    for (let i = 0; i < this._height; i++){
+      for (let j = 0; j < this._width; j++) {
+        position = this.getColorIndicesForCoord(j, i);
+        this.imageData.data[position[0]] = arrImage[0][i][j];
+        this.imageData.data[position[1]] = arrImage[1][i][j];
+        this.imageData.data[position[2]] = arrImage[2][i][j];
+      }
+    }
+    //sc.fillRect(10,10,100,100)
+    //sc.fillText("texto", 10, 10)
+    console.log(this.imageData)
+    sc.putImageData(this.imageData, 0,0);
+    
+  }*/
   /**
    * Funcion que reescala los valores dew la imagen a el rango de una imagen de 0 - 255,
    * la imagen puede estar en cualrquier rango de nunmeros reales.
@@ -93,7 +117,8 @@ export class ImageType {
       var max: number, min: number, factor: number;
       max = arrImage[0][0][0];
       min = arrImage[0][0][0];
-      let position: number[];
+    let position: number[];
+    //console.log(arrImage)
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           max = Math.max(max, arrImage[0][i][j]);
@@ -101,7 +126,7 @@ export class ImageType {
         }
       }
     factor = 255.0 / (max - min);
-    console.log(factor, max, min )
+    //console.log(factor, max, min )
       for (let i = 0; i < this._height; i++) {
         for (let j = 0; j < this._width; j++) {
           position = this.getColorIndicesForCoord(j, i);
