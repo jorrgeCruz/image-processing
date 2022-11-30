@@ -1041,6 +1041,113 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.escalar = function (img, factor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var newHeight = Math.floor(img.getHeight() * factor), newWitdh = Math.floor(img.getWidth() * factor);
+        var sal = this.initArray(newWitdh, newHeight);
+        for (var i = 0; i < newHeight; i++) {
+            for (var j = 0; j < newWitdh; j++) {
+                sal[0][i][j] = arrImage[0][Math.floor(i / factor)][Math.floor(j / factor)];
+                sal[1][i][j] = arrImage[1][Math.floor(i / factor)][Math.floor(j / factor)];
+                sal[2][i][j] = arrImage[2][Math.floor(i / factor)][Math.floor(j / factor)];
+            }
+        }
+        /*
+        for (let i = 0; i < img.getHeight(); i++) {
+          for (let j = 0; j < img.getWidth(); j++) {
+            sal[0][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[0][i][j] ;
+            sal[1][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[1][i][j] ;
+            sal[2][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[2][i][j] ;
+          }
+        }*/
+        return sal;
+    };
+    MathImg.rotar = function (img, angulo) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var newHeight = img.getHeight(), newWitdh = img.getWidth();
+        var sal = this.initArray(newWitdh, newHeight);
+        var xP = newWitdh / 2, yP = newHeight / 2;
+        var phi = (angulo * Math.PI / 180), c = Math.cos(phi), s = Math.sin(phi), r11 = c, r12 = s, r21 = -s, r22 = c, r31 = -xP * c + yP * s + xP, r32 = -xP * s - yP * c + yP;
+        var nX, nY;
+        for (var i = 0; i < newHeight; i++) {
+            for (var j = 0; j < newWitdh; j++) {
+                nX = Math.floor(j * r11 + i * r21 + r31);
+                nY = Math.floor(j * r12 + i * r22 + r32);
+                debugger;
+                if ((nX >= 0 && nX < newWitdh) && (nY >= 0 && nY < newHeight)) {
+                    sal[0][i][j] = arrImage[0][nY][nX];
+                    sal[1][i][j] = arrImage[1][nY][nX];
+                    sal[2][i][j] = arrImage[2][nY][nX];
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.shearingX = function (img, factor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var newHeight = img.getHeight(), newWitdh = img.getWidth();
+        var sal = this.initArray(newWitdh, newHeight);
+        console.log(newWitdh, newHeight);
+        for (var i = 0; i < newHeight; i++) {
+            for (var j = 0; j < newWitdh; j++) {
+                if ((j + Math.floor(factor * i)) < newWitdh) {
+                    sal[0][i][j + Math.floor(factor * i)] = arrImage[0][i][j];
+                    sal[1][i][j + Math.floor(factor * i)] = arrImage[1][i][j];
+                    sal[2][i][j + Math.floor(factor * i)] = arrImage[2][i][j];
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.shearingY = function (img, factor) {
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var newHeight = img.getHeight(), newWitdh = img.getWidth();
+        var sal = this.initArray(newWitdh, newHeight);
+        console.log(newWitdh, newHeight);
+        for (var i = 0; i < newHeight; i++) {
+            for (var j = 0; j < newHeight; j++) {
+                if ((i + Math.floor(factor * j)) < newWitdh) {
+                    sal[0][i + Math.floor(factor * j)][j] = arrImage[0][i][j];
+                    sal[1][i + Math.floor(factor * j)][j] = arrImage[1][i][j];
+                    sal[2][i + Math.floor(factor * j)][j] = arrImage[2][i][j];
+                }
+            }
+        }
+        return sal;
+    };
+    MathImg.tAfin = function (img, factores) {
+        var x1a = 0, x2a = img.getWidth(), x3a = 0;
+        var y1a = 0, y2a = 0, y3a = img.getHeight();
+        var x1r = factores[0], x2r = factores[2], x3r = factores[4];
+        var y1r = factores[1], y2r = factores[3], y3r = factores[5];
+        var x4r = x2r - x1r;
+        var y4r = y1r + y2r + y3r;
+        //variable que guarda el arreglo 3d de la imagen de color
+        var arrImage = img.getArrayImg();
+        //variable donde guardamos la salida
+        var newHeight = y4r - y1r, newWitdh = x2r - x3r;
+        var sal = this.initArray(newWitdh, newHeight);
+        /*
+        for (let i = 0; i < newHeight; i++) {
+          for (let j = 0; j < newHeight; j++) {
+            if ((i+ Math.floor(factor*j)) < newWitdh) {
+              sal[0][i+ Math.floor(factor*j)][j] = arrImage[0][i][j];
+              sal[1][i+ Math.floor(factor*j)][j] = arrImage[1][i][j];
+              sal[2][i+ Math.floor(factor*j)][j] = arrImage[2][i][j];
+            }
+          }
+        }
+      */
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

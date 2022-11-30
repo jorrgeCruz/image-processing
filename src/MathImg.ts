@@ -36,7 +36,7 @@ export class MathImg {
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
         //0.299 + 0.587G + 0.114B.
-        prom = (0.299*arrImage[0][i][j] + 0.587*arrImage[1][i][j] +0.114* arrImage[2][i][j]);
+        prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
         sal[0][i][j] = prom;
         sal[1][i][j] = prom;
         sal[2][i][j] = prom;
@@ -51,9 +51,9 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = 255-arrImage[0][i][j];
-        sal[1][i][j] = 255-arrImage[1][i][j];
-        sal[2][i][j] = 255-arrImage[2][i][j];
+        sal[0][i][j] = 255 - arrImage[0][i][j];
+        sal[1][i][j] = 255 - arrImage[1][i][j];
+        sal[2][i][j] = 255 - arrImage[2][i][j];
       }
     }
     return sal;
@@ -66,10 +66,10 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        prom = (0.299*arrImage[0][i][j] + 0.587*arrImage[1][i][j] +0.114* arrImage[2][i][j]);
-        sal[0][i][j] = 255-prom;
-        sal[1][i][j] = 255-prom;
-        sal[2][i][j] = 255-prom;
+        prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
+        sal[0][i][j] = 255 - prom;
+        sal[1][i][j] = 255 - prom;
+        sal[2][i][j] = 255 - prom;
       }
     }
     return sal;
@@ -122,7 +122,7 @@ export class MathImg {
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida
     var sal = this.initArray(img.getWidth(), img.getHeight());
-    let inicio=0, termino= img.getWidth()/3;
+    let inicio = 0, termino = img.getWidth() / 3;
     console.log(inicio, termino);
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
@@ -131,8 +131,8 @@ export class MathImg {
         sal[2][i][j] = 0;
       }
     }
-      inicio = termino;
-      termino = 2 * img.getWidth() / 3;
+    inicio = termino;
+    termino = 2 * img.getWidth() / 3;
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
         sal[0][i][j] = arrImage[0][i][j];
@@ -140,7 +140,7 @@ export class MathImg {
         sal[2][i][j] = arrImage[0][i][j];
       }
     }
-      inicio = termino;
+    inicio = termino;
     termino = img.getWidth();
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
@@ -246,7 +246,7 @@ export class MathImg {
     return sal;
   }
 
-  public static toDesfaceD(img: ImageType, des: number, ang:number): number[][][] {
+  public static toDesfaceD(img: ImageType, des: number, ang: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage: number[][][] = img.getArrayImg();
     //variable donde guardamos la salida
@@ -258,13 +258,13 @@ export class MathImg {
       for (let j = 0; j < cols; j++) {
         sal[1][i][j] = arrImage[1][i][j];
         if ((i - desy) >= 0 && (j - desx) >= 0) {
-          sal[0][i][j] = arrImage[0][i - desy][j- desx];
+          sal[0][i][j] = arrImage[0][i - desy][j - desx];
         }
         else {
           sal[0][i][j] = arrImage[0][i][j];
         }
         if ((i + desy) < fila && (j + desx) < cols) {
-          sal[2][i][j] = arrImage[2][i + desy][j+ desx];
+          sal[2][i][j] = arrImage[2][i + desy][j + desx];
         }
         else {
           sal[2][i][j] = arrImage[2][i][j];
@@ -322,11 +322,11 @@ export class MathImg {
     let factor;
     var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
  
-    for (let k = 2; k < tamFact; k+=2) {
-      I1 = factores[k-2];
-      O1 = factores[k-1];
+    for (let k = 2; k < tamFact; k += 2) {
+      I1 = factores[k - 2];
+      O1 = factores[k - 1];
       I2 = factores[k];
-      O2 = factores[k+1];
+      O2 = factores[k + 1];
       factor = (O2 - O1) / (I2 - I1);
       //console.log(factor)
       for (let i = 0; i < img.getHeight(); i++) {
@@ -370,7 +370,7 @@ export class MathImg {
    * @img  ImageType tipo de imagen donde se guarda una matriz tridimencional
    * @return number[][][] es la imagen de salida con contraste 
    */
-   public static changeContraste(img: ImageType, valor: number): number[][][] {
+  public static changeContraste(img: ImageType, valor: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage: number[][][] = img.getArrayImg();
     //variable donde guardamos la salida
@@ -564,7 +564,7 @@ export class MathImg {
         sal[1][i][j] = arrImage[1][i][j] / dividir;
         sal[2][i][j] = arrImage[2][i][j] / dividir;
       }
-  }
+    }
     return sal;
   }
   
@@ -609,9 +609,9 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = arrImage[0][i][j] + 0.2*arrImage2[0][i][j];
-        sal[1][i][j] = arrImage[1][i][j] + 0.2*arrImage2[1][i][j];
-        sal[2][i][j] = arrImage[2][i][j] + 0.2*arrImage2[2][i][j];
+        sal[0][i][j] = arrImage[0][i][j] + 0.2 * arrImage2[0][i][j];
+        sal[1][i][j] = arrImage[1][i][j] + 0.2 * arrImage2[1][i][j];
+        sal[2][i][j] = arrImage[2][i][j] + 0.2 * arrImage2[2][i][j];
       }
     }
     return sal;
@@ -619,10 +619,10 @@ export class MathImg {
 
   public static marcaAguaCentro(img: ImageType, img2: ImageType, porc: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
-    let arrImage ;
-    let arrImage2 ;
-    let width ;
-    let height ;
+    let arrImage;
+    let arrImage2;
+    let width;
+    let height;
     let sal;
     let midW, midH;
     let midsmallW, midsmallH;
@@ -648,20 +648,20 @@ export class MathImg {
     midW = Math.floor(width / 2);
     midH = Math.floor(height / 2);
     midsmallW = Math.floor(widthsmall / 2);
-    midsmallH  = Math.floor(heightsmall / 2);
+    midsmallH = Math.floor(heightsmall / 2);
 
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        sal[0][i][j] = arrImage[0][i][j] ;
-        sal[1][i][j] = arrImage[1][i][j] ;
-        sal[2][i][j] = arrImage[2][i][j] ;
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[1][i][j];
+        sal[2][i][j] = arrImage[2][i][j];
       }
     }
     for (let i = 0; i < heightsmall; i++) {
       for (let j = 0; j < widthsmall; j++) {
-        sal[0][midH -midsmallH + i][midW -midsmallW + j] += arrImage2[0][i][j]*porc ;
-        sal[1][midH -midsmallH + i][midW -midsmallW+ j] += arrImage2[1][i][j]*porc ;
-        sal[2][midH -midsmallH + i][midW -midsmallW+ j] += arrImage2[2][i][j]*porc ;
+        sal[0][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[0][i][j] * porc;
+        sal[1][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[1][i][j] * porc;
+        sal[2][midH - midsmallH + i][midW - midsmallW + j] += arrImage2[2][i][j] * porc;
       }
     }
 
@@ -670,10 +670,10 @@ export class MathImg {
 
   public static marcaAguaArray(img: ImageType, img2: ImageType, porc: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
-    let arrImage ;
-    let arrImage2 ;
-    let width ;
-    let height ;
+    let arrImage;
+    let arrImage2;
+    let width;
+    let height;
     let sal;
     let widthsmall, heightsmall;
     let noVecesAncho, noVecesAlto;
@@ -695,8 +695,8 @@ export class MathImg {
       heightsmall = img.getHeight();
       sal = this.initArray(img2.getWidth(), img2.getHeight());
     }
-    noVecesAncho =  Math.floor(width / widthsmall);
-    noVecesAlto =  Math.floor(height / heightsmall);
+    noVecesAncho = Math.floor(width / widthsmall);
+    noVecesAlto = Math.floor(height / heightsmall);
   
     for (let w = 0; w <= noVecesAlto; w++) {
       for (let v = 0; v <= noVecesAncho; v++) {
@@ -709,7 +709,7 @@ export class MathImg {
               sal[2][i + w * heightsmall][j + v * widthsmall] = arrImage[2][i + w * heightsmall][j + v * widthsmall] + arrImage2[2][i][j] * porc;
             }
             //else
-             // break;
+            // break;
           }
         }
       }
@@ -997,12 +997,12 @@ export class MathImg {
     return sal;
   }
 
-  public static toRad(grados: number ): number{
-    return ( grados * Math.PI / 180);
+  public static toRad(grados: number): number {
+    return (grados * Math.PI / 180);
   }
   public static falseColorByHue(arrImage: number[][][], hue: number, newHue: number): number[][][] {
     let width: number;
-    let height: number; 
+    let height: number;
     height = arrImage[0].length;
     width = arrImage[0][0].length;
     //variable donde guardamos la salida
@@ -1014,7 +1014,7 @@ export class MathImg {
         if ((hue - range) < 0) {
           if (Math.abs(hue - arrImage[0][i][j]) < range) {
             sal[0][i][j] = newHue;
-          } else if ( (360 + hue - arrImage[0][i][j])< range) {
+          } else if ((360 + hue - arrImage[0][i][j]) < range) {
             sal[0][i][j] = newHue;
           } else {
             sal[0][i][j] = arrImage[0][i][j];
@@ -1023,7 +1023,7 @@ export class MathImg {
         else if ((hue + range) > 360) {
           if (Math.abs(hue - arrImage[0][i][j]) < range) {
             sal[0][i][j] = newHue;
-          } else if ( (-360 + hue - arrImage[0][i][j])< range) {
+          } else if ((-360 + hue - arrImage[0][i][j]) < range) {
             sal[0][i][j] = newHue;
           } else {
             sal[0][i][j] = arrImage[0][i][j];
@@ -1037,13 +1037,13 @@ export class MathImg {
         }
         sal[1][i][j] = arrImage[1][i][j];
         sal[2][i][j] = arrImage[2][i][j];
-      } 
+      }
     }
     return sal;
   }
 
   //aqui va ir el codigo de la trasnformacion bilineal  
-  public static bilineal(){
+  public static bilineal() {
     return 0;
   }
 
@@ -1060,9 +1060,9 @@ export class MathImg {
         sal[2][i][j] = 0;
       }
     }
-    sal[0][Math.floor(height/2)][Math.floor(width/2)] = 255;
-    sal[1][Math.floor(height/2)][Math.floor(width/2)] = 255;
-    sal[2][Math.floor(height/2)][Math.floor(width/2)] = 255;
+    sal[0][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+    sal[1][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
+    sal[2][Math.floor(height / 2)][Math.floor(width / 2)] = 255;
     return sal;
   }
 
@@ -1073,7 +1073,7 @@ export class MathImg {
     var sal = this.initArray(width, height);
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        sal[0][i][j] = (Math.random() * 256)>128?255:0;
+        sal[0][i][j] = (Math.random() * 256) > 128 ? 255 : 0;
         sal[1][i][j] = sal[0][i][j];
         sal[2][i][j] = sal[0][i][j];
       }
@@ -1111,4 +1111,125 @@ export class MathImg {
     return sal;
   }
 
+  public static escalar(img: ImageType, factor: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let newHeight = Math.floor(img.getHeight() * factor), newWitdh = Math.floor(img.getWidth() * factor);
+    var sal = this.initArray(newWitdh, newHeight);
+    
+    for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newWitdh; j++) {
+        sal[0][i][j] = arrImage[0][Math.floor(i / factor)][Math.floor(j / factor)];
+        sal[1][i][j] = arrImage[1][Math.floor(i / factor)][Math.floor(j / factor)];
+        sal[2][i][j] = arrImage[2][Math.floor(i / factor)][Math.floor(j / factor)];
+      }
+    }
+    /*
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        sal[0][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[0][i][j] ;
+        sal[1][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[1][i][j] ;
+        sal[2][Math.floor(i*factor)][Math.floor(j*factor)] = arrImage[2][i][j] ;
+      }
+    }*/
+    return sal;
+  }
+
+  public static rotar(img: ImageType, angulo: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let newHeight = img.getHeight(), newWitdh = img.getWidth();
+    var sal = this.initArray(newWitdh, newHeight);
+    let xP = newWitdh / 2, yP = newHeight / 2;
+    let phi = (angulo * Math.PI / 180),
+      c = Math.cos(phi), s = Math.sin(phi),
+      r11 = c, r12 = s,
+      r21 = -s, r22 = c,
+      r31 = -xP * c + yP * s + xP, r32 = -xP * s - yP * c + yP;
+    let nX: number, nY: number;
+    for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newWitdh; j++) {
+        nX = Math.floor(j * r11 + i * r21 + r31);
+        nY = Math.floor(j * r12 + i * r22 + r32);
+        debugger
+
+        if ((nX >= 0 && nX < newWitdh) && (nY >= 0 && nY < newHeight)) {
+          sal[0][i][j] = arrImage[0][nY][nX];
+          sal[1][i][j] = arrImage[1][nY][nX];
+          sal[2][i][j] = arrImage[2][nY][nX];
+        }
+      }
+    }
+  
+    return sal;
+  }
+
+  public static shearingX(img: ImageType, factor: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let newHeight = img.getHeight(), newWitdh = img.getWidth();
+    var sal = this.initArray(newWitdh, newHeight);
+    console.log(newWitdh, newHeight)
+    for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newWitdh; j++) {
+        if ((j + Math.floor(factor * i)) < newWitdh) {
+          sal[0][i][j + Math.floor(factor*i)] = arrImage[0][i][j];
+          sal[1][i][j+ Math.floor(factor*i)] = arrImage[1][i][j];
+          sal[2][i][j+ Math.floor(factor*i)] = arrImage[2][i][j];
+        }
+      }
+    }
+  
+    return sal;
+  }
+  public static shearingY(img: ImageType, factor: number): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let newHeight = img.getHeight(), newWitdh = img.getWidth();
+    var sal = this.initArray(newWitdh, newHeight);
+    console.log(newWitdh, newHeight)
+    for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newHeight; j++) {
+        if ((i+ Math.floor(factor*j)) < newWitdh) {
+          sal[0][i+ Math.floor(factor*j)][j] = arrImage[0][i][j];
+          sal[1][i+ Math.floor(factor*j)][j] = arrImage[1][i][j];
+          sal[2][i+ Math.floor(factor*j)][j] = arrImage[2][i][j];
+        }
+      }
+    }
+  
+    return sal;
+  }
+
+  public static tAfin(img: ImageType, factores: number[]): number[][][] {
+    let x1a = 0, x2a = img.getWidth(), x3a = 0;
+    let y1a = 0, y2a = 0, y3a = img.getHeight();
+    let x1r = factores[0], x2r = factores[2], x3r = factores[4];
+    let y1r = factores[1], y2r = factores[3], y3r = factores[5];
+    let x4r = x2r - x1r;
+    let y4r = y1r + y2r + y3r;
+    
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    let newHeight = y4r - y1r, newWitdh = x2r - x3r;
+    
+    var sal = this.initArray(newWitdh, newHeight);
+    /*
+    for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newHeight; j++) {
+        if ((i+ Math.floor(factor*j)) < newWitdh) {
+          sal[0][i+ Math.floor(factor*j)][j] = arrImage[0][i][j];
+          sal[1][i+ Math.floor(factor*j)][j] = arrImage[1][i][j];
+          sal[2][i+ Math.floor(factor*j)][j] = arrImage[2][i][j];
+        }
+      }
+    }
+  */
+    return sal;
+  }
 }

@@ -375,6 +375,54 @@ function generarRampaY(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla1, MathImg.rampaY(imgLocal.getImage().width, imgLocal.getImage().height));
 }
 
+function escalarImagen(evt: any): void{
+  var argss = prompt('Ingresa un factor de escala');
+  var factor = parseFloat(argss);
+  //var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  var imagenSal: ImageType = new ImageType(pantalla2, null, Math.floor(imgLocal.getImage().width*factor), Math.floor(imgLocal.getImage().height*factor));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.escalar(imagenSal, factor));
+}
+function escalarImagen2(evt: any): void{
+  var argss = prompt('Ingresa un factor de escala');
+  var factor = parseFloat(argss);
+  pantalla2.drawImage(imgLocal.getImage(), 0,0, Math.floor(imgLocal.getImage().width*factor), Math.floor(imgLocal.getImage().height*factor));
+ }
+
+function rotarImagen(evt: any): void{
+  var argss = prompt('Ingresa un angulo de rotacion');
+  var angulo = parseFloat(argss);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.rotar(imagenSal, angulo));
+}
+function rotarImagen2(evt: any): void{
+  var argss = prompt('Ingresa un angulo de rotacion');
+  var angulo = parseFloat(argss);
+  //pantalla2.drawImage(imgLocal.getImage(), 0,0)
+  pantalla2.translate(Math.floor(imgLocal.getImage().width/2), Math.floor(imgLocal.getImage().height/2));
+  pantalla2.rotate(angulo* Math.PI / 180);
+  pantalla2.translate(-Math.floor(imgLocal.getImage().width/2), -Math.floor(imgLocal.getImage().height/2));
+  pantalla2.drawImage(imgLocal.getImage(), 0,0);
+ }
+function shearingX(evt: any): void{
+  var argss = prompt('Ingresa un factor de shearing');
+  var factor = parseFloat(argss);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingX(imagenSal, factor));
+}
+
+function shearingY(evt: any): void{
+  var argss = prompt('Ingresa un factor de shearing');
+  var factor = parseFloat(argss);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingY(imagenSal, factor));
+}
+function tAfin(evt: any): void{
+  var argss = prompt('Ingresa 6 valores para t Afin, con x3<x1<x2 y y1<y2, y1<y3');
+  var factores = argss.split(',').map(elem => parseInt(elem));
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
+}
+
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
@@ -444,3 +492,10 @@ document.getElementById("op-pulso").addEventListener('click', generarPulso, fals
 document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
 document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
 document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);
+
+//operaciones geometricas
+document.getElementById("op-escalamiento").addEventListener('click', escalarImagen2, false);
+document.getElementById("op-rotacion").addEventListener('click', rotarImagen2, false);
+document.getElementById("op-shearingX").addEventListener('click', shearingX, false);
+document.getElementById("op-shearingY").addEventListener('click', shearingY, false);
+document.getElementById("op-afin").addEventListener('click', tAfin, false);

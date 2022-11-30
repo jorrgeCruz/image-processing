@@ -8,13 +8,11 @@ var ImageType = /** @class */ (function () {
             this._width = img.width;
             this._height = img.height;
             this.imageData = sc.getImageData(0, 0, this._width, this._height);
-            console.log("con", this.imageData);
         }
         else {
             this._width = w;
             this._height = h;
             this.imageData = sc.getImageData(0, 0, this._width, this._height);
-            console.log("sin", this.imageData);
         }
         this.screenCanvas = sc;
         this.initArray();
@@ -75,23 +73,24 @@ var ImageType = /** @class */ (function () {
     };
     /** Covierte un arreglo 3d de la imagen a un objeto data, si el argumento existe se dibuja
      * @sc elemento Canas donde se desa dibujar la data
-     */
-    ImageType.prototype.newImageArray2DtoData = function (sc, arrImage) {
-        var position;
-        this.imageData = sc.createImageData(this._width, this._height);
-        for (var i = 0; i < this._height; i++) {
-            for (var j = 0; j < this._width; j++) {
-                position = this.getColorIndicesForCoord(j, i);
-                this.imageData.data[position[0]] = arrImage[0][i][j];
-                this.imageData.data[position[1]] = arrImage[1][i][j];
-                this.imageData.data[position[2]] = arrImage[2][i][j];
-            }
+     *
+     public newImageArray2DtoData(sc:CanvasRenderingContext2D, arrImage: number[][][]):void {
+      let position: number[];
+      this.imageData = sc.createImageData(this._width, this._height);
+      for (let i = 0; i < this._height; i++){
+        for (let j = 0; j < this._width; j++) {
+          position = this.getColorIndicesForCoord(j, i);
+          this.imageData.data[position[0]] = arrImage[0][i][j];
+          this.imageData.data[position[1]] = arrImage[1][i][j];
+          this.imageData.data[position[2]] = arrImage[2][i][j];
         }
-        //sc.fillRect(10,10,100,100)
-        //sc.fillText("texto", 10, 10)
-        console.log(this.imageData);
-        sc.putImageData(this.imageData, 0, 0);
-    };
+      }
+      //sc.fillRect(10,10,100,100)
+      //sc.fillText("texto", 10, 10)
+      console.log(this.imageData)
+      sc.putImageData(this.imageData, 0,0);
+      
+    }*/
     /**
      * Funcion que reescala los valores dew la imagen a el rango de una imagen de 0 - 255,
      * la imagen puede estar en cualrquier rango de nunmeros reales.
