@@ -12,7 +12,6 @@ let lienzo4: HTMLCanvasElement;
 let pantalla1: CanvasRenderingContext2D;
 let pantalla2: CanvasRenderingContext2D;
 let pantalla4: CanvasRenderingContext2D;
-
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt:any) {
     evt.stopPropagation();
@@ -35,7 +34,7 @@ var imgLocal: ImageLocal = new ImageLocal(pantalla1);
 imgLocal.getImage().onload = imgLocal.onload;
 var imgLocal4: ImageLocal = new ImageLocal(pantalla4);
 imgLocal4.getImage().onload = imgLocal4.onload;
-
+//hasta qui ya carge la imagen
 function convertirAGris(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toGray(imagenSal));
@@ -60,10 +59,19 @@ function convertirAAzul(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toBlue(imagenSal));
 }
+
+function convertirEfectoMarciano(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toMartianEffect(imagenSal));
+}
 //este codigo se agreo el 4 de abril de 2022
 function convertirTricolor(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolor(imagenSal));
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolorHor(imagenSal));
+}
+function convertirTricolorGradual(evt: any): void{
+  var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.toGradualTricolor(imagenSal));
 }
 ////////////hasta aqui
 function correccionGamma(evt: any): void{
@@ -409,18 +417,34 @@ function shearingX(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingX(imagenSal, factor));
 }
-
+function shearingX2(evt: any): void{
+  var argss = prompt('Ingresa un factor de shearing');
+  var factor = parseFloat(argss);
+  
+  pantalla2.transform(1, 0, factor, 1 , 0, 0);
+  pantalla2.drawImage(imgLocal.getImage(), 0,0);
+}
 function shearingY(evt: any): void{
   var argss = prompt('Ingresa un factor de shearing');
   var factor = parseFloat(argss);
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.shearingY(imagenSal, factor));
 }
+function shearingY2(evt: any): void{
+  var argss = prompt('Ingresa un factor de shearing');
+  var factor = parseFloat(argss);
+  
+  pantalla2.transform(1,factor, 0, 1 , 0, 0);
+  pantalla2.drawImage(imgLocal.getImage(), 0,0);
+}
 function tAfin(evt: any): void{
   var argss = prompt('Ingresa 6 valores para t Afin, con x3<x1<x2 y y1<y2, y1<y3');
   var factores = argss.split(',').map(elem => parseInt(elem));
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  //let matrizC = MathImg.tAfin(imagenSal, factores);
   imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
+  //0pantalla2.transform(matrizC[0][0],matrizC[0][1],matrizC[0][2],matrizC[1][0],matrizC[1][1],matrizC[1][2]);
+  //pantalla2.drawImage(imgLocal.getImage(), 0,0);
 }
 
 lienzo1.addEventListener('mousemove', handleMouse);
@@ -438,6 +462,8 @@ document.getElementById("op-rojo").addEventListener('click', convertirARojo, fal
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-tricolor").addEventListener('click', convertirTricolor, false);
+document.getElementById("op-tricolorGradual").addEventListener('click', convertirTricolorGradual, false);
+document.getElementById("op-marciano").addEventListener('click', convertirEfectoMarciano, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
@@ -496,6 +522,6 @@ document.getElementById("op-rampay").addEventListener('click', generarRampaY, fa
 //operaciones geometricas
 document.getElementById("op-escalamiento").addEventListener('click', escalarImagen2, false);
 document.getElementById("op-rotacion").addEventListener('click', rotarImagen2, false);
-document.getElementById("op-shearingX").addEventListener('click', shearingX, false);
-document.getElementById("op-shearingY").addEventListener('click', shearingY, false);
+document.getElementById("op-shearingX").addEventListener('click', shearingX2, false);
+document.getElementById("op-shearingY").addEventListener('click', shearingY2, false);
 document.getElementById("op-afin").addEventListener('click', tAfin, false);

@@ -36,7 +36,9 @@ export class MathImg {
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
         //0.299 + 0.587G + 0.114B.
-        prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
+        //prom = (0.299 * arrImage[0][i][j] + 0.587 * arrImage[1][i][j] + 0.114 * arrImage[2][i][j]);
+        //prom= (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j])/3
+        prom = (Math.max(arrImage[0][i][j],arrImage[1][i][j],arrImage[2][i][j]) + Math.min(arrImage[0][i][j],arrImage[1][i][j],arrImage[2][i][j])) / 2
         sal[0][i][j] = prom;
         sal[1][i][j] = prom;
         sal[2][i][j] = prom;
@@ -109,9 +111,24 @@ export class MathImg {
     var sal = this.initArray(img.getWidth(), img.getHeight());
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = 0; j < img.getWidth(); j++) {
-        sal[0][i][j] = 0;
+        sal[0][i][j] = arrImage[0][i][j];
         sal[1][i][j] = 0;
-        sal[2][i][j] = arrImage[2][i][j];
+        sal[2][i][j] = 0;
+      }
+    }
+    return sal;
+  }
+
+  public static toMartianEffect(img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[1][i][j]*0.5;
+        sal[2][i][j] = arrImage[2][i][j]*0.5;
       }
     }
     return sal;
@@ -122,8 +139,8 @@ export class MathImg {
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida
     var sal = this.initArray(img.getWidth(), img.getHeight());
-    let inicio = 0, termino = img.getWidth() / 3;
-    console.log(inicio, termino);
+    let inicio = 0, termino = Math.round( img.getWidth() / 3);
+    
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
         sal[0][i][j] = 0;
@@ -132,7 +149,7 @@ export class MathImg {
       }
     }
     inicio = termino;
-    termino = 2 * img.getWidth() / 3;
+    termino = Math.round( 2 * img.getWidth() / 3);
     for (let i = 0; i < img.getHeight(); i++) {
       for (let j = inicio; j < termino; j++) {
         sal[0][i][j] = arrImage[0][i][j];
@@ -151,7 +168,104 @@ export class MathImg {
     }
     return sal;
   }
-  
+
+  //este codigose agrego el 4 de abril de 2022
+  public static toTricolorHor(img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    let inicio = 0, termino = Math.round( img.getHeight() / 3);
+    
+    for (let i = inicio; i < termino; i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        sal[0][i][j] = 0;
+        sal[1][i][j] = arrImage[1][i][j];
+        sal[2][i][j] = 0;
+      }
+    }
+    inicio = termino;
+    termino = Math.round( 2 * img.getHeight() / 3);
+    for (let i = inicio; i < termino; i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[0][i][j];
+        sal[2][i][j] = arrImage[0][i][j];
+      }
+    }
+    inicio = termino;
+    termino = img.getHeight();
+    for (let i = inicio; i < termino; i++) {
+      for (let j = 0; j < img.getWidth(); j++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    }
+    return sal;
+  }
+  public static toGradualTricolor(img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    let inicio = 0, termino = Math.round( img.getWidth() / 3)-25;
+    let peso = 1;
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = inicio; j < termino; j++) {       
+          sal[0][i][j] = 0;
+          sal[1][i][j] = arrImage[1][i][j];
+          sal[2][i][j] = 0;      
+      }
+    }
+
+    console.log(inicio, termino)
+    inicio = termino;
+    termino += 50;
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = inicio; j < termino; j++) {
+        
+        sal[0][i][j] = Math.round( 0                         + arrImage[0][i][j] * (1 - peso));
+        sal[1][i][j] = Math.round( arrImage[1][i][j] * peso  + arrImage[0][i][j] * (1 - peso));
+        sal[2][i][j] = Math.round( 0                         + arrImage[0][i][j] * (1 - peso));
+        peso -= 0.02;
+      }
+      peso = 1;
+    }
+    console.log(inicio, termino)
+    inicio = termino;
+    termino = Math.round( 2 * img.getWidth() / 3)-25;
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = inicio; j < termino; j++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[0][i][j];
+        sal[2][i][j] = arrImage[0][i][j];
+      }
+    }
+    console.log(inicio, termino)
+    inicio = termino;
+    termino += 50;
+    peso = 1;
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = inicio; j < termino; j++) {
+        sal[0][i][j] = Math.round(arrImage[0][i][j] * (peso) + arrImage[0][i][j]*(1-peso));
+        sal[1][i][j] = Math.round(arrImage[0][i][j] * (peso) + 0);
+        sal[2][i][j] = Math.round(arrImage[0][i][j] * (peso) + 0);
+        peso -= 0.02;
+      }
+      peso = 1;
+    }
+    inicio = termino;
+    termino = img.getWidth();
+    for (let i = 0; i < img.getHeight(); i++) {
+      for (let j = inicio; j < termino; j++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    }
+    return sal;
+  }
   public static correctionGamma(img: ImageType, factores: number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
@@ -229,6 +343,7 @@ export class MathImg {
     for (let i = 0; i < fila; i++) {
       for (let j = 0; j < cols; j++) {
         sal[1][i][j] = arrImage[1][i][j];
+        
         if ((i - desy) >= 0) {
           sal[0][i][j] = arrImage[0][i - desy][j];
         }
@@ -1212,24 +1327,56 @@ export class MathImg {
     let y1r = factores[1], y2r = factores[3], y3r = factores[5];
     let x4r = x2r - x1r;
     let y4r = y1r + y2r + y3r;
-    
+    let matC = this.matrizDeC(x1r, y1r, x2r, y2r, x3r, y3r,
+      x1a, y1a, x2a, y2a, x3a, y3a);
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
     //variable donde guardamos la salida
-    let newHeight = y4r - y1r, newWitdh = x2r - x3r;
-    
+    let newHeight = img.getHeight(), newWitdh = img.getWidth();
     var sal = this.initArray(newWitdh, newHeight);
-    /*
+    console.log(newWitdh, newHeight)
+    let posX:number, posY:number;
     for (let i = 0; i < newHeight; i++) {
       for (let j = 0; j < newHeight; j++) {
-        if ((i+ Math.floor(factor*j)) < newWitdh) {
-          sal[0][i+ Math.floor(factor*j)][j] = arrImage[0][i][j];
-          sal[1][i+ Math.floor(factor*j)][j] = arrImage[1][i][j];
-          sal[2][i+ Math.floor(factor*j)][j] = arrImage[2][i][j];
+        posX = Math.floor(matC[0][0] * j + matC[0][1] * i + matC[0][2]);
+        posY = Math.floor(matC[1][0] * j + matC[1][1] * i + matC[1][2]);
+        if (posX > 0 && posX < newWitdh && posY > 0 && posY < newHeight) {
+          
+          sal[0][posY][posX] = arrImage[0][i][j];
+          sal[1][posY][posX] = arrImage[1][i][j];
+          sal[2][posY][posX] = arrImage[2][i][j];
         }
+        
       }
     }
-  */
+  
     return sal;
   }
+
+public static matrizDeC (x1: number, y1: number, x2: number, y2:number, x3:number, y3:number, 
+    xa1:number, ya1:number, xa2:number, ya2:number, xa3:number, ya3:number): number[][]{
+  let cs: number[][] = new Array(2);
+  let det1;
+  for (let i = 0; i < 2; i++)
+    cs[i] = new Array(3);
+
+  det1 = xa1*ya2 + ya1*xa3 + xa2*ya3 - (xa3*ya2 + xa1*ya3 + xa2*ya1);
+
+  cs[0][0] =  x3*ya1 + x2*ya3 + x1*ya2 - (x1*ya3 + x2*ya1 + x3*ya2);
+  cs[0][0] /= det1;
+  cs[0][1] =  x3*xa2 + x2*xa1 + x1*xa3 - (x1*xa2 + x2*xa3 + x3*xa1);
+  cs[0][1] /= det1;
+  cs[0][2] =  x3*xa1*ya2 + x2*xa3*ya1 + x1*xa2*ya3 - (x1*ya2*xa3 + x2*ya3*xa1 + x3*ya1*xa2);
+            cs[0][2] /= det1;
+
+  cs[1][0] =  y3*ya1 + y2*ya3 + y1*ya2 - (y1*ya3 + y2*ya1 + y3*ya2);
+  cs[1][0] /= det1;
+  cs[1][1] =  y3*xa2 + y2*xa1 + y1*xa3 - (y1*xa2 + y2*xa3 + y3*xa1);
+  cs[1][1] /= det1;
+  cs[1][2] =  y3*xa1*ya2 + y2*xa3*ya1 + y1*xa2*ya3 - (y1*ya2*ya3 + y2*ya3*xa1 + y3*ya1*xa2);
+  cs[1][2] /= det1;
+
+  return cs;
+}
+
 }
