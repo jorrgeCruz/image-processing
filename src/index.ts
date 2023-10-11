@@ -70,6 +70,13 @@ function convertirTricolorhorizontal(evt: any): void{
   imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolorhorizontal(imagenSal));
 }
 ////////////hasta aqui
+
+function realce(evt: any): void {
+  var args = prompt('Ingresa el valor del realce');
+  var realce = parseFloat(args);
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.realce(imagenSal, realce));
+}
 function correccionGamma(evt: any): void{
   var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
   var factores = args.split(',').map(elem => parseFloat(elem));
@@ -430,6 +437,7 @@ function tAfin(evt: any): void{
 lienzo1.addEventListener('mousemove', handleMouse);
  
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
+document.getElementById("op-realce").addEventListener('click', realce, false);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);

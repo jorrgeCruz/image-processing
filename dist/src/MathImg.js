@@ -181,6 +181,19 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.realce = function (img, realce) {
+        var arrImage = img.getArrayImg();
+        var sal = this.initArray(img.getWidth(), img.getHeight());
+        var fila = arrImage[0].length, cols = arrImage[0][0].length;
+        for (var i = 0; i < fila; i++) {
+            for (var j = 0; j < cols; j++) {
+                for (var c = 0; c < 3; c++) {
+                    sal[c][i][j] = Math.min(255, Math.max(0, (arrImage[c][i][j] * (1 + realce))));
+                }
+            }
+        }
+        return sal;
+    };
     MathImg.correctionGamma = function (img, factores) {
         //variable que guarda el arreglo 3d de la imagen de color
         var arrImage = img.getArrayImg();
