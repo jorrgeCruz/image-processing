@@ -59,7 +59,17 @@ function convertirTricolor(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolor(imagenSal));
 }
+function convertirTricolorhorizontal(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolorhorizontal(imagenSal));
+}
 ////////////hasta aqui
+function realce(evt) {
+    var args = prompt('Ingresa el valor del realce');
+    var realce = parseFloat(args);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.realce(imagenSal, realce));
+}
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -389,6 +399,7 @@ function tAfin(evt) {
 }
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
+document.getElementById("op-realce").addEventListener('click', realce, false);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -401,6 +412,7 @@ document.getElementById("op-rojo").addEventListener('click', convertirARojo, fal
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-tricolor").addEventListener('click', convertirTricolor, false);
+document.getElementById("op-tricolorhorizontal").addEventListener('click', convertirTricolorhorizontal, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);

@@ -151,7 +151,54 @@ export class MathImg {
     }
     return sal;
   }
-  
+  public static toTricolorhorizontal(img: ImageType): number[][][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = this.initArray(img.getWidth(), img.getHeight());
+    let inicio = 0, termino = img.getWidth() / 3;
+    console.log(inicio, termino);
+    for (let j = 0; j < img.getHeight(); j++) {
+      for (let i = inicio; i < termino; i++) {
+        sal[0][i][j] = 0;
+        sal[1][i][j] = arrImage[1][i][j];
+        sal[2][i][j] = 0;
+      }
+    }
+    inicio = termino;
+    termino = 2 * img.getWidth() / 3;
+    for (let j = 0; j < img.getHeight(); j++) {
+      for (let i = inicio; i < termino; i++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = arrImage[0][i][j];
+        sal[2][i][j] = arrImage[0][i][j];
+      }
+    }
+    inicio = termino;
+    termino = img.getWidth();
+    for (let j = 0; j < img.getHeight(); j++) {
+      for (let i = inicio; i < termino; i++) {
+        sal[0][i][j] = arrImage[0][i][j];
+        sal[1][i][j] = 0;
+        sal[2][i][j] = 0;
+      }
+    }
+    return sal;
+  }
+  public static realce(img: ImageType, realce: number): number[][][] {
+    var arrImage: number[][][] = img.getArrayImg();
+    var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+    var fila = arrImage[0].length, cols = arrImage[0][0].length;
+ 
+    for (let i = 0; i < fila; i++) {
+       for (let j = 0; j < cols; j++) {
+          for (let c = 0; c < 3; c++) {
+             sal[c][i][j] = Math.min(255, Math.max(0, (arrImage[c][i][j] * (1 + realce))));
+          }
+       }
+    }
+    return sal;
+ }
   public static correctionGamma(img: ImageType, factores: number[]): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage = img.getArrayImg();
