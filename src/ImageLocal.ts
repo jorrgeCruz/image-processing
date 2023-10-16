@@ -72,7 +72,7 @@ export class ImageLocal implements ImageOp {
       
       let data:Uint8ClampedArray = pixel.data;
       let rgba = 'rgba(' + data[0] + ', ' + data[1] +
-                ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+                ', ' + data[2] + ', ' + (data[3] / 255) + ') Coord ren:' + yPos ;
       color.style.background =  rgba;
       //color.textContent = rgba;
 

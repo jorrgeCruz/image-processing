@@ -61,6 +61,8 @@ export class CanvasLocal {
 
   paint() {
     const max = this.maxHist();
+    this.graphics.fillStyle = 'white';
+    this.graphics.fillRect(0, 0, 300, 300);
     const factor = 6 / max;
     this.drawLine(this.iX(0), this.iY(0), this.iX(10), this.iY(0));
     this.drawLine(this.iX(0), this.iY(0), this.iX(0), this.iY(8));
@@ -90,4 +92,6 @@ export class CanvasLocal {
     }
     return max;
   }
+
+  
 }

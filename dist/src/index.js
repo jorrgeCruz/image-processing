@@ -6,9 +6,11 @@ import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 var lienzo1;
 var lienzo2;
+var lienzo3;
 var lienzo4;
 var pantalla1;
 var pantalla2;
+var pantalla3;
 var pantalla4;
 /* Este evento controla la forma de abrir un archivo mediante el evento de arrastrar y soltar */
 function handleDragOver(evt) {
@@ -23,6 +25,8 @@ lienzo1 = document.getElementById('img1');
 pantalla1 = lienzo1.getContext("2d");
 lienzo2 = document.getElementById('img2');
 pantalla2 = lienzo2.getContext("2d");
+lienzo3 = document.getElementById('img3');
+pantalla3 = lienzo3.getContext("2d");
 lienzo4 = document.getElementById('img4');
 pantalla4 = lienzo4.getContext("2d");
 var dropZone = lienzo1; //document.getElementById('img1');
@@ -104,6 +108,12 @@ function umbral2limites(evt) {
     var rangos = args.split(',').map(function (elem) { return parseFloat(elem); });
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral2limites(imagenSal, rangos));
+}
+function realce(evt) {
+    var args = prompt('Ingresa el rango minimo y el maximo separado por comas');
+    var rangos = args.split(',').map(function (elem) { return parseFloat(elem); });
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.toRealce(imagenSal, rangos));
 }
 function changeBrightness(evt) {
     var factor = prompt("Ingresa un valor en el rango de 0-2, como un porcentaje");
@@ -313,6 +323,16 @@ function ecualizado(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.ecualizar(imagenSal));
 }
+function vren(evt) {
+    var args = prompt('Ingresa el renglon');
+    var r = parseFloat(args);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var canvas1 = lienzo3;
+    var graphics1 = pantalla3;
+    var hist = MathImg.ren(imagenSal, r);
+    var miCanvas1 = new CanvasLocal(graphics1, canvas1, hist);
+    miCanvas1.paint();
+}
 function erosionarImg(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.erosionar(imagenSal, true));
@@ -430,6 +450,7 @@ document.getElementById("op-marciano").addEventListener('click', convertirEfecto
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
+document.getElementById("op-realce").addEventListener('click', realce, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
 document.getElementById("op-desfaseD").addEventListener('click', desfaseD, false);
@@ -462,6 +483,8 @@ document.getElementById("op-text").addEventListener('click', textEfects, false);
 //histogramas
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
+document.getElementById("op-vren").addEventListener('click', vren, false);
+//document.getElementById("op-vcol").addEventListener('click', vcol, false);
 //mortfologia
 document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);

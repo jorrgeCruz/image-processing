@@ -49,7 +49,7 @@ var ImageLocal = /** @class */ (function () {
             var color = document.getElementById('color');
             var data = pixel.data;
             var rgba = 'rgba(' + data[0] + ', ' + data[1] +
-                ', ' + data[2] + ', ' + (data[3] / 255) + ')';
+                ', ' + data[2] + ', ' + (data[3] / 255) + ') Coord ren:' + yPos;
             color.style.background = rgba;
             //color.textContent = rgba;
             document.getElementById('rgb').innerHTML = '<strong>' + rgba + '</strong> ';

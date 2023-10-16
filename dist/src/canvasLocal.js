@@ -44,6 +44,8 @@ var CanvasLocal = /** @class */ (function () {
     };
     CanvasLocal.prototype.paint = function () {
         var max = this.maxHist();
+        this.graphics.fillStyle = 'white';
+        this.graphics.fillRect(0, 0, 300, 300);
         var factor = 6 / max;
         this.drawLine(this.iX(0), this.iY(0), this.iX(10), this.iY(0));
         this.drawLine(this.iX(0), this.iY(0), this.iX(0), this.iY(8));
